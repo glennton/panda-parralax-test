@@ -4,7 +4,7 @@
   "description": "The Portfolio of Glenn Roman",
   "main": "server.js",
   "scripts": {
-    "develop": "",
+    "develop": "gulp develop",
     "build": "",
     "start": ""
   },
@@ -16,8 +16,10 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
     "gulp-jade": "^1.1.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-sass": "^3.1.0",
     "gulp-watch": "^4.3.11",
+    "merge-stream": "^1.0.1",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2"
   }
