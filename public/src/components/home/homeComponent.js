@@ -183,7 +183,7 @@ class floatingObj {
   constructor(url, stage, parent, params) {
     this.params = params || {};
     this.stage = stage;
-    this.parentIndex = _checkParentIndex(parent);
+    this.parent = document.getElementById(parent);
     this.url = url;
     ({
       initPcX : this.initPcX = 0,
@@ -258,20 +258,6 @@ function onAssetsLoaded () {
 
 
 
-//workRenderer
-let workRenderer = PIXI.autoDetectRenderer(0, 0, {
-    antialiasing:true,
-    transparent:true,
-    resolution: window.devicePixelRatio
-});
-let workSection = document.getElementById("work");
-workSection.appendChild(workRenderer.view)
-
-//Refresh Canvases
-function refreshCanvases() {
-  introRenderer.resize(pixiWidth, pixiHeight);
-  workRenderer.resize(pixiWidth, workSection.clientHeight);
-}
 
 //On Resize
 let id;
@@ -280,7 +266,6 @@ $(window).resize(()=>{
     id = setTimeout(()=>{
       pixiWidth = window.innerWidth
       pixiHeight = window.innerHeight
-      refreshCanvases();
       refreshContainers();
       cloud1.updatePosition()
       cloud2.updatePosition()
@@ -288,7 +273,6 @@ $(window).resize(()=>{
 });
 
 //On Load
-refreshCanvases();
 refreshContainers();
 
 
@@ -325,7 +309,7 @@ function startAnimating(fps) {
     fpsInterval = 1000 / fps;
     then = Date.now();
     startTime = then;
-    animate();
+    //animate();
 }
 
 
@@ -342,6 +326,5 @@ function animate() {
         // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
         then = now - (elapsed % fpsInterval);
         repositionAll();
-        introRenderer.render(introStage);
     }
 }
