@@ -1,4 +1,33 @@
-$grey: #ccc;
-.home-title{
-  color: $grey
+body,html{
+  padding: 0;
+  margin: 0;
+}
+.section-container{
+  canvas{
+    position: absolute;
+  }
+  &#intro{
+    padding-bottom: 70%;
+    background: #026b9f;
+  }
+  &#transition1{
+    padding-bottom: 50%;
+    background: #bae4a4;
+  }
+  &#work{
+    padding-bottom: 50%;
+    background: #a88ac5;
+  }
+  &#transition2{
+    padding-bottom: 50%;
+    background: #f28288;
+  }
+  &#skills{
+    padding-bottom: 50%;
+    background: #bae4a4;
+  }
+  &#transition3{
+    padding-bottom: 50%;
+    background: #ffa170;
+  }
 }

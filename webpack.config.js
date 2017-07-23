@@ -1,8 +1,9 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   //source
-  entry: './public/src/components/scripts.js',
+  entry: './public/src/scripts.js',
   //output
   output: {
     path: path.join(__dirname,'public','dist','scripts'),
@@ -29,6 +30,11 @@ module.exports = {
       {
         test: /\.jade$/,
         loader: 'html-loader!pug-html-loader'
+      },
+      //images
+      {
+        test: /\.(png|svg)$/,
+        loader: 'file-loader'
       }
     ]
   },
@@ -41,6 +47,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/src/index.jade',
       hash: true
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
     })
   ]
 }
