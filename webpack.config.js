@@ -3,7 +3,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   //source
-  entry: './public/src/scripts.js',
+  entry: './public/src/main.js',
+  devtool: 'source-map',
   //output
   output: {
     path: path.join(__dirname,'public','dist','scripts'),
@@ -55,6 +56,9 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
+    }),
+    new webpack.LoaderOptionsPlugin({
+      debug: true
     })
   ]
 }

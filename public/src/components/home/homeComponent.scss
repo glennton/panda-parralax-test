@@ -35,6 +35,7 @@ body,html{
   width: 100%;
   height: auto;
   position: absolute;
-  //-webkit-transition: all .5s ease;
-  //transition: all .5s ease;
+  overflow: hidden;
+  //-webkit-transition: all .1s ease;
+  //transition: all .1s ease;
 }

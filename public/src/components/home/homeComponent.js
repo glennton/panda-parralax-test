@@ -1,133 +1,50 @@
-//Underscore Modified Throttle - Change _.now() to Date.now();
-let throttle = function(func, wait, options) {
-  var timeout, context, args, result;
-  var previous = 0;
-  if (!options) options = {};
-  var later = function() {
-    previous = options.leading === false ? 0 : Date.now();
-    timeout = null;
-    result = func.apply(context, args);
-    if (!timeout) context = args = null;
-  };
-  var throttled = function() {
-    var now = Date.now();
-    if (!previous && options.leading === false) previous = now;
-    var remaining = wait - (now - previous);
-    context = this;
-    args = arguments;
-    if (remaining <= 0 || remaining > wait) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      previous = now;
-      result = func.apply(context, args);
-      if (!timeout) context = args = null;
-    } else if (!timeout && options.trailing !== false) {
-      timeout = setTimeout(later, remaining);
-    }
-    return result;
-  };
-  throttled.cancel = function() {
-    clearTimeout(timeout);
-    previous = 0;
-    timeout = context = args = null;
-  };
-  return throttled;
-};
-
-
-
-
-
-
-
-
-
-
-
+import {throttle} from '../../assets/scripts/throttle.js';
+import {containerObj} from '../../assets/scripts/containerObj.js';
+import {stageObj} from '../../assets/scripts/stageObj.js';
 
 let sectionContainers = Array.from(document.getElementsByClassName('section-container'))
 let mainContainers = Array.from(document.getElementsByClassName('main-container'))
 let containers = []
-let stage = {'height': 0, 'y1Pos': 0}
-class containerObj {
-  constructor() {
-    this.element;
-    this.height = 0;
-    this.y1Pos = 0;
-    this.y2Pos = 0;
-    this.dTop = 0;
-    this.dBot = 0;
-  }
-}
-//Push Container to Array
-sectionContainers.map((e, i)=>{
-  containers.push( {'element':e,'height':'','y1Pos':0,'y2Pos':0,'dTop':0, 'dBot':0})
-})
-
-let _checkParentIndex = (element)=>{
-  let obj
-  containers.map((e, i)=>{
-    if(e.element == document.getElementById(element)){
-      obj = i
-    }
-  })
-  return obj
-}
-
-let _setY1Pos = (index)=>{
-  for (var j = 0; j < index; j++) {
-    containers[index]['y1Pos'] = containers[index]['y1Pos'] + containers[j]['height']
-  }
-}
-let _setY2Pos = (index)=>{
-  containers[index]['y2Pos'] = containers[index]['y1Pos'] + containers[index]['height']
-}
-let _setHeight = (index)=>{
-  containers[index]['height'] = containers[index]['element'].clientHeight
-}
-
-let refreshContainers = ()=>{
-  containers.map((e, i)=>{
-    _setHeight(i) //set height
-    _setY1Pos(i) //set y1Pos
-    _setY2Pos(i) //set y2Pos
-  })
-}
-let refreshStage = ()=>{
-  stage.height = window.innerHeight
-  stage.y1Pos = window.scrollY
-}
-let refreshWindow = ()=>{
-  containers.map((i,e)=>{
-    _setHeight(i) //set height
-    _setY1Pos(i) //set y1Pos
-    _setY2Pos(i) //set y2Pos
-  })
-}
 
 let last_known_scroll_position = 0;
 let ticking = false;
+
+//Refresh Stage Variables
+let refreshStage = ()=>{
+  stage.calc()
+}
+//Refresh Container Variables
+let refreshContainers = ()=>{
+  containers.map((e, i)=>{
+    e.calc();
+  });
+}
+//Init defaults on load
+let initAll = ()=>{
+  //Push Container to Array
+  sectionContainers.map((e, i)=>{
+    let newContainer = new containerObj(e);
+    containers.push(newContainer)
+  })
+  let stage = new stageObj()
+  stage.calc()
+  refreshContainers()
+  console.log(containers , stage)
+}
+initAll()
+
+
 
 window.addEventListener('scroll', function(e) {
   last_known_scroll_position = window.scrollY;
   if (!ticking) {
     window.requestAnimationFrame(function() {
-      refreshStage()
+      //refreshStage()
       ticking = false;
     });
   }
   ticking = true;
 });
-
-
-
-
-
-
-
-
 
 
 
@@ -180,7 +97,7 @@ let pixiHeight = window.innerHeight;
 let mousePos = {x:window.innerWidth/2, y:window.innerHeight/2};
 let mouseParent = containers[0]['element'];
 
-let framesPerSec = 60
+let framesPerSec = 10
 let calcFrameRate = 1000 / framesPerSec
 // 1000MS
 let globalScale = 1;
@@ -276,23 +193,27 @@ function makeClouds(number, parent){
 let elements = []
 
 class floatingObj {
-  constructor(src, name, parent, params) {
-    this.params = params || {};
+  constructor(src, name, parent, options) {
+    options = options  || {};
     this.name = name;
     this.parent = document.getElementById(parent);
     this.src = src;
-    ({
-      initPcX : this.initPcX = 0,
-      initPcY : this.initPcY = 0,
-      initDispX : this.initDispX = 0,
-      initDispY : this.initDispY = 0,
-      depth : this.depth = 1,
-      initScale : this.initScale = 1,
-      floatFrequency : this.floatFrequency = 0,
-      floatAmplitude : this.floatAmplitude = 0,
-      floatAngle : this.floatAngle = 0,
-      color : this.color = "#0280BE"
-    } = params)
+    //Set Defaults
+    let {
+      initPcX = 0,
+      initPcY = 0,
+      initDispX = 0,
+      initDispY = 0,
+      depth = 1,
+      initScale = 1,
+      floatFrequency = 0,
+      floatAmplitude = 0,
+      floatAngle = 0,
+      color = "#0280BE"
+    } = options;
+    //Assign options to this
+    Object.assign(this, options);
+
   }
   // Make sprite and add to stage
   make(){
@@ -306,6 +227,7 @@ class floatingObj {
     this.parent.appendChild(newElement)
     elements.push(this)
   }
+  // Refresh position per frame
   updatePosition(){
     const element = document.getElementById(this.name);
     /////////MODIFIERS
@@ -386,6 +308,7 @@ $(window).resize(()=>{
     id = setTimeout(()=>{
       pixiWidth = window.innerWidth
       pixiHeight = window.innerHeight
+      refreshContainers();
       //cloud1.updatePosition()
       //cloud2.updatePosition()
     }, 200);
@@ -394,6 +317,7 @@ $(window).resize(()=>{
 //On Load
 
 
+////////////////////////////////////////////////////////// MAIN EVENTS
 
 window.setInterval(function(){
   repositionAll()
