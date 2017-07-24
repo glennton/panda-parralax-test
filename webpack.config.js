@@ -33,8 +33,12 @@ module.exports = {
       },
       //images
       {
-        test: /\.(png|svg)$/,
+        test: /\.png$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
       }
     ]
   },

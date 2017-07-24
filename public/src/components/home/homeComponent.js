@@ -1,3 +1,51 @@
+//Underscore Modified Throttle - Change _.now() to Date.now();
+let throttle = function(func, wait, options) {
+  var timeout, context, args, result;
+  var previous = 0;
+  if (!options) options = {};
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  var throttled = function() {
+    var now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+  throttled.cancel = function() {
+    clearTimeout(timeout);
+    previous = 0;
+    timeout = context = args = null;
+  };
+  return throttled;
+};
+
+
+
+
+
+
+
+
+
+
+
 
 let sectionContainers = Array.from(document.getElementsByClassName('section-container'))
 let mainContainers = Array.from(document.getElementsByClassName('main-container'))
@@ -66,7 +114,6 @@ window.addEventListener('scroll', function(e) {
   last_known_scroll_position = window.scrollY;
   if (!ticking) {
     window.requestAnimationFrame(function() {
-      refreshContainers()
       refreshStage()
       ticking = false;
     });
@@ -87,6 +134,43 @@ window.addEventListener('scroll', function(e) {
 
 
 
+
+
+
+
+////////////////////////////////////////////////////////// ANIMATION
+
+//http://jsfiddle.net/user/m1erickson/fiddles/
+let stop = false;
+let frameCount = 0;
+let fps, fpsInterval, startTime, now, then, elapsed;
+
+
+function startAnimating(fps) {
+    fpsInterval = 1000 / fps;
+    then = Date.now();
+    startTime = then;
+    //animate();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    now = Date.now();
+    elapsed = now - then;
+    if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval);
+        repositionAll();
+    }
+}
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////// VARS
 
 //https://codepen.io/Yakudoo/
@@ -96,6 +180,9 @@ let pixiHeight = window.innerHeight;
 let mousePos = {x:window.innerWidth/2, y:window.innerHeight/2};
 let mouseParent = containers[0]['element'];
 
+let framesPerSec = 60
+let calcFrameRate = 1000 / framesPerSec
+// 1000MS
 let globalScale = 1;
 let parallaxCoeff = 3;
 let repulsion = .95;
@@ -116,13 +203,28 @@ let cloudArray = [
   require('../../assets/images/cloud_06.png')
 ]
 let cloudObjs = {}
+
+const calcMouse = throttle(function(e) {
+  let container = e.srcElement.getAttribute('id')
+  let parent = document.getElementById(container);
+
+  //Ignore if somehow greater than 1..
+  let xPos = e.clientX/mouseParent.clientWidth
+  let yPos = e.clientY/mouseParent.clientHeight
+  mousePos = {x:xPos, y:yPos};
+
+}, calcFrameRate); // Maximum run of once per 500 milliseconds
+
+const updateAllSprites = throttle(function(e) {
+  repositionAll()
+}, calcFrameRate); // Maximum run of once per 500 milliseconds
+
 ////////////////////////////////////////////////////////// EVENTS
 
 containers.map((e,i)=>{
-  //Set Mouse Pos
-  e.element.addEventListener("mousemove", (event)=>{
-    onMouseMove(event, e.height, e)
-  });
+  //Mouse Move
+  e.element.addEventListener("mousemove",calcMouse, true);
+  e.element.addEventListener("mousemove",updateAllSprites, true);
   //Set Active Stage
   e.element.addEventListener("mouseenter", (event)=>{
     onMouseEnter(event, e.element)
@@ -132,21 +234,20 @@ containers.map((e,i)=>{
 ////////////////////////////////////////////////////////// FUNCTIONS
 
 function onMouseMove(event, height, e) {
-  var tx = -1 + (event.clientX / pixiWidth)*2;
-  var ty = 1 - (event.clientY / height)*2;
+  var tx = ((event.clientX / pixiWidth) *2).toFixed(4);
+  var ty = 1 - ((event.clientY / height) *2).toFixed(4);
+  var test = ((event.clientX / pixiWidth) *2)
+  //console.log('tx',typeof test )
   mousePos = {x:tx, y:ty};
-  globalScale = .8 + (event.clientX / pixiWidth)*.4;
-  repulsion = .95 + (event.clientX / pixiHeight)*.05;
+  var posX = event.clientX / pixiWidth
+  //console.log(posX)
 }
+
 function onMouseEnter(event, element) {
   mouseParent = element;
 }
-function loadSprites (arrayName){
-  cloudArray.map((e, i)=>{
-    loader.add(e)
-  })
-}
 
+/*
 function randomizeSimple(params){
   let {min= 0, max= 0, decimalPlace= 1, forIndex=false} = params;
   if(forIndex) max = max - 1
@@ -168,43 +269,65 @@ function makeClouds(number, parent){
     cloudObjs[i].make();
   }
 }
-
+*/
 
 
 
 let elements = []
-let loader = PIXI.loader;
-
-loader.once('complete', onAssetsLoaded);
-loadSprites()
-loader.load(cloudArray);
 
 class floatingObj {
-  constructor(url, stage, parent, params) {
+  constructor(src, name, parent, params) {
     this.params = params || {};
-    this.stage = stage;
-    this.parentIndex = _checkParentIndex(parent);
-    this.url = url;
+    this.name = name;
+    this.parent = document.getElementById(parent);
+    this.src = src;
     ({
       initPcX : this.initPcX = 0,
       initPcY : this.initPcY = 0,
       initDispX : this.initDispX = 0,
       initDispY : this.initDispY = 0,
-      depth : this.depth = 0,
+      depth : this.depth = 1,
       initScale : this.initScale = 1,
       floatFrequency : this.floatFrequency = 0,
       floatAmplitude : this.floatAmplitude = 0,
       floatAngle : this.floatAngle = 0,
-      tint : this.tint = "0xFFFFFF"
+      color : this.color = "#0280BE"
     } = params)
   }
   // Make sprite and add to stage
   make(){
-    this.sprite = PIXI.Sprite.fromImage(this.url);
-    this.stage.addChild(this.sprite)
+    const newElement = document.createElement('div');
+    const svgElement = document.createRange().createContextualFragment(this.src);
+    newElement.appendChild(svgElement)
+    newElement.setAttribute('id', this.name)
+    newElement.setAttribute('class', 'floatingObject')
+    newElement.style['fill'] = this.color
+    newElement.style['color'] = this.color
+    this.parent.appendChild(newElement)
     elements.push(this)
   }
   updatePosition(){
+    const element = document.getElementById(this.name);
+    /////////MODIFIERS
+    let floatY = 0;
+    if (this.floatFrequency>0){
+      floatY = Math.cos(this.floatAngle)*this.floatAmplitude*2;
+      this.floatAngle += this.floatFrequency;
+    }
+
+    //SET ELEMENT
+    //Set Scale
+    element.style['width'] = 100 * this.initScale + '%';
+    //Set Center
+    element.style['margin-left'] = '-' + element.clientWidth / 2 + 'px';
+    element.style['margin-top'] = '-' + element.clientHeight / 2 + 'px';
+
+    element.style['left'] = this.initPcX + (mousePos.x * this.depth) + '%';
+    element.style['top'] =  this.initPcY + floatY + (mousePos.y * this.depth) + '%';
+
+
+
+/*
     let floatY = 0;
     let directionX = 1;
     if (this.floatFrequency>0){
@@ -220,58 +343,41 @@ class floatingObj {
     var ty = (pixiHeight*this.initPcY) + this.initDispY + floatY + mousePos.y * this.depth * parallaxCoeff;
     var tsx = this.initScale * Math.round( pixiWidth / 200 ) / 10 ;
     var tsy = this.initScale * Math.round( pixiWidth / 200 ) / 10 ;
-    this.sprite.scale.x = tsx;
-    this.sprite.scale.y = tsy;
+    this.scaleX = tsx;
+    this.scaleY = tsy;
     //console.log(tx, mousePos.x)
-    this.sprite.x = tx;
-    this.sprite.y = ty;
-    console.log(tsx, tsy)
-    this.sprite.tint = this.tint;
+    this.posX = tx;
+    this.posY = ty;
+    this.tint = this.tint;
+    console.log(this.posX , this.posY)
+    element.style.top = this.posY+'%';
+    element.style.left = this.posX+'%';
+*/
   }
 }
 
 
 
-//introRenderer
-let introRenderer = PIXI.autoDetectRenderer(0, 0, {
-    antialiasing:true,
-    transparent:true,
-    resolution: window.devicePixelRatio
-});
-let introSection = document.getElementById("intro");
-introSection.appendChild(introRenderer.view)
-let introStage = new PIXI.Container();
+let cloud01 = new floatingObj( require("../../assets/images/cloud_01.svg"), 'cloud01', 'intro',{ depth:5, initPcX:80, initPcY:55, floatFrequency:.001, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
+cloud01.make()
 
-function onAssetsLoaded () {
-  let cloud1 = new floatingObj( require("../../assets/images/cloud_01.png"), introStage, 'intro',{ depth:5, initPcX:0, initPcY:.5, floatFrequency:.04, floatAmplitude:5, floatAngle:0,initScale:1.5 , tint:'0x0280BE' })
-  cloud1.make()
-  let cloud2 = new floatingObj( require("../../assets/images/cloud_02.png"), introStage, 'intro',{ depth:2, initPcX:0, initPcY:.5, floatFrequency:.02, floatAmplitude:10, floatAngle:0,initScale:1, tint:''  })
-  cloud2.make()
-  let cloud3 = new floatingObj( require("../../assets/images/cloud_02.png"), introStage, 'intro',{ depth:2, initPcX:0, initPcY:.5, floatFrequency:.02, floatAmplitude:10, floatAngle:0,initScale:1 , tint:'' })
-  cloud3.make()
-  let cloud4 = new floatingObj( require("../../assets/images/cloud_02.png"), introStage, 'intro',{ depth:2, initPcX:0, initPcY:.5, floatFrequency:.02, floatAmplitude:10, floatAngle:0,initScale:1 , tint:'' })
-  cloud4.make()
-  let cloud5 = new floatingObj( require("../../assets/images/cloud_02.png"), introStage, 'intro',{ depth:2, initPcX:0, initPcY:.5, floatFrequency:.02, floatAmplitude:10, floatAngle:0,initScale:1 , tint:'' })
-  cloud5.make()
-  startAnimating(10)
-}
+let cloud02 = new floatingObj( require("../../assets/images/cloud_02.svg"), 'cloud02', 'intro',{ depth:4, initPcX:10, initPcY:50, floatFrequency:.002, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
+cloud02.make()
+
+let cloud03 = new floatingObj( require("../../assets/images/cloud_03.svg"), 'cloud03', 'intro',{ depth:3, initPcX:70, initPcY:70, floatFrequency:.003, floatAmplitude:1, floatAngle:0,initScale:.4 , color:'#86b6e4' })
+cloud03.make()
+
+let cloud04 = new floatingObj( require("../../assets/images/cloud_04.svg"), 'cloud04', 'intro',{ depth:2, initPcX:20, initPcY:70, floatFrequency:.004, floatAmplitude:1, floatAngle:0,initScale:.4 , color:'#95b6e4' })
+cloud04.make()
+
+let cloud05 = new floatingObj( require("../../assets/images/cloud_05.svg"), 'cloud05', 'intro',{ depth:1, initPcX:60, initPcY:70, floatFrequency:.007, floatAmplitude:.5, floatAngle:0,initScale:.3 , color:'#d7ecf6' })
+cloud05.make()
+
+let cloud06 = new floatingObj( require("../../assets/images/cloud_06.svg"), 'cloud06', 'intro',{ depth:1, initPcX:30, initPcY:70, floatFrequency:.008, floatAmplitude:.5, floatAngle:0,initScale:.3 , color:'#f4f5fb' })
+cloud06.make()
 
 
 
-//workRenderer
-let workRenderer = PIXI.autoDetectRenderer(0, 0, {
-    antialiasing:true,
-    transparent:true,
-    resolution: window.devicePixelRatio
-});
-let workSection = document.getElementById("work");
-workSection.appendChild(workRenderer.view)
-
-//Refresh Canvases
-function refreshCanvases() {
-  introRenderer.resize(pixiWidth, pixiHeight);
-  workRenderer.resize(pixiWidth, workSection.clientHeight);
-}
 
 //On Resize
 let id;
@@ -280,19 +386,18 @@ $(window).resize(()=>{
     id = setTimeout(()=>{
       pixiWidth = window.innerWidth
       pixiHeight = window.innerHeight
-      refreshCanvases();
-      refreshContainers();
-      cloud1.updatePosition()
-      cloud2.updatePosition()
+      //cloud1.updatePosition()
+      //cloud2.updatePosition()
     }, 200);
 });
 
 //On Load
-refreshCanvases();
-refreshContainers();
 
 
 
+window.setInterval(function(){
+  repositionAll()
+}, calcFrameRate);
 
 
 function makeAll(){
@@ -306,42 +411,4 @@ function repositionAll(){
     var el = elements[i];
     el.updatePosition();
   }
-}
-
-
-
-
-
-////////////////////////////////////////////////////////// ANIMATION
-
-//http://jsfiddle.net/user/m1erickson/fiddles/
-var stop = false;
-var frameCount = 0;
-var $results = $("#results");
-var fps, fpsInterval, startTime, now, then, elapsed;
-
-
-function startAnimating(fps) {
-    fpsInterval = 1000 / fps;
-    then = Date.now();
-    startTime = then;
-    animate();
-}
-
-
-function animate() {
-
-    // request another frame
-    requestAnimationFrame(animate);
-    // calc elapsed time since last loop
-    now = Date.now();
-    elapsed = now - then;
-    // if enough time has elapsed, draw the next frame
-    if (elapsed > fpsInterval) {
-        // Get ready for next frame by setting then=now, but also adjust for your
-        // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
-        then = now - (elapsed % fpsInterval);
-        repositionAll();
-        introRenderer.render(introStage);
-    }
 }
