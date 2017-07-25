@@ -19,14 +19,20 @@ export class stageObj{
     this.activeContainer = x;
   }
   //Main Calc
+  //* Triggered by container refresh
   calc(){
-    this.h = window.innerHeight + 10;
+    this.h = window.innerHeight + 15; //Account for browser scrollbar - wiggle room
     this.w = window.innerWidth;
     this.docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
     this.dTop = window.pageYOffset;
     this.dBot = window.pageYOffset + window.innerWidth;
-    this.windowProportion = (this.h / this.w) * 100;
     this.isScrolling = false;
+    //Set window proportion,
+    if(this.w >= this.h){
+      this.windowProportion = (this.h / this.w) * 100;
+    }else{
+      this.windowProportion = (this.w / this.h) * 100;
+    }
 
   }
   //

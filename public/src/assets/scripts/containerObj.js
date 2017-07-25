@@ -2,10 +2,11 @@ export class containerObj {
   constructor(e, params) {
     params = params || {};
     this.element = e;
-    this.scale = parseInt(this.element.getAttribute('data-init-scale')) || 1;
+    this.scale = parseInt(this.element.dataset.initProportion) || 1;
     //defaults
     let {
-       h = 0,
+       pcH = 0,
+       pcW = 0,
        y1Pos = 0,
        y2Pos = 0,
        dTop = 0,
