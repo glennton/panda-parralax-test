@@ -1,22 +1,21 @@
 export class floatingObj {
   constructor(src, parent, options) {
-    options = options  || {};
-    this.parent = document.getElementById(parent);
-    this.src = src;
-    //Set Defaults
-    let {
-      initPcX = 50,
-      initPcY = 50,
-      depth = 1,
-      initScale = 1,
-      floatFrequency = 0,
-      floatAmplitude = 0,
-      floatAngle = 0,
-      color = "#0280BE"
-    } = options;
+    options = options || {}
 
-    //Assign options to this
-    Object.assign(this, options);
+    //Main Arguments
+    this.parent           = document.getElementById(parent);
+    this.src              = src;
+
+    //Options
+    this.initPcX        = options.initPcX || 50;
+    this.initPcY        = options.initPcY || 50;
+    this.depth          = options.depth || 1;
+    this.initScale      = options.initScale || 1;
+    this.floatFrequency = options.floatFrequency || 0;
+    this.floatAmplitude = options.floatAmplitude || 0;
+    this.floatAngle     = options.floatAngle || 0;
+    this.color          = options.color || "#000000";
+    this.z              = options.z || 10;
 
     //Not Set
     this.pcW;
@@ -43,22 +42,14 @@ export class floatingObj {
     newElement.style['fill'] = this.color
     newElement.style['color'] = this.color
     newElement.style['width'] = 100 * this.initScale + '%';
+    newElement.style['z-index'] = this.z;
     this.element = newElement
     this.parent.appendChild(newElement)
-
     //Recalc position
     this.calcPos()
   }
   // Refresh position per frame
   calcFrame(mousePos){
-    /////////MODIFIERS
-
-    //Set Scale
-
-    //Set Center
-    //this.element.style['margin-left'] = '-' + this.element.clientWidth / 2 + 'px';
-    //this.element.style['margin-top'] = '-' + this.element.clientHeight / 2 + 'px';
-
     this.element.style['left'] =
       (this.pcX)  //Initial X Position, Halved to get center of element
       + mousePos.x

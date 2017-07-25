@@ -1,20 +1,25 @@
 export class stageObj{
-  constructor(params){
-    params = params || {}
-    //defaults
-    let {
-      h = 0,
-      w = 0,
-      docHeight = 0,
-      dTop = 0,
-      dBot = 0,
-      windowProportion = 0,
-      isScrolling = false,
-      activeContainer = ''
-    } = params
-    //assign to this
-    Object.assign(this, params);
+  constructor(options){
+    options = options || {}
+
+    //Options
+    this.activeContainer = options.activeContainer || '';
+    this.fps = options.fps || 60
+
+    //Not Set
+    this.h;
+    this.w;
+    this.dTop;
+    this.dBot;
+    this.docHeight;
+    this.windowProportion;
+
+    //Static Inits
+    this.isScrolling = false
+    this.fpsModifier = 60 / this.fps
+    this.calcFps = 1000 / this.fps
   }
+
   setContainer(x){
     this.activeContainer = x;
   }
@@ -26,7 +31,6 @@ export class stageObj{
     this.docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
     this.dTop = window.pageYOffset;
     this.dBot = window.pageYOffset + window.innerWidth;
-    this.isScrolling = false;
     //Set window proportion,
     if(this.w >= this.h){
       this.windowProportion = (this.h / this.w) * 100;

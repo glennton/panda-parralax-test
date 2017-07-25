@@ -8,8 +8,11 @@ const sectionContainers = Array.from(document.getElementsByClassName('section-co
 let containers = []
 let floatingObjArray = []
 
-let stage = new stageObj()
-
+//Stage Defaults
+let stage = new stageObj({
+  activeContainer: containers[0],
+  fps: 60
+})
 
 //Refresh Container Variables
 const refreshContainers = ()=>{
@@ -38,16 +41,11 @@ const initAll = ()=>{
 initAll()
 refreshContainers()
 
-
 ////////////////////////////////////////////////////////// VARS
 
 //https://codepen.io/Yakudoo/
 let mousePos = {x:window.innerWidth/2, y:window.innerHeight/2};
 
-stage.fps = 60
-//Default should be 60, but if less need to speed up animations
-stage.fpsModifier = 60 / stage.fps
-stage.calcFps = 1000 / stage.fps
 
 ////////////////////////////////////////////////////////// OBJECTS
 //!!!!!!!!!!!!!!!!!!!!!! change param values to something more standard !!!!!!!!!!!!!!!!!!!!!!//
@@ -88,7 +86,7 @@ function calcFramefloatingObj(){
 //Mouse Move
 const calcMouse = throttle(function(e) {
   const xPos = e.clientX/window.innerWidth
-  const yPos = e.clientY/stage.activeContainer.height
+  const yPos = e.clientY/stage.activeContainer.h
   mousePos = {x:xPos, y:yPos};
 }, stage.calcFps);
 window.addEventListener("mousemove",calcMouse, true);
@@ -104,7 +102,7 @@ const onMouseEnter = function(e) {
   stage.setContainer(e);
 }
 containers.map((e,i)=>{
-  //Set Active Stage
+  //Set Active Stage when mouse enters container
   e.element.addEventListener("mouseenter", ()=>{onMouseEnter(e)}, true);
 })
 

@@ -1,25 +1,32 @@
 export class containerObj {
-  constructor(e, params) {
-    params = params || {};
+  constructor(e, options) {
+    options = options || {}
+
+    //Main Arguments
     this.element = e;
-    this.scale = parseInt(this.element.dataset.initProportion) || 1;
-    //defaults
-    let {
-       pcH = 0,
-       pcW = 0,
-       y1Pos = 0,
-       y2Pos = 0,
-       dTop = 0,
-       dBot = 0,
-     } = params
-    //assign to this
-    Object.assign(this, params);
+
+    //Options
+    this.pcH     = options.pcH || 0;
+    this.pcW     = options.pcW || 0;
+    this.y1Pos   = options.y1Pos || 0;
+    this.y2Pos   = options.y2Pos || 0;
+    this.dTop    = options.dTop || 0;
+    this.dBot    = options.dBot || 0;
+
+    //Not Set
+    this.h
+
+    //Inits
+    this.scale       = parseInt(this.element.dataset.initProportion) || 1;
   }
+
+
   //Main Calc
   calc(stage){
-    this.height = this.element.clientHeight;
+    this.h = this.element.clientHeight;
     this.y1Pos = this.element.offsetTop;
-    this.y2Pos = this.height + this.y1Pos;
+    this.y2Pos = this.h + this.y1Pos;
+    console.log(stage)
   }
   //Calc Scrolling
   scrollCalc(){
