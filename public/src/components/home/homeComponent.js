@@ -51,6 +51,7 @@ stage.fpsModifier = 60 / stage.fps
 stage.calcFps = 1000 / stage.fps
 
 ////////////////////////////////////////////////////////// OBJECTS
+//!!!!!!!!!!!!!!!!!!!!!! change param values to something more standard !!!!!!!!!!!!!!!!!!!!!!//
 let cloud01 = new floatingObj( require("../../assets/images/cloud_01.svg"), 'intro',{ depth:5, initPcX:80, initPcY:55, floatFrequency:.001, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
 let cloud02 = new floatingObj( require("../../assets/images/cloud_02.svg"), 'intro',{ depth:4, initPcX:10, initPcY:50, floatFrequency:.002, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
 let cloud03 = new floatingObj( require("../../assets/images/cloud_03.svg"), 'intro',{ depth:3, initPcX:70, initPcY:70, floatFrequency:.003, floatAmplitude:1, floatAngle:0,initScale:.4 , color:'#86b6e4' })
@@ -84,42 +85,31 @@ function calcFramefloatingObj(){
 
 
 ////////////////////////////////////////////////////////// EVENTS
+
 //Mouse Move
 const calcMouse = throttle(function(e) {
   let xPos = e.clientX/window.innerWidth
   let yPos = e.clientY/stage.activeContainer.height
   mousePos = {x:xPos, y:yPos};
 }, stage.calcFps);
-
 window.addEventListener("mousemove",calcMouse, true);
 
 //Window Scroll
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
 }, stage.calcFps);
-
 window.addEventListener('scroll', onScroll, true);
-
 
 //Mouse Enter
 const onMouseEnter = function(e) {
   stage.setContainer(e);
-  //console.log(stage.activeContainer)
 }
-
 containers.map((e,i)=>{
   //Set Active Stage
   e.element.addEventListener("mouseenter", ()=>{onMouseEnter(e)}, true);
 })
 
 
-function onMouseMove(event, height, e) {
-  var tx = ((event.clientX / stage.w) *2).toFixed(4);
-  var ty = 1 - ((event.clientY / height) *2).toFixed(4);
-  var test = ((event.clientX / stage.w) *2)
-  mousePos = {x:tx, y:ty};
-  var posX = event.clientX / stage.w
-}
 
 
 
@@ -139,11 +129,9 @@ $(window).resize(()=>{
 });
 
 
+
+
+////////////////////////////////////////////////////////// ANIMATE!
 window.setInterval(function(){
   calcFramefloatingObj()
 }, stage.calcFps);
-
-////////////////////////////////////////////////////////// ANIMATE!
-const updateAllSprites = throttle(function(e) {
-  calcFramefloatingObj()
-}, stage.calcFps); // Maximum run of once per 500 milliseconds
