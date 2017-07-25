@@ -25,7 +25,7 @@ const refreshContainers = ()=>{
 const initAll = ()=>{
   //Push Container to Array
   sectionContainers.map((e, i)=>{
-    let newContainer = new containerObj(e);
+    const newContainer = new containerObj(e);
     containers.push(newContainer)
     newContainer.calc(stage)
   })
@@ -43,7 +43,6 @@ refreshContainers()
 
 //https://codepen.io/Yakudoo/
 let mousePos = {x:window.innerWidth/2, y:window.innerHeight/2};
-let mouseParent = containers[0]['element'];
 
 stage.fps = 60
 //Default should be 60, but if less need to speed up animations
@@ -88,8 +87,8 @@ function calcFramefloatingObj(){
 
 //Mouse Move
 const calcMouse = throttle(function(e) {
-  let xPos = e.clientX/window.innerWidth
-  let yPos = e.clientY/stage.activeContainer.height
+  const xPos = e.clientX/window.innerWidth
+  const yPos = e.clientY/stage.activeContainer.height
   mousePos = {x:xPos, y:yPos};
 }, stage.calcFps);
 window.addEventListener("mousemove",calcMouse, true);
