@@ -5,6 +5,7 @@ body,html{
 //containers
 .section-container{
   position: relative;
+  overflow: hidden;
   &#intro{
     padding-bottom: 70%;
     background: #026b9f;
@@ -35,7 +36,6 @@ body,html{
   width: 100%;
   height: auto;
   position: absolute;
-  overflow: hidden;
   //-webkit-transition: all .1s ease;
   //transition: all .1s ease;
 }

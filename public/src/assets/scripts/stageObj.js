@@ -15,17 +15,22 @@ export class stageObj{
     //assign to this
     Object.assign(this, params);
   }
+  setContainer(x){
+    this.activeContainer = x;
+  }
+  //Main Calc
   calc(){
-    this.h = window.innerHeight;
+    this.h = window.innerHeight + 10;
     this.w = window.innerWidth;
     this.docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
     this.dTop = window.pageYOffset;
     this.dBot = window.pageYOffset + window.innerWidth;
-    this.windowProportion = this.h / this.w;
+    this.windowProportion = (this.h / this.w) * 100;
     this.isScrolling = false;
-    this.activeContainer = ''
+
   }
-  reset(){
+  //
+  recalc(){
 
   }
 }

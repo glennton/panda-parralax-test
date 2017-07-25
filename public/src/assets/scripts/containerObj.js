@@ -14,12 +14,19 @@ export class containerObj {
     //assign to this
     Object.assign(this, params);
   }
-  calc(){
+  //Main Calc
+  calc(stage){
     this.height = this.element.clientHeight;
     this.y1Pos = this.element.offsetTop;
     this.y2Pos = this.height + this.y1Pos;
   }
+  //Calc Scrolling
+  scrollCalc(){
+
+  }
+
   refresh(stage){
-    this.element.document.setAttribute('padding-bottom', windowProportion);
+    //Set Height
+    this.element.style['padding-bottom'] = stage.windowProportion * this.scale + '%';
   }
 }
