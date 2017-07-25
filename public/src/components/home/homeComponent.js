@@ -109,27 +109,12 @@ containers.map((e,i)=>{
   e.element.addEventListener("mouseenter", ()=>{onMouseEnter(e)}, true);
 })
 
-
-
-
-
-
-////////////////////////////////////////////////////////// MAIN EVENTS
-//Resize Event
-//!!!!!!!!!!!!!!!!!!!!!! change to use throttle !!!!!!!!!!!!!!!!!!!!!!//
-//!!!!!!!!!!!!!!!!!!!!!! accoubt for orientation change !!!!!!!!!!!!!!!!!!!!!!//
-let id;
-$(window).resize(()=>{
-    clearTimeout(id);
-    id = setTimeout(()=>{
-      stage.calc()
-      refreshContainers(); // Also Recals Stage
-      calcPosfloatingObj();
-    }, 200);
-});
-
-
-
+const onWindowResize = throttle(()=>{
+  stage.calc()
+  refreshContainers(); // Also Recals Stage
+  calcPosfloatingObj();
+}, stage.calcFps)
+window.addEventListener("resize", onWindowResize, onWindowResize);
 
 ////////////////////////////////////////////////////////// ANIMATE!
 window.setInterval(function(){
