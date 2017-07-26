@@ -27,7 +27,7 @@ export class floatObj {
   //Calc Positioning and sizes - on load and if modified
   calcPos(){
     this.pcW = 100 * this.initScale
-    this.pcH = this.element.clientHeight / this.parent.clientHeight * 100
+    this.pcH = this.element['clientHeight'] / this.parent['clientHeight'] * 100
     //Set X,Y to center of element
     this.pcX = this.initPcX - (this.pcW / 2)
     this.pcY = this.initPcY - (this.pcH / 2)
@@ -39,10 +39,10 @@ export class floatObj {
     const svgElement = document.createRange().createContextualFragment(this.src);
     newElement.appendChild(svgElement)
     newElement.setAttribute('class', 'floatingObject')
-    newElement.style['fill'] = this.color
-    newElement.style['color'] = this.color
-    newElement.style['width'] = 100 * this.initScale + '%';
-    newElement.style['z-index'] = this.z;
+    newElement['style']['fill'] = this.color
+    newElement['style']['color'] = this.color
+    newElement['style']['width'] = 100 * this.initScale + '%';
+    newElement['style']['z-index'] = this.z;
     this.element = newElement
     this.parent.appendChild(newElement)
     //Recalc position

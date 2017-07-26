@@ -11,14 +11,23 @@ let floatingObjArray = []
 //Stage Defaults
 let stage = new stageObj({
   activeContainer: containers[0],
-  fps: 60
+  fps: 1
 })
 
 //Refresh Container Variables
-const containerCalcProportion = (stageProportion)=>{
+const containerCalcScroll = (scrollY, stageHeight)=>{
+  //containers[1].calcScrollTest(scrollY, stageHeight)
+  containers.map((e, i)=>{
+    e.calcScrollTest(scrollY, stageHeight)
+  });
+}
+
+
+//Refresh Container Variables
+const containerCalcProportion = (windowProportion)=>{
   //Recalc stage in Resize Event Listener
   containers.map((e, i)=>{
-    e.refresh(stageProportion);
+    e.refresh(windowProportion);
   });
   //Recalc Stage
   stage.calc()
@@ -53,9 +62,16 @@ let cloud06 = new floatObj( require("../../assets/images/cloud_06.svg"), 'intro'
 floatObjMake([cloud01, cloud02, cloud03, cloud04, cloud05, cloud06])
 
 function floatObjMake(arr){
+  //Make float objects
   arr.map((e, i)=>{
     e.make();
     e.calcPos();
+    //Set Parent Object
+    containers.map((f,j)=>{
+      if(e.parent.id == f.element.id){
+        e.containerObj = f;
+      }
+    })
     e['fpsModifier'] = stage.fpsModifier;
     floatingObjArray.push(e);
   })
@@ -68,10 +84,14 @@ function floatObjCalcPos(){
 }
 
 function floatObjCalcFrame(){
-  for(var i=0, l = floatingObjArray.length; i<l; i++){
-    var el = floatingObjArray[i];
-    el.calcFrame(mousePos);
-  }
+  floatingObjArray.map((e, i)=>{
+    //Only calc if parent container is in view
+    if(e.containerObj.inView){
+      console.log(Date.now(),e.parent.id)
+      e.calcFrame(mousePos);
+    }
+  })
+
 }
 
 ////////////////////////////////////////////////////////// EVENTS
@@ -88,22 +108,8 @@ window.addEventListener("mousemove",calcMouse, true);
 //Window Scroll
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
-  stage.calcWindow
-  const scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-
-
-  const testElement = containers[2]
-
-  //Average the middle point of the doc and the container
-  // * First get the two middle points
-  const documentMid = stage.h/2;
-  const containerMid  = testElement['element']['clientHeight'] / 2;
-  // * Calculate the distance between the middle points, and factor in
-  const middistance = containerMid - scrollY + testElement['element']['offsetTop']
-
-  console.log(((middistance / stage.h) + (.5 *testElement.scale)) * 100 / testElement.scale)
-  console.log(containerMid)
-
+  const scrollY = (window['pageYOffset'] !== undefined) ? window['pageYOffset'] : (document['documentElement'] || document['body']['parentNode'] || document['body']).scrollTop;
+  containerCalcScroll(scrollY, stage.h)
 }, stage.calcFps);
 window.addEventListener('scroll', onScroll, true);
 
@@ -118,7 +124,7 @@ containers.map((e,i)=>{
 
 const onWindowResize = throttle(()=>{
   stage.calc()
-  containerCalcProportion(stageProportion);
+  containerCalcProportion(stage.windowProportion);
   floatObjCalcPos();
 }, stage.calcFps)
 window.addEventListener("resize", onWindowResize, onWindowResize);

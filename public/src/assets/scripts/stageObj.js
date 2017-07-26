@@ -26,11 +26,11 @@ export class stageObj{
   //Main Calc
   //* Triggered by container refresh
   calc(){
-    this.h = window.innerHeight + 15; //Account for browser scrollbar - wiggle room
-    this.w = window.innerWidth;
-    this.docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
-    this.dTop = window.pageYOffset;
-    this.dBot = window.pageYOffset + window.innerWidth;
+    this.h = window['innerHeight'] + 15; //Account for browser scrollbar - wiggle room
+    this.w = window['innerWidth'];
+    this.docHeight = (document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight'];
+    this.dTop = window['pageYOffset'];
+    this.dBot = window['pageYOffset'] + window['innerWidth'];
     //Set window proportion,
     if(this.w >= this.h){
       this.windowProportion = (this.h / this.w) * 100;
