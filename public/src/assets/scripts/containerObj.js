@@ -26,7 +26,6 @@ export class containerObj {
     this.h = this.element.clientHeight;
     this.y1Pos = this.element.offsetTop;
     this.y2Pos = this.h + this.y1Pos;
-    console.log(stage)
   }
   //Calc Scrolling
   scrollCalc(){
