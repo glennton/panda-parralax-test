@@ -1,4 +1,4 @@
-export class floatingObj {
+export class floatObj {
   constructor(src, parent, options) {
     options = options || {}
 
@@ -24,7 +24,7 @@ export class floatingObj {
     this.pcY;
 
   }
-  //Calc Positioning and sizes
+  //Calc Positioning and sizes - on load and if modified
   calcPos(){
     this.pcW = 100 * this.initScale
     this.pcH = this.element.clientHeight / this.parent.clientHeight * 100
@@ -60,6 +60,5 @@ export class floatingObj {
       + mousePos.y
       * this.depth
       + '%';
-
   }
 }

@@ -15,6 +15,7 @@ export class containerObj {
 
     //Not Set
     this.h
+    this.direction
 
     //Inits
     this.scale       = parseInt(this.element.dataset.initProportion) || 1;
@@ -22,18 +23,18 @@ export class containerObj {
 
 
   //Main Calc
-  calc(stage){
+  calc(){
     this.h = this.element.clientHeight;
     this.y1Pos = this.element.offsetTop;
     this.y2Pos = this.h + this.y1Pos;
   }
   //Calc Scrolling
-  scrollCalc(){
+  calcScroll(scrollY, ){
 
   }
 
-  refresh(stage){
+  refresh(stageProportion){
     //Set Height
-    this.element.style['padding-bottom'] = stage.windowProportion * this.scale + '%';
+    this.element.style['padding-bottom'] = stageProportion * this.scale + '%';
   }
 }
