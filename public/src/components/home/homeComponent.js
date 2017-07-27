@@ -11,17 +11,15 @@ let floatingObjArray = []
 //Stage Defaults
 let stage = new stageObj({
   activeContainer: containers[0],
-  fps: 1
+  fps: 60
 })
 
 //Refresh Container Variables
 const containerCalcScroll = (scrollY, stageHeight)=>{
-  //containers[1].calcScrollTest(scrollY, stageHeight)
   containers.map((e, i)=>{
-    e.calcScrollTest(scrollY, stageHeight)
+    e.calcScroll(scrollY, stageHeight)
   });
 }
-
 
 //Refresh Container Variables
 const containerCalcProportion = (windowProportion)=>{
@@ -39,7 +37,7 @@ const initAll = ()=>{
   sectionContainers.map((e, i)=>{
     const newContainer = new containerObj(e);
     containers.push(newContainer)
-    newContainer.calc(stage)
+    newContainer.init(stage.h)
   })
   //Init Calcs
   stage.calc()
@@ -87,11 +85,9 @@ function floatObjCalcFrame(){
   floatingObjArray.map((e, i)=>{
     //Only calc if parent container is in view
     if(e.containerObj.inView){
-      console.log(Date.now(),e.parent.id)
       e.calcFrame(mousePos);
     }
   })
-
 }
 
 ////////////////////////////////////////////////////////// EVENTS

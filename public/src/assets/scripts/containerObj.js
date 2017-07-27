@@ -25,6 +25,10 @@ export class containerObj {
     this.scale = parseInt(this.element['dataset']['initProportion']) || 1;
   }
 
+  init(stageHeight){
+    this.calc()
+    this.calcScroll(0, stageHeight)
+  }
 
   //Main Calc
   calc(){
@@ -32,48 +36,22 @@ export class containerObj {
     this.y1Pos = this.element['offsetTop'];
     this.y2Pos = this.h + this.y1Pos;
   }
-  //Calc Scrolling
-  calcScroll(scrollY, stageHeight){
-    //get midpoint of container
-    this.midY = this.h / 2
-    //factor in distance from top of document, and amount scrolled
-    this.midY  =  this.midY + this.y1Pos - scrollY
 
-    // Calculate the distance between the middle points, and factor in
-    this.scrollPt = ((this.midY  / stageHeight) + (.5 *this.scale)) * 100 / this.scale
-
-    //Calculate Direction
-    if(this.scrollPt > this.lastScrollPt){
-      this.direction = 1 // Up
-    }else{
-      this.direction = 2 // Down
-    }
-    this.lastScrollPt = this.scrollPt
-
-    if(0 < this.scrollPt && this.scrollPt < 100){
-      this.inView = true
-      //console.log(this.element['id'], this.scrollPt , this.direction)
-    }else{
-      this.inView = false
-    }
-  }
-
-
-  checkTop(scrollY, stageHeight){
+  _checkTop(scrollY, stageHeight){
     if(this.y1Pos > scrollY && this.y1Pos < scrollY + stageHeight){
       return true
     }else{
       return false
     }
   }//If entire container takes up window
-  checkMiddle(scrollY, stageHeight){
+  _checkMiddle(scrollY, stageHeight){
     if(this.y1Pos < scrollY && this.y1Pos + this.h > scrollY + stageHeight){
       return true
     }else{
       return false
     }
   }
-  checkBot(scrollY, stageHeight){
+  _checkBot(scrollY, stageHeight){
     if(this.y1Pos + this.h > scrollY && this.y1Pos + this.h < scrollY + stageHeight){
       return true
     }else{
@@ -81,15 +59,28 @@ export class containerObj {
     }
   }
 
-  calcScrollTest(scrollY, stageHeight){
-    if(this.checkTop(scrollY, stageHeight) || this.checkMiddle(scrollY, stageHeight) || this.checkBot(scrollY, stageHeight)){
+  _checkInView(scrollY, stageHeight){
+    if(this._checkTop(scrollY, stageHeight) || this._checkMiddle(scrollY, stageHeight) || this._checkBot(scrollY, stageHeight)){
       this.inView = true
     }else{
       this.inView = false
     }
   }
 
-
+  //Calc Scrolling
+  calcScroll(scrollY, stageHeight){
+    this._checkInView(scrollY, stageHeight)
+    if(this.inView){
+      //Calculate current position of container
+      let containerMidY = this.h + this.y1Pos - scrollY
+      //Calculate middle of window and shift by half of container
+      let windowMidY = stageHeight / 2 + (this.h / 2)
+      let interpolation = containerMidY / windowMidY / 2
+      //Reverse Order
+      this.interpolation = (interpolation * 100 - 100 ) * -1
+      console.log(this.element.id, this.interpolation)
+    }
+  }
 
 
   refresh(windowProportion){
