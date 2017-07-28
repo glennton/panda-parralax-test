@@ -22,7 +22,7 @@ export class containerObj {
     this.inView // True / False
 
     //Inits
-    this.scale = parseInt(this.element['dataset']['initProportion']) || 1;
+    this.scale = parseFloat(this.element['dataset']['initProportion']) || 1;
   }
 
   init(stageHeight){
@@ -38,21 +38,21 @@ export class containerObj {
   }
 
   _checkTop(scrollY, stageHeight){
-    if(this.y1Pos > scrollY && this.y1Pos < scrollY + stageHeight){
+    if(this.y1Pos >= scrollY && this.y1Pos <= scrollY + stageHeight){
       return true
     }else{
       return false
     }
   }//If entire container takes up window
   _checkMiddle(scrollY, stageHeight){
-    if(this.y1Pos < scrollY && this.y1Pos + this.h > scrollY + stageHeight){
+    if(this.y1Pos <= scrollY && this.y1Pos + this.h >= scrollY + stageHeight){
       return true
     }else{
       return false
     }
   }
   _checkBot(scrollY, stageHeight){
-    if(this.y1Pos + this.h > scrollY && this.y1Pos + this.h < scrollY + stageHeight){
+    if(this.y1Pos + this.h >= scrollY && this.y1Pos + this.h <= scrollY + stageHeight){
       return true
     }else{
       return false
@@ -78,7 +78,6 @@ export class containerObj {
       let interpolation = containerMidY / windowMidY / 2
       //Reverse Order
       this.interpolation = (interpolation * 100 - 100 ) * -1
-      console.log(this.element.id, this.interpolation)
     }
   }
 

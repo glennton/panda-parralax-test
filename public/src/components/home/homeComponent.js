@@ -51,19 +51,27 @@ containerCalcProportion(stage.windowProportion)
 ////////////////////////////////////////////////////////// OBJECTS
 //https://codepen.io/Yakudoo/
 //!!!!!!!!!!!!!!!!!!!!!! change param values to something more standard !!!!!!!!!!!!!!!!!!!!!!//
-let cloud01 = new floatObj( require("../../assets/images/cloud_01.svg"), 'intro',{ depth:5, initPcX:80, initPcY:65, floatFrequency:.001, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
-let cloud02 = new floatObj( require("../../assets/images/cloud_02.svg"), 'intro',{ depth:4, initPcX:10, initPcY:60, floatFrequency:.002, floatAmplitude:2, floatAngle:0,initScale:.5 , color:'#0280BE' })
-let cloud03 = new floatObj( require("../../assets/images/cloud_03.svg"), 'intro',{ depth:3, initPcX:70, initPcY:80, floatFrequency:.003, floatAmplitude:1, floatAngle:0,initScale:.4 , color:'#86b6e4' })
-let cloud04 = new floatObj( require("../../assets/images/cloud_04.svg"), 'intro',{ depth:2, initPcX:20, initPcY:80, floatFrequency:.004, floatAmplitude:1, floatAngle:0,initScale:.4 , color:'#95b6e4' })
-let cloud05 = new floatObj( require("../../assets/images/cloud_05.svg"), 'intro',{ depth:1, initPcX:60, initPcY:80, floatFrequency:.007, floatAmplitude:.5, floatAngle:0,initScale:.3 , color:'#d7ecf6' })
-let cloud06 = new floatObj( require("../../assets/images/cloud_06.svg"), 'intro',{ depth:1, initPcX:30, initPcY:80, floatFrequency:.008, floatAmplitude:.5, floatAngle:0,initScale:.3 , color:'#f4f5fb' })
-floatObjMake([cloud01, cloud02, cloud03, cloud04, cloud05, cloud06])
+let cloud01 = new floatObj( require("../../assets/images/cloud_01.svg"), 'intro','cloud01',
+  { initPcX:80, initPcY:35, floatFrequency:.001, floatAmplitude:2, floatAngle:0,initScaleW:.7 , color:'#0280BE', mouseDepth:5, plaxDepth: 2, z: 10 })
+let cloud02 = new floatObj( require("../../assets/images/cloud_02.svg"), 'intro','cloud02',
+  { initPcX:10, initPcY:30, floatFrequency:.002, floatAmplitude:2, floatAngle:0,initScaleW:.5 , color:'#0280BE', mouseDepth:4, plaxDepth: 2, z: 10 })
+let cloud03 = new floatObj( require("../../assets/images/cloud_03.svg"), 'intro','cloud03',
+  { initPcX:80, initPcY:50, floatFrequency:.003, floatAmplitude:1, floatAngle:0,initScaleW:.4 , color:'#86b6e4', mouseDepth:3, plaxDepth: 1.5 })
+let cloud04 = new floatObj( require("../../assets/images/cloud_04.svg"), 'intro','cloud04',
+  { initPcX:20, initPcY:45, floatFrequency:.004, floatAmplitude:1, floatAngle:0,initScaleW:.4 , color:'#95b6e4', mouseDepth:2, plaxDepth: 1.7 })
+let cloud05 = new floatObj( require("../../assets/images/cloud_05.svg"), 'intro','cloud05',
+  { initPcX:70, initPcY:50, floatFrequency:.007, floatAmplitude:.5, floatAngle:0,initScaleW:.35 , color:'#d7ecf6', mouseDepth:1, plaxDepth: .5, z: 15 })
+let cloud06 = new floatObj( require("../../assets/images/cloud_06.svg"), 'intro','cloud06',
+  { initPcX:30, initPcY:55, floatFrequency:.008, floatAmplitude:.5, floatAngle:0,initScaleW:.3 , color:'#f4f5fb', mouseDepth:1, plaxDepth: 1 })
+
+let angle01 = new floatObj( require("../../assets/images/angle_01.svg"), 'intro','angle01',
+  { initPcX:50, initPcY:20, z: 5, floatFrequency:.008, floatAmplitude:.5, floatAngle:0,initScaleW:1.2,initScaleH:2 , color:'#026b9f', mouseDepth:1, plaxDepth: .5 })
+floatObjMake([cloud01, cloud02, cloud03, cloud04, cloud05, cloud06, angle01])
 
 function floatObjMake(arr){
   //Make float objects
   arr.map((e, i)=>{
     e.make();
-    e.calcPos();
     //Set Parent Object
     containers.map((f,j)=>{
       if(e.parent.id == f.element.id){
