@@ -20,18 +20,18 @@ export class containerObj {
     this.direction // 1 = Up or 2 = Down
     this.midY
     this.inView // True / False
-
-    //Inits
-    this.scale = parseFloat(this.element['dataset']['initProportion']) || 1;
+    this.scale;
+    this.propotionYsetHieght
   }
 
-  init(stageHeight){
+  init(stageHeight, i){
     this.calc()
-    this.calcScroll(0, stageHeight)
+    this.calcScroll(1, stageHeight)
   }
 
   //Main Calc
   calc(){
+    this.scale = parseFloat(this.element['dataset']['initProportion']) || 1;
     this.h = this.element['clientHeight'];
     this.y1Pos = this.element['offsetTop'];
     this.y2Pos = this.h + this.y1Pos;
@@ -82,9 +82,16 @@ export class containerObj {
   }
 
 
-  refresh(windowProportion){
+  setHeight(windowProportion){
     //Set Height
     this.element['style']['padding-bottom'] = windowProportion * this.scale + '%';
     this.calc()
   }
 }
+
+
+
+
+
+
+//    if(this.element.id=='intro'){console.log('testintro')}

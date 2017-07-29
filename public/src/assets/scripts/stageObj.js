@@ -32,12 +32,7 @@ export class stageObj{
     this.dTop = window['pageYOffset'];
     this.dBot = window['pageYOffset'] + window['innerWidth'];
     //Set window proportion,
-    if(this.w >= this.h){
-      this.windowProportion = (this.h / this.w) * 100;
-    }else{
-      this.windowProportion = (this.w / this.h) * 100;
-    }
-
+    this.windowProportion = (this.h / this.w) * 100;
   }
   //
   recalc(){

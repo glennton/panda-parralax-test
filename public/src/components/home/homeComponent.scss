@@ -2,10 +2,38 @@ body,html{
   padding: 0;
   margin: 0;
 }
+html{
+  font-size: 100%;
+  body{
+     font-size:62.5%
+  }
+}
+h1{
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: .08rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+  font-size: 2rem
+}
+p{
+  font-size: 1rem;
+  font-weight: 300;
+  color: #fff;
+  display: block;
+  max-width: 50%;
+  margin: 0 auto;
+  letter-spacing: .08rem;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}
+
 //containers
 .section-container{
   position: relative;
   overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+  height: 0;
   &#intro{
     padding-bottom: 70%;
     background: #007ab7;
@@ -38,4 +66,10 @@ body,html{
   z-index: 20;
   //-webkit-transition: all .1s ease;
   //transition: all .1s ease;
+}
+.copy-box{
+  position: relative;
+  z-index: 99;
+  margin-top: 15%;
+  text-align: center;
 }
