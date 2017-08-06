@@ -35,7 +35,6 @@ export class containerObj {
     this.h = this.element['clientHeight'];
     this.y1Pos = this.element['offsetTop'];
     this.y2Pos = this.h + this.y1Pos;
-    console.log('calc')
   }
 
   _checkTop(scrollY, stageHeight){
@@ -88,7 +87,6 @@ export class containerObj {
     this.proportionY = this.element['clientHeight'] / ((document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight'])
     //Recalculate Container
     this.calc()
-
   }
 }
 

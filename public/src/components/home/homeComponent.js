@@ -17,14 +17,14 @@ let stage = new stageObj({
 })
 
 //Refresh Container Variables
-const containerCalcScroll = (scrollY, stageHeight)=>{
+function containerCalcScroll(scrollY, stageHeight){
   containers.map((e, i)=>{
     e.calcScroll(scrollY, stageHeight)
   });
 }
 
 //Refresh Container Variables
-const containerSetHeight = (windowProportion)=>{
+function containerSetHeight(windowProportion){
   //Recalc stage in Resize Event Listener
   containers.map((e, i)=>{
     //Reset Height
@@ -34,7 +34,27 @@ const containerSetHeight = (windowProportion)=>{
   stage.calc()
 }
 
-const containersMake = ()=>{
+function getActiveContainers(){
+  let activeContainers = []
+  containers.map((e,i)=>{
+    if(e.inView){
+      activeContainers.push({id: e.element.id, index:i})
+    }
+  })
+  return activeContainers
+}
+
+function getNextContainerIndex(index){
+  let newIndex;
+  const containerCount = containers.length
+  if(index + 1 < containers.length){
+    newIndex = index + 1
+  }else{
+    newIndex = 0
+  }
+  return newIndex
+}
+function containersMake(){
   //Push Container to Array
   sectionContainers.map((e, i)=>{
     const newContainer = new containerObj(e);
@@ -44,7 +64,7 @@ const containersMake = ()=>{
 }
 
 //Init defaults on load
-const initAll = ()=>{
+function initAll(){
   //Make Containers
   containersMake()
   //Init Calcs
@@ -56,34 +76,33 @@ const initAll = ()=>{
 
 initAll()
 
-function _getInViewElement(){
-  let returnElement;
-  containers.map((e, i)=>{
-    let j;
-    if(i + 1 == containers.length){
-      j = 0
-    }else{
-      j = i+1
-    }
-    if(e.inView){
-      if(returnElement){
-        if(e.interpolation < 60){
-          returnElement = {scale: e.scale,yPos : containers[j]['y1Pos']}
-        }
-      }else{
-        returnElement = {scale: e.scale,yPos : containers[j]['y1Pos']}
-      }
-    }
-  });
-  return returnElement;
+function _getScrollData(){
+  const activeContainers = getActiveContainers();
+  let scrollData = {}
+  var activeContainer = containers[activeContainers[0].index]
+  const nextContainerIndex = getNextContainerIndex(activeContainers[0].index)
+  const nextContainer = containers[nextContainerIndex]
+  scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
+  // activeContainers.map((e,i)=>{
+  //   const nextContainerIndex = getNextContainerIndex(e.index)
+  //   const nextContainer = containers[nextContainerIndex]
+  //   const activeContainer = containers[e.index]
+  //   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
+  // })
+
+  return scrollData;
 }
 
 function scrollTo(e){
   e.preventDefault()
-  const scrollData = _getInViewElement()
+  const scrollData = _getScrollData()
   $('html, body').stop().animate({
-      scrollTop: scrollData.yPos
-  }, 500 * scrollData.scale);
+      scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
+  }, 1000 * scrollData.scale * scrollData.interpolation, 'linear');
+  console.log('SCROLLDATA', scrollData)
+  console.log('1000 * SCROLLDATA.SCALE * SCROLLDATA.INTERPOLATION', 1000 * scrollData.scale * scrollData.interpolation)
+
+  //console.log('scrollspeed', 1000 * scrollData.scale, scrollData.scale, scrollData.interpolation)
 }
 
 function hasClass(element, cls) {
@@ -110,13 +129,12 @@ function makeFloatObjects(arr){
     if(hasClass(e,'svg-element')){
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
     }else{
-      newFloatingObj = new floatObj('', parent, 't1_box06', options)
+      newFloatingObj = new floatObj(parent, 't1_box06', options)
     }
     //Init Object
     newFloatingObj.make(e)
     //Link container to child object
     containers.map((f,j)=>{
-      console.log(newFloatingObj)
       if(newFloatingObj.parent.id == f.element.id){
         newFloatingObj.containerObj = f;
       }
@@ -133,27 +151,22 @@ makeFloatObjects(floatElements)
 
 //Only needed on resize or orientation
 function floatObjCalcPos(){
-  floatingObjArray.map((e, i)=>{
-    e.calcPos()
-  })
-}
-
-function _getActiveContainers(){
-  let activeContainers = []
-  containers.map((e,i)=>{
-    if(e.inView){
-      activeContainers.push(e.element.id)
+  const activeContainers = getActiveContainers()
+  activeContainers.map((e,i)=>{
+    if(floatingObjArray[e.id]){
+      floatingObjArray[e.id].map((f, j)=>{
+        f.calcPos()
+      })
     }
   })
-  return activeContainers
 }
 
 const floatObjCalcFrame = throttle(function() {
-  const activeContainers = _getActiveContainers()
+  const activeContainers = getActiveContainers()
   activeContainers.map((e,i)=>{
-    if(floatingObjArray[e]){
+    if(floatingObjArray[e.id]){
       //Only update frames for elements inside containers in view
-      floatingObjArray[e].map((e, i)=>{
+      floatingObjArray[e.id].map((e, i)=>{
         //Only calc if parent container is in view
         e.calcFrame(mousePos, stage.fps);
       })
