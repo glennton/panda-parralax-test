@@ -30,6 +30,7 @@ export class floatObj {
     this.containerObj = {};
     this.containerObj.interpolation = 1;
     this.proportion;
+    this
 
   }
   //Calc Positioning and sizes - on load and if modified
@@ -37,39 +38,43 @@ export class floatObj {
     //Set X,Y to center of element
     this.pcX = this.initPcX - (this.pcW / 2)
     this.pcY = this.initPcY - (this.pcH / 2)
+    console.log(this.pcX, this.pcY, this.initPcX, this.initPcY )
   }
 
-  _setDimensions(e){
-    let viewBox = {
-      w : parseFloat(e.children[0].getAttribute('viewBox').split(' ')[2]),
-      h : parseFloat(e.children[0].getAttribute('viewBox').split(' ')[3])
+  _setViewBox(){
+    let computedElement = window.getComputedStyle(this.element)
+    return {
+      w : computedElement.getPropertyValue('width'),
+      h : computedElement.getPropertyValue('height')
     }
+  }
+  _setDimensions(){
+    let viewBox = this._setViewBox()
     this.pcW = 100 * this.initScaleW
 
     this.proportion = viewBox.w / viewBox.h;
     this.pcH = this.pcW / this.proportion
   }
-  _setSyles(e){
-    e['style']['fill'] = this.color
-    e['style']['color'] = this.color
-    e['style']['width'] = `${this.pcW}%`;
-    e['style']['height'] = `${this.pcH}%`;
-    e['style']['z-index'] = this.z;
-    e['style']['transform'] = `rotate(${this.rotate }deg)`;
-    e['style']['-webkit-transform'] = `rotate(${this.rotate }deg)`;
+  _setSyles(){
+    this.element['style']['fill'] = this.color
+    this.element['style']['color'] = this.color
+    this.element['style']['width'] = `${this.pcW}%`;
+    this.element['style']['height'] = `${this.pcH}%`;
+    this.element['style']['z-index'] = this.z;
+    this.element['style']['transform'] = `rotate(${this.rotate }deg)`;
+    this.element['style']['-webkit-transform'] = `rotate(${this.rotate }deg)`;
   }
   // Make sprite and add to stage
   make(e){
     this.element = e;
-    const svgElement = document.createRange().createContextualFragment(this.src);
-    this.element.appendChild(svgElement)
-    this.element.setAttribute('class', `floatingObject ${this.name}`)
-    this._setDimensions(this.element)
-    this._setSyles(this.element)
+    e.setAttribute('class', `floatingObject ${this.name}`)
+    this._setDimensions()
+    this._setSyles()
     //Recalc position
     this.calcPos()
     //Calc first frame
     this.calcFrame({x:0,y:0} , 1)
+    //Set this.element for future use
   }
   // Refresh position per frame
 
@@ -84,15 +89,11 @@ export class floatObj {
       * this.mouseDepth
       + '%';
     //Y Calc
-    topCalc =
-      this.pcY //Initial Y Position, Halved to get center of element
-      + (mousePos.y * this.mouseDepth) // Mouse modifier
-      + (-1 * this.containerObj.interpolation * this.plaxDepth / 10)
-      //* - .1 * (this.containerObj.interpolation - 50) //
-
-    this.element.style['top'] = topCalc + '%';
-    if(this.name=='cloud01'){
-      //console.log(this.containerObj.interpolation)
-    }
+    this.element.style['top'] =
+      (this.pcY)  //Initial X Position, Halved to get center of element
+      + mousePos.y // Mouse modifier
+      * this.mouseDepth
+      + '%';
+    console.log(this.pcX, mousePos.x, this.mouseDepth , '|', this.pcY, mousePos.y)
   }
 }

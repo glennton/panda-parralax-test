@@ -2,6 +2,7 @@ import {throttle} from '../../assets/scripts/throttle.js';
 import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
+import {svgObj} from '../../assets/scripts/svgObj.js';
 
 const sectionContainers = Array.from(document.getElementsByClassName('section-container'))
 const floatElements = Array.from(document.getElementsByClassName('floating-element'))
@@ -55,8 +56,6 @@ const initAll = ()=>{
 initAll()
 //containerSetHeight(stage.windowProportion)
 
-
-
 function _getInViewElement(){
   let returnElement;
   containers.map((e, i)=>{
@@ -79,12 +78,17 @@ function _getInViewElement(){
   });
   return returnElement;
 }
+
 function scrollTo(e){
   e.preventDefault()
   const scrollData = _getInViewElement()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos
   }, 500 * scrollData.scale);
+}
+
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
 window.addEventListener("click", scrollTo, true);
@@ -152,7 +156,12 @@ function makeFloatObjects(arr){
     }
     const parent = e.parentElement.id
     const img = e.getAttribute('data-img')
-    const newFloatingObj = new floatObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+    let newFloatingObj;
+    if(hasClass(e,'svg-element')){
+      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+    }else{
+      newFloatingObj = new floatObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+    }
       newFloatingObj.make(e)
       containers.map((f,j)=>{
         if(newFloatingObj.parent.id == f.element.id){
