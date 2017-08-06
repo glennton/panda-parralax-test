@@ -35,10 +35,11 @@ export class containerObj {
     this.h = this.element['clientHeight'];
     this.y1Pos = this.element['offsetTop'];
     this.y2Pos = this.h + this.y1Pos;
+    console.log('calc')
   }
 
   _checkTop(scrollY, stageHeight){
-    if(this.y1Pos >= scrollY && this.y1Pos <= scrollY + stageHeight){
+    if(this.y1Pos < (scrollY + stageHeight) && this.y1Pos > scrollY){
       return true
     }else{
       return false
@@ -81,11 +82,13 @@ export class containerObj {
     }
   }
 
-
   setHeight(windowProportion){
     //Set Height
     this.element['style']['padding-bottom'] = windowProportion * this.scale + '%';
-    this.proportionY = this.element['clientHeight'] / ((document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight']) 
+    this.proportionY = this.element['clientHeight'] / ((document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight'])
+    //Recalculate Container
+    this.calc()
+
   }
 }
 

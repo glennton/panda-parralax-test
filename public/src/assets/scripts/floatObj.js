@@ -18,7 +18,6 @@ export class floatObj {
     this.floatFrequency = options['data-float-frequency'] || 0;
     this.floatAmplitude = options['data-float-amplitude'] || 0;
     this.floatAngle     = options['data-float-angle'] || 0;
-    this.color          = options['data-color'] || "#000000";
     this.z              = options['z'] || 20;
     this.t = 1
     //Not Set
@@ -38,7 +37,6 @@ export class floatObj {
     //Set X,Y to center of element
     this.pcX = this.initPcX - (this.pcW / 2)
     this.pcY = this.initPcY - (this.pcH / 2)
-    console.log(this.pcX, this.pcY, this.initPcX, this.initPcY )
   }
 
   _setViewBox(){
@@ -56,8 +54,6 @@ export class floatObj {
     this.pcH = this.pcW / this.proportion
   }
   _setSyles(){
-    this.element['style']['fill'] = this.color
-    this.element['style']['color'] = this.color
     this.element['style']['width'] = `${this.pcW}%`;
     this.element['style']['height'] = `${this.pcH}%`;
     this.element['style']['z-index'] = this.z;
@@ -94,6 +90,5 @@ export class floatObj {
       + mousePos.y // Mouse modifier
       * this.mouseDepth
       + '%';
-    console.log(this.pcX, mousePos.x, this.mouseDepth , '|', this.pcY, mousePos.y)
   }
 }

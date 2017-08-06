@@ -8,7 +8,7 @@ const sectionContainers = Array.from(document.getElementsByClassName('section-co
 const floatElements = Array.from(document.getElementsByClassName('floating-element'))
 //let mainContainers = Array.from(document.getElementsByClassName('main-container'))
 let containers = []
-let floatingObjArray = []
+let floatingObjArray = {}
 
 //Stage Defaults
 let stage = new stageObj({
@@ -27,6 +27,7 @@ const containerCalcScroll = (scrollY, stageHeight)=>{
 const containerSetHeight = (windowProportion)=>{
   //Recalc stage in Resize Event Listener
   containers.map((e, i)=>{
+    //Reset Height
     e.setHeight(windowProportion);
   });
   //Recalc Stage
@@ -157,19 +158,26 @@ function makeFloatObjects(arr){
     const parent = e.parentElement.id
     const img = e.getAttribute('data-img')
     let newFloatingObj;
+    //Define type of object
     if(hasClass(e,'svg-element')){
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
     }else{
       newFloatingObj = new floatObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
     }
-      newFloatingObj.make(e)
-      containers.map((f,j)=>{
-        if(newFloatingObj.parent.id == f.element.id){
-          newFloatingObj.containerObj = f;
-        }
-      })
-      newFloatingObj.fpsModifier = stage.fpsModifier;
-      floatingObjArray.push(newFloatingObj);
+    //Init Object
+    newFloatingObj.make(e)
+    //Link container to child object
+    containers.map((f,j)=>{
+      if(newFloatingObj.parent.id == f.element.id){
+        newFloatingObj.containerObj = f;
+      }
+    })
+    newFloatingObj.fpsModifier = stage.fpsModifier;
+    //Push into parent inside floating object array
+    if(!floatingObjArray[parent]){
+      floatingObjArray[parent] = []
+    }
+    floatingObjArray[parent].push(newFloatingObj);
   })
 }
 makeFloatObjects(floatElements)
@@ -182,13 +190,27 @@ function floatObjCalcPos(){
 }
 
 
-
+function _getActiveContainers(){
+  let activeContainers = []
+  containers.map((e,i)=>{
+    if(e.inView){
+      activeContainers.push(e.element.id)
+    }
+  })
+  return activeContainers
+}
 
 const floatObjCalcFrame = throttle(function() {
-  floatingObjArray.map((e, i)=>{
-    //Only calc if parent container is in view
-    if(e.containerObj.inView){
-      e.calcFrame(mousePos, stage.fps);
+  const activeContainers = _getActiveContainers()
+  activeContainers.map((e,i)=>{
+    if(floatingObjArray[e]){
+      //Only update frames for elements inside containers in view
+      floatingObjArray[e].map((e, i)=>{
+        //Only calc if parent container is in view
+        if(e.containerObj.inView){
+          e.calcFrame(mousePos, stage.fps);
+        }
+      })
     }
   })
   requestAnimationFrame(floatObjCalcFrame)
