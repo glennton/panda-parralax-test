@@ -5,6 +5,7 @@ export class svgObj extends floatObj {
     super(src, parent, name, options)
     this.color = options['data-color'] || "#000000";
   }
+
   //Calculate box dimensions from svg element
   _setViewBox(){
     return {
@@ -12,11 +13,13 @@ export class svgObj extends floatObj {
       h : parseFloat(this.element.children[0].getAttribute('viewBox').split(' ')[3])
     }
   }
+
   _setSyles(){
     this.element['style']['fill'] = this.color
     this.element['style']['color'] = this.color
     super._setSyles()
   }
+
   make(e){
     //Place svg in parent
     const svgElement = document.createRange().createContextualFragment(this.src);

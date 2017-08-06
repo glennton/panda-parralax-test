@@ -74,10 +74,7 @@ export class floatObj {
   }
   // Refresh position per frame
 
-
   calcFrame(mousePos, fps){
-    let topCalc;
-
     //X Calc
     this.element.style['left'] =
       (this.pcX)  //Initial X Position, Halved to get center of element
