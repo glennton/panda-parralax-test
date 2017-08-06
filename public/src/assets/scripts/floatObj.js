@@ -1,10 +1,9 @@
 export class floatObj {
-  constructor(src, parent, name, options) {
+  constructor(parent, name, options) {
     options = options || {}
 
     //Main Arguments
     this.parent           = document.getElementById(parent);
-    this.src              = src;
     this.name = name
     //Options
     this.initPcX        = options['data-x'] || 50;

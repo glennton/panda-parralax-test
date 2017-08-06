@@ -65,7 +65,6 @@ function _getInViewElement(){
     }else{
       j = i+1
     }
-    console.log(e.inView , e.interpolation < 60 , e.interpolation , e.scale , e.proportionY  )
     if(e.inView){
       if(returnElement){
         if(e.interpolation < 60){
@@ -100,7 +99,6 @@ window.addEventListener("click", scrollTo, true);
 function makeFloatObjects(arr){
   arr.map((e,i) => {
     let options = {};
-    var nodes=[], values=[];
     for (let att, i = 0, atts = e.attributes, n = atts.length; i < n; i++){
         att = atts[i];
         options[att.nodeName] = att.nodeValue
@@ -112,12 +110,13 @@ function makeFloatObjects(arr){
     if(hasClass(e,'svg-element')){
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
     }else{
-      newFloatingObj = new floatObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+      newFloatingObj = new floatObj('', parent, 't1_box06', options)
     }
     //Init Object
     newFloatingObj.make(e)
     //Link container to child object
     containers.map((f,j)=>{
+      console.log(newFloatingObj)
       if(newFloatingObj.parent.id == f.element.id){
         newFloatingObj.containerObj = f;
       }
@@ -156,9 +155,7 @@ const floatObjCalcFrame = throttle(function() {
       //Only update frames for elements inside containers in view
       floatingObjArray[e].map((e, i)=>{
         //Only calc if parent container is in view
-        if(e.containerObj.inView){
-          e.calcFrame(mousePos, stage.fps);
-        }
+        e.calcFrame(mousePos, stage.fps);
       })
     }
   })

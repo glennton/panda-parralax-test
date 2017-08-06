@@ -2,7 +2,8 @@ import {floatObj} from '../../assets/scripts/floatObj.js';
 
 export class svgObj extends floatObj {
   constructor(src, parent, name, options) {
-    super(src, parent, name, options)
+    super(parent, name, options)
+    this.src = src;
     this.color = options['data-color'] || "#000000";
   }
 
