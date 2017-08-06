@@ -21,7 +21,7 @@ export class containerObj {
     this.midY
     this.inView // True / False
     this.scale;
-    this.propotionYsetHieght
+    this.proportionY;
   }
 
   init(stageHeight, i){
@@ -85,7 +85,7 @@ export class containerObj {
   setHeight(windowProportion){
     //Set Height
     this.element['style']['padding-bottom'] = windowProportion * this.scale + '%';
-    this.calc()
+    this.proportionY = this.element['clientHeight'] / ((document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight']) 
   }
 }
 

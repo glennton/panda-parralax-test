@@ -4,6 +4,7 @@ import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
 
 const sectionContainers = Array.from(document.getElementsByClassName('section-container'))
+const floatElements = Array.from(document.getElementsByClassName('floating-element'))
 //let mainContainers = Array.from(document.getElementsByClassName('main-container'))
 let containers = []
 let floatingObjArray = []
@@ -11,7 +12,7 @@ let floatingObjArray = []
 //Stage Defaults
 let stage = new stageObj({
   activeContainer: containers[0],
-  fps: 30
+  fps: 1
 })
 
 //Refresh Container Variables
@@ -65,6 +66,7 @@ function _getInViewElement(){
     }else{
       j = i+1
     }
+    console.log(e.inView , e.interpolation < 60 , e.interpolation , e.scale , e.proportionY  )
     if(e.inView){
       if(returnElement){
         if(e.interpolation < 60){
@@ -90,6 +92,7 @@ window.addEventListener("click", scrollTo, true);
 ////////////////////////////////////////////////////////// OBJECTS
 //https://codepen.io/Yakudoo/
 //!!!!!!!!!!!!!!!!!!!!!! change param values to something more standard !!!!!!!!!!!!!!!!!!!!!!//
+/*
 let intro_cloud01 = new floatObj( require("../../assets/images/cloud_01.svg"), 'intro','cloud01',
   { initPcX:80, initPcY:45, floatFrequency:1, floatAmplitude:1, floatAngle:0,initScaleW:.6 , color:'#0280BE', mouseDepth:-5, plaxDepth: 2, z: 10 })
 let intro_cloud02 = new floatObj( require("../../assets/images/cloud_02.svg"), 'intro','intro_cloud02',
@@ -137,23 +140,31 @@ let t1_box07 = new floatObj( require("../../assets/images/box_04.svg"),'transiti
   { initPcX:50, initPcY:70, floatAngle:0,initScaleW:1.2, color:'#6967a8', plaxDepth: -2, z: 10, rotate: -3 })
 
 floatObjMake([t1_box01, t1_box02, t1_box03, t1_box04, t1_box05, t1_box06, t1_box07])
+*/
 
-
-
-function floatObjMake(arr){
-  //Make float objects
-  arr.map((e, i)=>{
-    e.make();
-    //Set Parent Object
-    containers.map((f,j)=>{
-      if(e.parent.id == f.element.id){
-        e.containerObj = f;
-      }
-    })
-    e['fpsModifier'] = stage.fpsModifier;
-    floatingObjArray.push(e);
+function makeFloatObjects(arr){
+  arr.map((e,i) => {
+    let options = {};
+    var nodes=[], values=[];
+    for (let att, i = 0, atts = e.attributes, n = atts.length; i < n; i++){
+        att = atts[i];
+        options[att.nodeName] = att.nodeValue
+    }
+    const parent = e.parentElement.id
+    const img = e.getAttribute('data-img')
+    const newFloatingObj = new floatObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+      newFloatingObj.make(e)
+      containers.map((f,j)=>{
+        if(newFloatingObj.parent.id == f.element.id){
+          newFloatingObj.containerObj = f;
+        }
+      })
+      newFloatingObj.fpsModifier = stage.fpsModifier;
+      floatingObjArray.push(newFloatingObj);
   })
 }
+makeFloatObjects(floatElements)
+
 //Only needed on resize or orientation
 function floatObjCalcPos(){
   floatingObjArray.map((e, i)=>{
@@ -169,7 +180,6 @@ const floatObjCalcFrame = throttle(function() {
     //Only calc if parent container is in view
     if(e.containerObj.inView){
       e.calcFrame(mousePos, stage.fps);
-      console.log('MOUSEPOS, STAGE.FPS', mousePos, stage.fps)
     }
   })
   requestAnimationFrame(floatObjCalcFrame)

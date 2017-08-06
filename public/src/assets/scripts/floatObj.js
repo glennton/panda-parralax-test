@@ -7,21 +7,22 @@ export class floatObj {
     this.src              = src;
     this.name = name
     //Options
-    this.initPcX        = options.initPcX || 50;
-    this.initPcY        = options.initPcY || 50;
-    this.mouseDepth     = options.mouseDepth || 0;
-    this.rotate         = options.rotate || 0;
-    this.plaxDepth      = options.plaxDepth || 1;
-    this.initScaleW     = options.initScaleW || 1;
+    this.initPcX        = options['data-x'] || 50;
+    this.initPcY        = options['data-y'] || 50;
+    this.mouseDepth     = options['data-mouse-depth'] || 0;
+    this.rotate         = options['data-rotate'] || 0;
+    this.plaxDepth      = options['data-plax-depth'] || 1;
+    this.initScaleW     = options['data-scale-x'] || 1;
     //If initScaleH not defined, keep same proportion by setting to initScaleW
-    this.initScaleH     = options.initScaleH || this.initScaleW;
-    this.floatFrequency = options.floatFrequency || 0;
-    this.floatAmplitude = options.floatAmplitude || 0;
-    this.floatAngle     = options.floatAngle || 0;
-    this.color          = options.color || "#000000";
-    this.z              = options.z || 20;
+    this.initScaleH     = options['data-scale-y'] || this.initScaleW;
+    this.floatFrequency = options['data-float-frequency'] || 0;
+    this.floatAmplitude = options['data-float-amplitude'] || 0;
+    this.floatAngle     = options['data-float-angle'] || 0;
+    this.color          = options['data-color'] || "#000000";
+    this.z              = options['z'] || 20;
     this.t = 1
     //Not Set
+    this.element;
     this.pcW;
     this.pcH;
     this.pcX;
@@ -58,15 +59,13 @@ export class floatObj {
     e['style']['-webkit-transform'] = `rotate(${this.rotate }deg)`;
   }
   // Make sprite and add to stage
-  make(){
-    const newElement = document.createElement('div');
+  make(e){
+    this.element = e;
     const svgElement = document.createRange().createContextualFragment(this.src);
-    newElement.appendChild(svgElement)
-    newElement.setAttribute('class', `floatingObject ${this.name}`)
-    this._setDimensions(newElement)
-    this._setSyles(newElement)
-    this.element = newElement
-    this.parent.appendChild(this.element)
+    this.element.appendChild(svgElement)
+    this.element.setAttribute('class', `floatingObject ${this.name}`)
+    this._setDimensions(this.element)
+    this._setSyles(this.element)
     //Recalc position
     this.calcPos()
     //Calc first frame

@@ -4,7 +4,7 @@ export class stageObj{
 
     //Options
     this.activeContainer = options.activeContainer || '';
-    this.fps = options.fps || 60
+    this.fps = options.fps || 60;
 
     //Not Set
     this.h;
