@@ -17,9 +17,9 @@ let stage = new stageObj({
 })
 
 //Refresh Container Variables
-function containerCalcScroll(scrollY, stageHeight){
+function containerCalcScroll(){
   containers.map((e, i)=>{
-    e.calcScroll(scrollY, stageHeight)
+    e.calcScroll()
   });
 }
 
@@ -36,11 +36,13 @@ function containerSetHeight(windowProportion){
 
 function getActiveContainers(){
   let activeContainers = []
+  console.log('ACTIVECONTAINERS', activeContainers, activeContainers.length)
   containers.map((e,i)=>{
     if(e.inView){
       activeContainers.push({id: e.element.id, index:i})
     }
   })
+  //console.log('ACTIVECONTAINERS', activeContainers, activeContainers.length)
   return activeContainers
 }
 
@@ -59,7 +61,7 @@ function containersMake(){
   sectionContainers.map((e, i)=>{
     const newContainer = new containerObj(e);
     containers.push(newContainer)
-    newContainer.init(window['innerHeight'] , i)
+    newContainer.init(stage)
   })
 }
 
@@ -71,7 +73,8 @@ function initAll(){
   stage.calc()
   //Refresh
   containerSetHeight(stage.windowProportion)
-  containerCalcScroll(0, window['innerHeight'])
+  containerCalcScroll(0)
+  stage.scrollY = $(window).scrollTop()
 }
 
 initAll()
@@ -80,6 +83,7 @@ function _getScrollData(){
   const activeContainers = getActiveContainers();
   let scrollData = {}
   var activeContainer = containers[activeContainers[0].index]
+  console.log('ACTIVECONTAINER', activeContainer)
   const nextContainerIndex = getNextContainerIndex(activeContainers[0].index)
   const nextContainer = containers[nextContainerIndex]
   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
@@ -99,10 +103,6 @@ function scrollTo(e){
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
   }, 1000 * scrollData.scale * scrollData.interpolation, 'linear');
-  console.log('SCROLLDATA', scrollData)
-  console.log('1000 * SCROLLDATA.SCALE * SCROLLDATA.INTERPOLATION', 1000 * scrollData.scale * scrollData.interpolation)
-
-  //console.log('scrollspeed', 1000 * scrollData.scale, scrollData.scale, scrollData.interpolation)
 }
 
 function hasClass(element, cls) {
@@ -132,14 +132,13 @@ function makeFloatObjects(arr){
       newFloatingObj = new floatObj(parent, 't1_box06', options)
     }
     //Init Object
-    newFloatingObj.make(e)
+    newFloatingObj.make(e, stage)
     //Link container to child object
     containers.map((f,j)=>{
       if(newFloatingObj.parent.id == f.element.id){
         newFloatingObj.containerObj = f;
       }
     })
-    newFloatingObj.fpsModifier = stage.fpsModifier;
     //Push into parent inside floating object array
     if(!floatingObjArray[parent]){
       floatingObjArray[parent] = []
@@ -168,7 +167,7 @@ const floatObjCalcFrame = throttle(function() {
       //Only update frames for elements inside containers in view
       floatingObjArray[e.id].map((e, i)=>{
         //Only calc if parent container is in view
-        e.calcFrame(mousePos, stage.fps);
+        e.calcFrame();
       })
     }
   })
@@ -176,21 +175,19 @@ const floatObjCalcFrame = throttle(function() {
 }, stage.calcFps);
 
 ////////////////////////////////////////////////////////// EVENTS
-let mousePos = {x:.50, y:.50};
-
 //Mouse Move
 const calcMouse = throttle(function(e) {
-  const xPos = e.clientX/window.innerWidth
-  const yPos = e.clientY/stage.activeContainer.h
-  mousePos = {x:xPos, y:yPos};
+  console.log('STAGE.CALCFPS', stage.calcFps)
+  stage.mouseX = e.clientX/window.innerWidth
+  stage.mouseY = e.clientY/stage.activeContainer.h
 }, stage.calcFps);
 window.addEventListener("mousemove",calcMouse, true);
 
 //Window Scroll
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
-  const scrollY = (window['pageYOffset'] !== undefined) ? window['pageYOffset'] : (document['documentElement'] || document['body']['parentNode'] || document['body']).scrollTop;
-  containerCalcScroll(scrollY, stage.h)
+  containerCalcScroll()
+  stage.scrollY = $(window).scrollTop();
 }, stage.calcFps);
 window.addEventListener('scroll', onScroll, true);
 

@@ -35,37 +35,49 @@ p{
   font-family: 'Open Sans', sans-serif;
   height: 0;
   &#intro{
-    padding-bottom: 70%;
-    background: #007ab7;
   }
   &#transition1{
-    padding-bottom: 50%;
     background: #bae4a4;
   }
   &#work{
-    padding-bottom: 50%;
     background: #a88ac5;
   }
   &#transition2{
-    padding-bottom: 50%;
     background: #f28288;
   }
   &#skills{
-    padding-bottom: 50%;
     background: #bae4a4;
   }
   &#transition3{
-    padding-bottom: 50%;
     background: #ffa170;
   }
 }
 //sprites
-.floatingObject{
+.floating-element{
   height: auto;
+  width: 100%;
+  min-width: 100px;
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 20;
-  //-webkit-transition: all .1s ease;
-  //transition: all .1s ease;
+  //min width to be overwritten later, need to set initially to calc proportion
+}
+.svg-element{
+  svg{
+  }
+}
+.simple-box{
+  width: 100%;
+  height: 0;
+  padding-bottom: 20%;
+  .simple-box-inner{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 .copy-box{
   position: relative;
@@ -73,3 +85,11 @@ p{
   margin-top: 15%;
   text-align: center;
 }
+
+
+.blueLight{background-color:#09aadb ;}
+.blueMedium{background-color:#1185bf ;}
+.blueDark{background-color:#2a4b70 ;}
+.purpleLight{background-color:#674565 ;}
+.purpleMedium{background-color:#504066 ;}
+.purpleDark{background-color:#343d5b ;}

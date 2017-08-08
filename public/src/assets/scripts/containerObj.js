@@ -22,59 +22,69 @@ export class containerObj {
     this.inView // True / False
     this.scale;
     this.proportionY;
+    this.stage
   }
 
-  init(stageHeight, i){
+  init(stage){
+    this.stage = stage
     this.calc()
-    this.calcScroll(1, stageHeight)
+    this.calcScroll(1)
   }
 
   //Main Calc
   calc(){
     this.scale = parseFloat(this.element['dataset']['initProportion']) || 1;
-    this.h = this.element['clientHeight'];
+    this.h = $(this.element).outerHeight()
     this.y1Pos = this.element['offsetTop'];
     this.y2Pos = this.h + this.y1Pos;
   }
 
-  _checkTop(scrollY, stageHeight){
-    if(this.y1Pos < (scrollY + stageHeight) && this.y1Pos > scrollY){
+  _checkTop(){
+    if(this.element.id=='transition1'){console.log(this.y1Pos ,this.stage.scrollY,this.stage.h)}
+    if(this.y1Pos < (this.stage.scrollY + this.stage.h) && this.y1Pos > this.stage.scrollY){
       return true
     }else{
       return false
     }
   }//If entire container takes up window
-  _checkMiddle(scrollY, stageHeight){
-    if(this.y1Pos <= scrollY && this.y1Pos + this.h >= scrollY + stageHeight){
+  _checkMiddle(){
+    if(this.y1Pos <= this.stage.scrollY && this.y1Pos + this.h >= this.stage.scrollY + this.stage.h){
       return true
     }else{
       return false
     }
   }
-  _checkBot(scrollY, stageHeight){
-    if(this.y1Pos + this.h >= scrollY && this.y1Pos + this.h <= scrollY + stageHeight){
+  _checkBot(){
+    // bottom of container greater than scrolled && bottom of container
+    if(this.y1Pos + this.h >= this.stage.scrollY && this.y1Pos + this.h <= this.stage.scrollY + this.stage.h){
       return true
     }else{
       return false
     }
   }
 
-  _checkInView(scrollY, stageHeight){
-    if(this._checkTop(scrollY, stageHeight) || this._checkMiddle(scrollY, stageHeight) || this._checkBot(scrollY, stageHeight)){
+  _checkInView(){
+    if(this.element.id=='transition1'){console.log('t1',this._checkTop(), this._checkMiddle(), this._checkBot())}
+    if(this._checkTop() || this._checkMiddle() || this._checkBot()){
       this.inView = true
     }else{
-      this.inView = false
+      if(this.y1Pos == 0 && this.stage.scrollY == undefined){
+        this.inView = true
+      }else{
+        this.inView = false
+      }
+
     }
   }
 
   //Calc Scrolling
-  calcScroll(scrollY, stageHeight){
-    this._checkInView(scrollY, stageHeight)
+  calcScroll(){
+    this._checkInView()
     if(this.inView){
       //Calculate current position of container
-      let containerMidY = this.h + this.y1Pos - scrollY
+      let containerMidY = this.h + this.y1Pos - this.stage.scrollY
       //Calculate middle of window and shift by half of container
-      let windowMidY = stageHeight / 2 + (this.h / 2)
+      let windowMidY = this.stage.h / 2 + (this.h / 2)
       let interpolation = containerMidY / windowMidY / 2
       //Reverse Order
       this.interpolation = (interpolation * 100 - 100 ) * -1
@@ -82,11 +92,10 @@ export class containerObj {
   }
 
   setHeight(windowProportion){
-    //Set Height
+    //Set Height and Recalculate
     this.element['style']['padding-bottom'] = windowProportion * this.scale + '%';
-    this.proportionY = this.element['clientHeight'] / ((document['height'] !== undefined) ? document['height'] : document['body']['offsetHeight'])
-    //Recalculate Container
     this.calc()
+    this.proportionY = this.h / $(document).height()
   }
 }
 
