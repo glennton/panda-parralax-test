@@ -66,9 +66,9 @@ function containersMake(){
   //Create reference in stage object
   stage.containers = containers;
   stage.activeContainers.push(containers[0]);
-  console.log('STAGE.ACTIVECONTAINER ', stage.activeContainer )
-
 }
+
+
 
 //Init defaults on load
 function initAll(){
@@ -85,6 +85,7 @@ function initAll(){
 initAll()
 
 function _getScrollData(){
+  //update calculations before scroll
   containerCalcScroll()
   stage.updateActiveContainers()
   let scrollData = {}
@@ -108,9 +109,8 @@ function scrollTo(e){
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 1000 * scrollData.scale,function(){
-    //when done update in view and active containers
-    console.log('done')
+  }, 1000 * scrollData.scale,()=>{
+    //callback
   });
 }
 
@@ -160,22 +160,23 @@ makeFloatObjects(floatElements)
 
 //Only needed on resize or orientation
 function floatObjCalcPos(){
-  stage.activeContainers.map((e,i)=>{
-    if(floatingObjArray[e.id]){
-      floatingObjArray[e.id].map((f, j)=>{
+  containers.map((e,i)=>{
+    if(floatingObjArray[e.element.id]){
+      floatingObjArray[e.element.id].map((f, j)=>{
         f.calcPos()
       })
     }
   })
 }
 
+
 const floatObjCalcFrame = throttle(function() {
   stage.activeContainers.map((e,i)=>{
-    if(floatingObjArray[e.id]){
+    if(floatingObjArray[e.element.id]){
       //Only update frames for elements inside containers in view
-      floatingObjArray[e.id].map((e, i)=>{
+      floatingObjArray[e.element.id].map((f, j)=>{
         //Only calc if parent container is in view
-        e.calcFrame();
+        f.calcFrame();
       })
     }
   })

@@ -27,20 +27,16 @@ export class floatObj {
     this.pcX;
     this.pcY;
     this.proportion;
+    this.ratioX;
     this.stage;
+    this.h;
+    this.w;
 
   }
   //Calc Positioning and sizes - on load and if modified
-  calcPos(){
-    console.log(this.parent)
-    //Set X,Y to center of element
-    this.pcX = this.initPcX - (this.pcW / 2)
-    this.pcY = this.initPcY - (this.pcH / 2)
-  }
 
   _setViewBox(){
     let computedElement = window.getComputedStyle(this.element)
-
     return {
       w : $(this.element).outerWidth(),
       h : $(this.element).outerHeight()
@@ -49,31 +45,39 @@ export class floatObj {
   }
   _setDimensions(){
     let viewBox = this._setViewBox()
-    this.proportion = viewBox.w / viewBox.h;
+    this.proportion = viewBox.w  / viewBox.h;
+    console.log('THIS.PROPORTION', this.proportion)
     if(this.initH){
-      this.pcH = this.initH/this.parent.scale;
-      this.pcW = this.pcH * this.proportion
-      console.log(this.proportion, this.pcH, this.pcW, this.parent.scale, this.stage.windowProportion)
-    }else{
-      this.pcW = this.initW;
-      this.pcH = this.initW / this.proportion / this.parent.scale
+      this.h = this.stage.h * (this.initH / 100)
+      this.w = this.h * this.proportion
     }
+    if(this.initW){
+      this.w = this.stage.w * (this.initW / 100)
+      this.h = this.w / this.proportion
+    }
+    console.log('THIS.H ', this.h )
+    this.pcH = this.h / this.parent.h * 100;
+    this.pcW = this.w / this.stage.w * 100;
   }
   _setSyles(){
     $(this.element).css({
-      'width': `${this.pcW}%`,
-      'min-width': `${this.pcW}%`,
-      'height': `${this.pcH}%`,
-      'z-index': this.z
+      'width': `${this.w}px`,
+      'height': `${this.h}px`,
+      'z-index': this.z,
+      'rotate': this.rotate,
+      'top': `${this.initPcY / this.parent.scale}%`,
+      'left': `${this.initPcX}%`
     })
+  }
+  calcPos(){
+    console.log('calcpos')
+    this._setDimensions()
+    this._setSyles()
   }
   // Make sprite and add to stage
   make(e, stage){
     this.element = e;
     this.stage = stage;
-    this._setDimensions()
-    this._setSyles()
-    //Recalc position
     this.calcPos()
     //Calc first frame
     this.calcFrame(true)
@@ -85,16 +89,17 @@ export class floatObj {
     if(this.mouseDepth || isInit){
       //X Calc
       const left =
-        (this.pcX)  //Initial X Position, Halved to get center of element
+        (this.w / 2)  //Initial X Position, Halved to get center of element
         + this.stage.mouseX // Mouse modifier
         * this.mouseDepth;
       //Y Calc
       const top =
-        (this.pcY)  //Initial X Position, Halved to get center of element
+        (this.h / 2)  //Initial X Position, Halved to get center of element
         + this.stage.mouseY // Mouse modifier
         * this.mouseDepth;
       $(this.element).css({
-        'transform': `translate(${left}%, ${top}%) rotate(${this.rotate }deg)`
+        'margin-left': `-${left}px`,
+        'margin-top': `-${top}px`
       })
     }
   }
