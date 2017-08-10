@@ -1,3 +1,10 @@
+$xs: "only screen and (min-width: 20.063em)"; /* 320px */
+$sm: "only screen and (min-width: 30.063em)"; /* 480px */
+$md: "only screen and (min-width: 40.063em)"; /* 640px */
+$lg: "only screen and (min-width: 52.563em)"; /* 840px */
+$xlg: "only screen and (min-width: 64.063em)"; /* 1020px */
+
+
 body,html{
   padding: 0;
   margin: 0;
@@ -93,3 +100,79 @@ p{
 .purpleLight{background-color:#674565 ;}
 .purpleMedium{background-color:#504066 ;}
 .purpleDark{background-color:#343d5b ;}
+
+//SMALL HEIGHT
+@for $i from 0 through 100{
+  .h-#{$i}{
+    height: 0% + $i;
+  }
+}
+//SMALL WIDTH
+@for $i from 0 through 100{
+  .w-#{$i}{
+    width: 0% + $i;
+  }
+}
+//SMALL TOP
+@for $i from 0 through 100{
+  .t-#{$i}{
+    top: 0% + $i;
+  }
+}
+//SMALL RIGHT
+@for $i from 0 through 100{
+  .r-#{$i}{
+    right: 0% + $i;
+  }
+}
+//SMALL BOTTOM
+@for $i from 0 through 100{
+  .b-#{$i}{
+    bottom: 0% + $i;
+  }
+}
+//SMALL LEFT
+@for $i from 0 through 100{
+  .l-#{$i}{
+    left: 0% + $i;
+  }
+}
+//MEDIUM DIMENSIONS
+@media #{$md} {
+  //MEDIUM HEIGHT
+  @for $i from 0 through 100{
+    .md-h-#{$i}{
+      height: 0% + $i;
+    }
+  }
+  //MEDIUM WIDTH
+  @for $i from 0 through 100{
+    .md-w-#{$i}{
+      width: 0% + $i;
+    }
+  }
+  //MEDIUM TOP
+  @for $i from 0 through 100{
+    .md-t-#{$i}{
+      top: 0% + $i;
+    }
+  }
+  //MEDIUM RIGHT
+  @for $i from 0 through 100{
+    .md-r-#{$i}{
+      right: 0% + $i;
+    }
+  }
+  //MEDIUM BOTTOM
+  @for $i from 0 through 100{
+    .md-b-#{$i}{
+      bottom: 0% + $i;
+    }
+  }
+  //MEDIUM LEFT
+  @for $i from 0 through 100{
+    .md-l-#{$i}{
+      left: 0% + $i;
+    }
+  }
+}
