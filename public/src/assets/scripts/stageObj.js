@@ -3,7 +3,6 @@ export class stageObj{
     options = options || {}
 
     //Options
-    this.activeContainer = options.activeContainer || '';
     this.fps = options.fps || 60;
 
     //Defaults
@@ -19,10 +18,23 @@ export class stageObj{
     this.dBot;
     this.docHeight;
     this.windowProportion;
+    this.containers;
+    this.activeContainers = [];
+    this.activeContainer;
 
     //Static Inits
     this.fpsModifier = 60 / this.fps;
     this.calcFps = 1000 / this.fps;
+  }
+
+  updateActiveContainers(){
+    this.activeContainers = [];
+    this.containers.map((e,i)=>{
+      if(e.inView){
+        console.log(e)
+        this.activeContainers.push(e)
+      }
+    })
   }
 
   setMousePos(x,y){

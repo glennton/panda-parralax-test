@@ -22,7 +22,8 @@ export class containerObj {
     this.inView // True / False
     this.scale;
     this.proportionY;
-    this.stage
+    this.stage;
+    this.position;
   }
 
   init(stage){
@@ -40,7 +41,6 @@ export class containerObj {
   }
 
   _checkTop(){
-    if(this.element.id=='transition1'){console.log(this.y1Pos ,this.stage.scrollY,this.stage.h)}
     if(this.y1Pos < (this.stage.scrollY + this.stage.h) && this.y1Pos > this.stage.scrollY){
       return true
     }else{
@@ -63,8 +63,9 @@ export class containerObj {
     }
   }
 
+
+
   _checkInView(){
-    if(this.element.id=='transition1'){console.log('t1',this._checkTop(), this._checkMiddle(), this._checkBot())}
     if(this._checkTop() || this._checkMiddle() || this._checkBot()){
       this.inView = true
     }else{
@@ -73,12 +74,14 @@ export class containerObj {
       }else{
         this.inView = false
       }
-
     }
   }
 
   //Calc Scrolling
   calcScroll(){
+    //Refresh Y Position
+    this.y1Pos = this.element['offsetTop'];
+    //Check if element is in view
     this._checkInView()
     if(this.inView){
       //Calculate current position of container

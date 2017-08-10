@@ -1,3 +1,4 @@
+'use strict'
 import {throttle} from '../../assets/scripts/throttle.js';
 import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
@@ -10,9 +11,8 @@ const floatElements = Array.from(document.getElementsByClassName('floating-eleme
 let containers = []
 let floatingObjArray = {}
 
-//Stage Defaults
+//Stage Defaults and Inits
 let stage = new stageObj({
-  activeContainer: containers[0],
   fps: 1
 })
 
@@ -36,7 +36,6 @@ function containerSetHeight(windowProportion){
 
 function getActiveContainers(){
   let activeContainers = []
-  console.log('ACTIVECONTAINERS', activeContainers, activeContainers.length)
   containers.map((e,i)=>{
     if(e.inView){
       activeContainers.push({id: e.element.id, index:i})
@@ -61,8 +60,14 @@ function containersMake(){
   sectionContainers.map((e, i)=>{
     const newContainer = new containerObj(e);
     containers.push(newContainer)
+    newContainer.position = i;
     newContainer.init(stage)
   })
+  //Create reference in stage object
+  stage.containers = containers;
+  stage.activeContainers.push(containers[0]);
+  console.log('STAGE.ACTIVECONTAINER ', stage.activeContainer )
+
 }
 
 //Init defaults on load
@@ -73,18 +78,19 @@ function initAll(){
   stage.calc()
   //Refresh
   containerSetHeight(stage.windowProportion)
-  containerCalcScroll(0)
+  containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
 }
 
 initAll()
 
 function _getScrollData(){
-  const activeContainers = getActiveContainers();
+  containerCalcScroll()
+  stage.updateActiveContainers()
   let scrollData = {}
-  var activeContainer = containers[activeContainers[0].index]
-  console.log('ACTIVECONTAINER', activeContainer)
-  const nextContainerIndex = getNextContainerIndex(activeContainers[0].index)
+  var activeContainer = stage.activeContainers[0]
+  console.log('ACTIVECONTAINER', activeContainer, scrollData)
+  const nextContainerIndex = getNextContainerIndex(stage.activeContainers[0].position)
   const nextContainer = containers[nextContainerIndex]
   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
   // activeContainers.map((e,i)=>{
@@ -102,7 +108,10 @@ function scrollTo(e){
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 1000 * scrollData.scale * scrollData.interpolation, 'linear');
+  }, 1000 * scrollData.scale,function(){
+    //when done update in view and active containers
+    console.log('done')
+  });
 }
 
 function hasClass(element, cls) {
@@ -118,40 +127,40 @@ window.addEventListener("click", scrollTo, true);
 function makeFloatObjects(arr){
   arr.map((e,i) => {
     let options = {};
+    let newFloatingObj;
+    let parentObj;
+    const parentId = $(e).parent().attr('id')
     for (let att, i = 0, atts = e.attributes, n = atts.length; i < n; i++){
         att = atts[i];
         options[att.nodeName] = att.nodeValue
     }
-    const parent = e.parentElement.id
     const img = e.getAttribute('data-img')
-    let newFloatingObj;
+    //Link object to parent
+    containers.map((f,j)=>{
+      if(parentId == f.element.id){
+        parentObj = f;
+      }
+    })
     //Define type of object
     if(hasClass(e,'svg-element')){
-      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parent, 't1_box06', options)
+      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, 't1_box06', options)
     }else{
-      newFloatingObj = new floatObj(parent, 't1_box06', options)
+      newFloatingObj = new floatObj(parentObj, 't1_box06', options)
     }
     //Init Object
     newFloatingObj.make(e, stage)
-    //Link container to child object
-    containers.map((f,j)=>{
-      if(newFloatingObj.parent.id == f.element.id){
-        newFloatingObj.containerObj = f;
-      }
-    })
     //Push into parent inside floating object array
-    if(!floatingObjArray[parent]){
-      floatingObjArray[parent] = []
+    if(!floatingObjArray[parentId]){
+      floatingObjArray[parentId] = []
     }
-    floatingObjArray[parent].push(newFloatingObj);
+    floatingObjArray[parentId].push(newFloatingObj);
   })
 }
 makeFloatObjects(floatElements)
 
 //Only needed on resize or orientation
 function floatObjCalcPos(){
-  const activeContainers = getActiveContainers()
-  activeContainers.map((e,i)=>{
+  stage.activeContainers.map((e,i)=>{
     if(floatingObjArray[e.id]){
       floatingObjArray[e.id].map((f, j)=>{
         f.calcPos()
@@ -161,8 +170,7 @@ function floatObjCalcPos(){
 }
 
 const floatObjCalcFrame = throttle(function() {
-  const activeContainers = getActiveContainers()
-  activeContainers.map((e,i)=>{
+  stage.activeContainers.map((e,i)=>{
     if(floatingObjArray[e.id]){
       //Only update frames for elements inside containers in view
       floatingObjArray[e.id].map((e, i)=>{
@@ -177,7 +185,6 @@ const floatObjCalcFrame = throttle(function() {
 ////////////////////////////////////////////////////////// EVENTS
 //Mouse Move
 const calcMouse = throttle(function(e) {
-  console.log('STAGE.CALCFPS', stage.calcFps)
   stage.mouseX = e.clientX/window.innerWidth
   stage.mouseY = e.clientY/stage.activeContainer.h
 }, stage.calcFps);
@@ -187,6 +194,7 @@ window.addEventListener("mousemove",calcMouse, true);
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
   containerCalcScroll()
+  stage.updateActiveContainers()
   stage.scrollY = $(window).scrollTop();
 }, stage.calcFps);
 window.addEventListener('scroll', onScroll, true);
