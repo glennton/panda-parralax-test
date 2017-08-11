@@ -1,5 +1,6 @@
 'use strict'
 import {throttle} from '../../assets/scripts/throttle.js';
+import {debounce} from '../../assets/scripts/debounce.js';
 import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
@@ -13,7 +14,7 @@ let floatingObjArray = {}
 
 //Stage Defaults and Inits
 let stage = new stageObj({
-  fps: 20
+  fps: 30
 })
 
 //Refresh Container Scroll Variables
@@ -94,6 +95,7 @@ function initAll(){
   containerSetHeight(stage.windowProportion)
   containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
+  safetyCalcs()
 }
 
 initAll()
@@ -107,22 +109,17 @@ function _getScrollData(){
   const nextContainerIndex = getNextContainerIndex(stage.activeContainers[0].position)
   const nextContainer = containers[nextContainerIndex]
   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
-  // activeContainers.map((e,i)=>{
-  //   const nextContainerIndex = getNextContainerIndex(e.index)
-  //   const nextContainer = containers[nextContainerIndex]
-  //   const activeContainer = containers[e.index]
-  //   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
-  // })
-
   return scrollData;
 }
 
 function scrollTo(e){
   e.preventDefault()
+  stage.freezeMouse = true;
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 1000 * scrollData.scale,()=>{
+  }, 1500 * scrollData.scale,()=>{
+    stage.freezeMouse = false;
     //callback
   });
 }
@@ -189,11 +186,32 @@ const floatObjCalcFrame = throttle(function() {
   requestAnimationFrame(floatObjCalcFrame)
 }, stage.calcFps);
 
+
+//Safety Calcs - make sure all calcs are up to date
+function safetyCalcs(){setTimeout(function() {
+  console.log('asda')
+  containers.map((e,i)=>{
+    if(floatingObjArray[e.element.id]){
+      //Only update frames for elements inside containers in view
+      floatingObjArray[e.element.id].map((f, j)=>{
+        //Only calc if parent container is in view
+        f.calcFrame();
+      })
+    }
+  })
+  containerCalcScroll()
+  floatObjCalcScroll()
+  safetyCalcs()
+} , 500)
+}
+
 ////////////////////////////////////////////////////////// EVENTS
 //Mouse Move
 const calcMouse = throttle(function(e) {
-  stage.mouseX = e.clientX/window.innerWidth
-  stage.mouseY = e.clientY/stage.activeContainer.h
+  if(!stage.freezeMouse){
+    stage.mouseX = e.clientX/window.innerWidth
+    stage.mouseY = e.clientY/stage.activeContainer.h
+  }
 }, stage.calcFps);
 window.addEventListener("mousemove",calcMouse, true);
 

@@ -22,7 +22,7 @@ export class floatObj {
     //Not Set
     this.element;
     this.stage;
-    this.plaxY;
+    this.plaxY = 0;
   }
   // Make sprite and add to stage
   make(e, stage){
@@ -43,7 +43,7 @@ export class floatObj {
         if(this.parent.interpolation < this.pStart){this.plaxY = this.pStartVal}
         if(this.parent.interpolation > this.pEnd){this.plaxY = this.pEndVal}
       }
-      console.log(this.plaxY)
+      //console.log(this.plaxY)
     }
   }
 
