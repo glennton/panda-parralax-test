@@ -8,10 +8,12 @@ export class stageObj{
     //Defaults
     this.mouseX = 0;
     this.mouseY = 0;
+    this.mouseCheck = 0;
     this.isScrolling = false;
+    this.scrollY = $(window).scrollTop();
+    this.scrollCheck = 0;
 
     //Not Set
-    this.scrollY = $(window).scrollTop();
     this.h;
     this.w;
     this.dTop;
@@ -31,7 +33,6 @@ export class stageObj{
     this.activeContainers = [];
     this.containers.map((e,i)=>{
       if(e.inView){
-        console.log(e)
         this.activeContainers.push(e)
       }
     })

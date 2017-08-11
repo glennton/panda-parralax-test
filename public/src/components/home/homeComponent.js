@@ -13,14 +13,28 @@ let floatingObjArray = {}
 
 //Stage Defaults and Inits
 let stage = new stageObj({
-  fps: 1
+  fps: 20
 })
 
-//Refresh Container Variables
+//Refresh Container Scroll Variables
 function containerCalcScroll(){
   containers.map((e, i)=>{
     e.calcScroll()
   });
+}
+
+//Refresh Floating Object Scroll Variables
+function floatObjCalcScroll() {
+  //Only animate if user action in window
+    stage.activeContainers.map((e,i)=>{
+      if(floatingObjArray[e.element.id]){
+        //Only update frames for elements inside containers in view
+        floatingObjArray[e.element.id].map((f, j)=>{
+          //Only calc if parent container is in view
+          f.calcScroll();
+        })
+      }
+    })
 }
 
 //Refresh Container Variables
@@ -90,7 +104,6 @@ function _getScrollData(){
   stage.updateActiveContainers()
   let scrollData = {}
   var activeContainer = stage.activeContainers[0]
-  console.log('ACTIVECONTAINER', activeContainer, scrollData)
   const nextContainerIndex = getNextContainerIndex(stage.activeContainers[0].position)
   const nextContainer = containers[nextContainerIndex]
   scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
@@ -159,15 +172,20 @@ function makeFloatObjects(arr){
 makeFloatObjects(floatElements)
 
 const floatObjCalcFrame = throttle(function() {
-  stage.activeContainers.map((e,i)=>{
-    if(floatingObjArray[e.element.id]){
-      //Only update frames for elements inside containers in view
-      floatingObjArray[e.element.id].map((f, j)=>{
-        //Only calc if parent container is in view
-        f.calcFrame();
-      })
-    }
-  })
+  //Only animate if user action in window
+  if(stage.mouseCheck != stage.mouseX || stage.scrollY != stage.scrollCheck){
+    stage.mouseCheck  = stage.mouseX;
+    stage.scrollCheck  = stage.scrollY;
+    stage.activeContainers.map((e,i)=>{
+      if(floatingObjArray[e.element.id]){
+        //Only update frames for elements inside containers in view
+        floatingObjArray[e.element.id].map((f, j)=>{
+          //Only calc if parent container is in view
+          f.calcFrame();
+        })
+      }
+    })
+  }
   requestAnimationFrame(floatObjCalcFrame)
 }, stage.calcFps);
 
@@ -183,6 +201,7 @@ window.addEventListener("mousemove",calcMouse, true);
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
   containerCalcScroll()
+  floatObjCalcScroll()
   stage.updateActiveContainers()
   stage.scrollY = $(window).scrollTop();
 }, stage.calcFps);
