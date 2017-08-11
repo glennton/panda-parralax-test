@@ -158,18 +158,6 @@ function makeFloatObjects(arr){
 }
 makeFloatObjects(floatElements)
 
-//Only needed on resize or orientation
-function floatObjCalcPos(){
-  containers.map((e,i)=>{
-    if(floatingObjArray[e.element.id]){
-      floatingObjArray[e.element.id].map((f, j)=>{
-        f.calcPos()
-      })
-    }
-  })
-}
-
-
 const floatObjCalcFrame = throttle(function() {
   stage.activeContainers.map((e,i)=>{
     if(floatingObjArray[e.element.id]){
@@ -212,7 +200,6 @@ containers.map((e,i)=>{
 const onWindowResize = throttle(()=>{
   stage.calc()
   containerSetHeight(stage.windowProportion);
-  floatObjCalcPos();
 }, stage.calcFps)
 window.addEventListener("resize", onWindowResize, onWindowResize);
 

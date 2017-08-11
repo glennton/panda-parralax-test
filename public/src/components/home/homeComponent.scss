@@ -4,6 +4,13 @@ $md: "only screen and (min-width: 40.063em)"; /* 640px */
 $lg: "only screen and (min-width: 52.563em)"; /* 840px */
 $xlg: "only screen and (min-width: 64.063em)"; /* 1020px */
 
+$blueLight: #09aadb ;
+$blueMedium: #1185bf ;
+$blueDark: #2a4b70 ;
+$purpleLight: #674565 ;
+$purpleMedium: #504066 ;
+$purpleDark: #343d5b ;
+
 
 body,html{
   padding: 0;
@@ -65,8 +72,6 @@ p{
   width: 100%;
   min-width: 100px;
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 20;
   //min width to be overwritten later, need to set initially to calc proportion
 }
@@ -93,14 +98,72 @@ p{
   text-align: center;
 }
 
+.simple-box, .section-container{
+    &.blueLight{background-color: $blueLight ;}
+    &.blueMedium{background-color: $blueMedium ;}
+    &.blueDark{background-color: $blueDark ;}
+    &.purpleLight{background-color: $purpleLight ;}
+    &.purpleMedium{background-color: $purpleMedium ;}
+    &.purpleDark{background-color: $purpleDark ;}
+}
 
-.blueLight{background-color:#09aadb ;}
-.blueMedium{background-color:#1185bf ;}
-.blueDark{background-color:#2a4b70 ;}
-.purpleLight{background-color:#674565 ;}
-.purpleMedium{background-color:#504066 ;}
-.purpleDark{background-color:#343d5b ;}
+.svg-element{
+  &.blueLight{
+    path,circle{
+      fill: $blueLight;
+    }
+  }
+  &.blueMedium{
+    path,circle{
+      fill: $blueMedium;
+    }
+  }
+  &.blueDark{
+    path,circle{
+      fill: $blueDark;
+    }
+  }
+  &.purpleLight{
+    path,circle{
+      fill: $purpleLight;
+    }
+  }
+  &.purpleMedium{
+    path,circle{
+      fill: $purpleMedium;
+    }
+  }
+  &.purpleDark{
+    path,circle{
+      fill: $purpleDark;
+    }
+  }
+}
+.svg-element{
+  path{
+    .blueLight{fill: $blueLight ;}
+    .blueMedium{fill: $blueMedium ;}
+    .blueDark{fill: $blueDark ;}
+    .purpleLight{fill: $purpleLight ;}
+    .purpleMedium{fill: $purpleMedium ;}
+    .purpleDark{fill: $purpleDark ;}
+  }
+}
 
+//SMALL ZINDEX
+@for $i from 0 through 30{
+  .z-#{$i}{
+    z-index: $i;
+  }
+}
+//SMALL Rotate
+@for $i from -360 through 360{
+  .r-#{$i}{
+    -webkit-transform: rotate($i + deg);
+    -ms-transform: rotate($i + deg);
+    transform: rotate($i + deg);
+  }
+}
 //SMALL HEIGHT
 @for $i from 0 through 100{
   .h-#{$i}{
@@ -108,7 +171,7 @@ p{
   }
 }
 //SMALL WIDTH
-@for $i from 0 through 100{
+@for $i from 0 through 200{
   .w-#{$i}{
     width: 0% + $i;
   }
@@ -132,7 +195,7 @@ p{
   }
 }
 //SMALL LEFT
-@for $i from 0 through 100{
+@for $i from -100 through 100{
   .l-#{$i}{
     left: 0% + $i;
   }
@@ -146,7 +209,7 @@ p{
     }
   }
   //MEDIUM WIDTH
-  @for $i from 0 through 100{
+  @for $i from 0 through 120{
     .md-w-#{$i}{
       width: 0% + $i;
     }
@@ -170,7 +233,7 @@ p{
     }
   }
   //MEDIUM LEFT
-  @for $i from 0 through 100{
+  @for $i from -100 through 100{
     .md-l-#{$i}{
       left: 0% + $i;
     }
