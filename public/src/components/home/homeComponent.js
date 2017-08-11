@@ -95,7 +95,8 @@ function initAll(){
   containerSetHeight(stage.windowProportion)
   containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
-  safetyCalcs()
+  // ANIMATE!
+  requestAnimationFrame(floatObjCalcFrame)
 }
 
 initAll()
@@ -168,7 +169,7 @@ function makeFloatObjects(arr){
 }
 makeFloatObjects(floatElements)
 
-const floatObjCalcFrame = throttle(function() {
+function floatObjCalcFrame() {
   //Only animate if user action in window
   if(stage.mouseCheck != stage.mouseX || stage.scrollY != stage.scrollCheck){
     stage.mouseCheck  = stage.mouseX;
@@ -182,28 +183,15 @@ const floatObjCalcFrame = throttle(function() {
         })
       }
     })
+    containerCalcScroll()
+    floatObjCalcScroll()
+
   }
+  stage.scrollY = $(window).scrollTop();
   requestAnimationFrame(floatObjCalcFrame)
-}, stage.calcFps);
-
-
-//Safety Calcs - make sure all calcs are up to date
-function safetyCalcs(){setTimeout(function() {
-  console.log('asda')
-  containers.map((e,i)=>{
-    if(floatingObjArray[e.element.id]){
-      //Only update frames for elements inside containers in view
-      floatingObjArray[e.element.id].map((f, j)=>{
-        //Only calc if parent container is in view
-        f.calcFrame();
-      })
-    }
-  })
-  containerCalcScroll()
-  floatObjCalcScroll()
-  safetyCalcs()
-} , 500)
 }
+
+
 
 ////////////////////////////////////////////////////////// EVENTS
 //Mouse Move
@@ -218,10 +206,7 @@ window.addEventListener("mousemove",calcMouse, true);
 //Window Scroll
 const onScroll = throttle(function(e) {
 //!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
-  containerCalcScroll()
-  floatObjCalcScroll()
   stage.updateActiveContainers()
-  stage.scrollY = $(window).scrollTop();
 }, stage.calcFps);
 window.addEventListener('scroll', onScroll, true);
 
@@ -239,7 +224,3 @@ const onWindowResize = throttle(()=>{
   containerSetHeight(stage.windowProportion);
 }, stage.calcFps)
 window.addEventListener("resize", onWindowResize, onWindowResize);
-
-////////////////////////////////////////////////////////// ANIMATE!
-
-requestAnimationFrame(floatObjCalcFrame)
