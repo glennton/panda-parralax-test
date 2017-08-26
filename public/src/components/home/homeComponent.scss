@@ -73,6 +73,10 @@ p{
   min-width: 100px;
   position: absolute;
   z-index: 20;
+  //Enables webgl for animations - improves browser performance
+  -webkit-transform: translate3d(0,0,1px);
+  -ms-transform: translate3d(0,0,1px);
+  transform: translate3d(0,0,1px);
   //min width to be overwritten later, need to set initially to calc proportion
 }
 .svg-element{
@@ -89,6 +93,41 @@ p{
     position: absolute;
     bottom: 0;
     left: 0;
+  }
+}
+//Container 1
+.down-btn{
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  background: #000;
+  .down-btn-cirle{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+  }
+  .down-btn-inner-1{
+    width: 7rem;
+    height: 7rem;
+    margin-left: -5rem;
+    margin-top: -5rem;
+    border: 1.5rem solid #fff;
+    opacity: .3;
+  }
+  .down-btn-inner-2{
+    width: 3rem;
+    height: 3rem;
+    margin-left: -3.5rem;
+    margin-top: -3.5rem;
+    border: 2rem solid #fff;
+    opacity: .6;
+  }
+  .down-btn-inner-3{
+    width: 3rem;
+    height: 3rem;
+    margin-left: -1.51rem;
+    margin-top: -1.51rem;
   }
 }
 .copy-box{
@@ -108,9 +147,39 @@ p{
 }
 
 .svg-element{
+  &.white{
+    path,circle{
+      fill: #fff;
+    }
+  }
+  &.black{
+    path,circle{
+      fill: #000;
+    }
+  }
   &.blueLight{
     path,circle{
       fill: $blueLight;
+    }
+  }
+  &.blueLightAlt0{
+    path,circle{
+      fill: #a1e4f8;
+    }
+  }
+  &.blueLightAlt1{
+    path,circle{
+      fill: #2bc5f4;
+    }
+  }
+  &.blueLightAlt2{
+    path,circle{
+      fill: #4fcff6;
+    }
+  }
+  &.blueLightAlt3{
+    path,circle{
+      fill: #83dcf7;
     }
   }
   &.blueMedium{
@@ -149,59 +218,60 @@ p{
     .purpleDark{fill: $purpleDark ;}
   }
 }
-
-//SMALL ZINDEX
-@for $i from 0 through 30{
-  .z-#{$i}{
-    z-index: $i;
+.sm {
+  //SMALL ZINDEX
+  @for $i from 0 through 50{
+    .sm-z-#{$i}{
+      z-index: $i;
+    }
   }
-}
-//SMALL Rotate
-@for $i from -360 through 360{
-  .r-#{$i}{
-    -webkit-transform: rotate($i + deg);
-    -ms-transform: rotate($i + deg);
-    transform: rotate($i + deg);
+  //SMALL Rotate
+  @for $i from -360 through 360{
+    .sm-r-#{$i}{
+      -webkit-transform: rotate($i + deg);
+      -ms-transform: rotate($i + deg);
+      transform: rotate($i + deg);
+    }
   }
-}
-//SMALL HEIGHT
-@for $i from 0 through 100{
-  .h-#{$i}{
-    height: 0% + $i;
+  //SMALL HEIGHT
+  @for $i from 0 through 100{
+    .sm-h-#{$i}{
+      height: 0% + $i;
+    }
   }
-}
-//SMALL WIDTH
-@for $i from 0 through 200{
-  .w-#{$i}{
-    width: 0% + $i;
+  //SMALL WIDTH
+  @for $i from 0 through 300{
+    .sm-w-#{$i}{
+      width: 0% + $i;
+    }
   }
-}
-//SMALL TOP
-@for $i from 0 through 100{
-  .t-#{$i}{
-    top: 0% + $i;
+  //SMALL TOP
+  @for $i from 0 through 100{
+    .sm-t-#{$i}{
+      top: 0% + $i;
+    }
   }
-}
-//SMALL RIGHT
-@for $i from 0 through 100{
-  .r-#{$i}{
-    right: 0% + $i;
+  //SMALL RIGHT
+  @for $i from 0 through 100{
+    .sm-r-#{$i}{
+      right: 0% + $i;
+    }
   }
-}
-//SMALL BOTTOM
-@for $i from 0 through 100{
-  .b-#{$i}{
-    bottom: 0% + $i;
+  //SMALL BOTTOM
+  @for $i from 0 through 100{
+    .sm-b-#{$i}{
+      bottom: 0% + $i;
+    }
   }
-}
-//SMALL LEFT
-@for $i from -100 through 100{
-  .l-#{$i}{
-    left: 0% + $i;
+  //SMALL LEFT
+  @for $i from -100 through 100{
+    .sm-l-#{$i}{
+      left: 0% + $i;
+    }
   }
 }
 //MEDIUM DIMENSIONS
-@media #{$md} {
+.md {
   //MEDIUM HEIGHT
   @for $i from 0 through 100{
     .md-h-#{$i}{
@@ -209,7 +279,7 @@ p{
     }
   }
   //MEDIUM WIDTH
-  @for $i from 0 through 120{
+  @for $i from 0 through 200{
     .md-w-#{$i}{
       width: 0% + $i;
     }
@@ -235,6 +305,45 @@ p{
   //MEDIUM LEFT
   @for $i from -100 through 100{
     .md-l-#{$i}{
+      left: 0% + $i;
+    }
+  }
+}
+//LARGE DIMENSIONS
+.lg {
+  //LARGE HEIGHT
+  @for $i from 0 through 100{
+    .lg-h-#{$i}{
+      height: 0% + $i;
+    }
+  }
+  //LARGE WIDTH
+  @for $i from 0 through 200{
+    .lg-w-#{$i}{
+      width: 0% + $i;
+    }
+  }
+  //LARGE TOP
+  @for $i from 0 through 100{
+    .lg-t-#{$i}{
+      top: 0% + $i;
+    }
+  }
+  //LARGE RIGHT
+  @for $i from 0 through 100{
+    .lg-r-#{$i}{
+      right: 0% + $i;
+    }
+  }
+  //LARGE BOTTOM
+  @for $i from 0 through 100{
+    .lg-b-#{$i}{
+      bottom: 0% + $i;
+    }
+  }
+  //LARGE LEFT
+  @for $i from -100 through 100{
+    .lg-l-#{$i}{
       left: 0% + $i;
     }
   }

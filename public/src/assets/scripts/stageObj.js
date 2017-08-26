@@ -23,6 +23,7 @@ export class stageObj{
     this.containers;
     this.activeContainers = [];
     this.activeContainer;
+    this.freezeMouse;
 
     //Static Inits
     this.fpsModifier = 60 / this.fps;
@@ -42,9 +43,6 @@ export class stageObj{
     this.mouseX = x;
     this.mouseY = y;
   }
-  setContainer(e){
-    this.activeContainer = e;
-  }
   //Main Calc
   //* Triggered by container refresh
   calc(){
@@ -54,7 +52,19 @@ export class stageObj{
     this.dTop = window['pageYOffset'];
     this.dBot = window['pageYOffset'] + this.h;
     //Set window proportion,
-    this.windowProportion = (this.h / this.w) * 100;
+    this.windowProportion = this.h / this.w * 100;
+    if(this.windowProportion < 60){
+      $('body').addClass('sm md lg')
+      this.breakpoint = 'lg'
+    }
+    if(this.windowProportion >= 60 && this.windowProportion < 100){
+      $('body').addClass('sm md').removeClass('lg')
+      this.breakpoint = 'md'
+    }
+    if(this.windowProportion >= 100){
+      $('body').addClass('sm').removeClass('md lg')
+      this.breakpoint = 'sm'
+    }
   }
   //
   recalc(){

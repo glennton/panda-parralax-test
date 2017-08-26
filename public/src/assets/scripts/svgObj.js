@@ -1,8 +1,8 @@
 import {floatObj} from '../../assets/scripts/floatObj.js';
 
 export class svgObj extends floatObj {
-  constructor(src, parent, name, options) {
-    super(parent, name, options)
+  constructor(src, parent, options) {
+    super(parent, options)
     this.src = src;
   }
 

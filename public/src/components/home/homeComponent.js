@@ -5,6 +5,17 @@ import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
 import {svgObj} from '../../assets/scripts/svgObj.js';
+//Animation Frame Call Back https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
+const myRequestAnimationFrame =
+  window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame    ||
+  window.oRequestAnimationFrame      ||
+  window.msRequestAnimationFrame     ||
+  function(callback) {
+      window.setTimeout(callback, 50);
+   };
+window.requestAnimationFrame=myRequestAnimationFrame;
 
 const sectionContainers = Array.from(document.getElementsByClassName('section-container'))
 const floatElements = Array.from(document.getElementsByClassName('floating-element'))
@@ -27,15 +38,26 @@ function containerCalcScroll(){
 //Refresh Floating Object Scroll Variables
 function floatObjCalcScroll() {
   //Only animate if user action in window
-    stage.activeContainers.map((e,i)=>{
-      if(floatingObjArray[e.element.id]){
-        //Only update frames for elements inside containers in view
-        floatingObjArray[e.element.id].map((f, j)=>{
-          //Only calc if parent container is in view
-          f.calcScroll();
-        })
-      }
+  stage.activeContainers.map((e,i)=>{
+    if(floatingObjArray[e.element.id]){
+      //Only update frames for elements inside containers in view
+      floatingObjArray[e.element.id].map((f, j)=>{
+        //Only calc if parent container is in view
+        f.calcScroll();
+      })
+    }
+  })
+}
+
+
+//Refresh Floating Object Top Variables
+function floatObjCalcTop() {
+  //Only animate if user action in window
+  for(let key in floatingObjArray){
+    floatingObjArray[key].map((e,i)=>{
+      e.setTop();
     })
+  }
 }
 
 //Refresh Container Variables
@@ -154,9 +176,9 @@ function makeFloatObjects(arr){
     })
     //Define type of object
     if(hasClass(e,'svg-element')){
-      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, 't1_box06', options)
+      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options)
     }else{
-      newFloatingObj = new floatObj(parentObj, 't1_box06', options)
+      newFloatingObj = new floatObj(parentObj, options)
     }
     //Init Object
     newFloatingObj.make(e, stage)
@@ -185,7 +207,6 @@ function floatObjCalcFrame() {
     })
     containerCalcScroll()
     floatObjCalcScroll()
-
   }
   stage.scrollY = $(window).scrollTop();
   requestAnimationFrame(floatObjCalcFrame)
@@ -212,7 +233,7 @@ window.addEventListener('scroll', onScroll, true);
 
 //Mouse Enter
 const onMouseEnter = function(e) {
-  stage.setContainer(e);
+  stage.activeContainer = e;
 }
 containers.map((e,i)=>{
   //Set Active Stage when mouse enters container
@@ -221,6 +242,7 @@ containers.map((e,i)=>{
 
 const onWindowResize = throttle(()=>{
   stage.calc()
+  floatObjCalcTop()
   containerSetHeight(stage.windowProportion);
 }, stage.calcFps)
 window.addEventListener("resize", onWindowResize, onWindowResize);
