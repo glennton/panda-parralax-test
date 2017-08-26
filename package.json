@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "develop": "webpack-dev-server",
-    "build": "",
+    "build": "webpack",
     "start": "webpack-dev-server"
   },
   "author": "Glenn Roman",

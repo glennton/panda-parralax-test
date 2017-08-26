@@ -1,11 +1,15 @@
 ## Synopsis
 
 ## Installation
-- npm install
+`npm install`
 
 ## Run
-- npm run develop
+`npm run develop`
 - Default Address: http://localhost:8080/
+
+## Build
+`npm run build`
+- exported to ./public/dist
 
 ## Development Notes
 - Using bracket notation for object document properties, and dot notation for object private properties.
