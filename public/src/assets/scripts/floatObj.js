@@ -14,7 +14,7 @@ export class floatObj {
     this.mouseDepth     = parseInt(options['data-mouse-depth']) || 0;
     this.rotate         = options['data-rotate'] || 0;
     this.pDepth         = options['data-p-depth'] || 1;
-    this.pStart         = parseInt(options['data-pstart']) || null;
+    this.pStart         = parseInt(options['data-pstart']) || .1;
     this.pEnd           = parseInt(options['data-pend']) || null;
     this.pStartY        = parseInt(options['data-pstarty']) || 0;
     this.pEndY          = parseInt(options['data-pendy']) || 100;
@@ -52,13 +52,12 @@ export class floatObj {
       }else{
         if(this.parent.interpolation < this.pStart){this.plaxY = this.pStartY}
         if(this.parent.interpolation > this.pEnd){this.plaxY = this.pEndY}
-        //if(this.name == 'test'){console.log(false)}
       }
     }
   }
 
   //Recalc Frame if mouse moved
-  calcFrame(isInit){
+  calcFrame(){
     //X Calc
     const left =
       + (this.stage.mouseX - .5) // creates range -0.5 to +0.5
@@ -70,7 +69,6 @@ export class floatObj {
       * this.mouseDepth;
     //Plax Modifier
     top = top + this.plaxY
-
     //Proportion Modifier
     $(this.element).css({
       'margin-left': `${left}%`,

@@ -31,15 +31,10 @@ h1{
   font-size: 2rem
 }
 p{
-  font-size: 1rem;
   font-weight: 300;
   color: #fff;
   display: block;
-  max-width: 50%;
-  margin: 0 auto;
   letter-spacing: .08rem;
-  line-height: 2rem;
-  margin-bottom: 1rem;
 }
 
 //containers
@@ -51,7 +46,6 @@ p{
   &#intro{
   }
   &#transition1{
-    background: #bae4a4;
   }
   &#work{
     background: #a88ac5;
@@ -131,10 +125,21 @@ p{
   }
 }
 .copy-box{
-  position: relative;
+  position: absolute;
   z-index: 99;
-  margin-top: 15%;
   text-align: center;
+  font-size: 1rem;
+  h1{
+    padding: 0;
+    line-height: 2rem;
+    margin: 0 0 .8rem;
+  }
+  p{
+    font-size: .8rem;
+    line-height: 1.5rem;
+    padding: 0;
+    margin: 0 auto .8rem;
+  }
 }
 
 .simple-box, .section-container{

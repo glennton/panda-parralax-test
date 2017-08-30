@@ -3,9 +3,7 @@ import {floatObj} from '../../assets/scripts/floatObj.js';
 export class htmlObj extends floatObj {
   constructor(src, parent, options) {
     super(parent, options)
-    this.src = src;
   }
-
 
   make(e, stage){
     //Place svg in parent

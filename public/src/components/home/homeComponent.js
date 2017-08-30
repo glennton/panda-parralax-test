@@ -5,6 +5,7 @@ import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
 import {svgObj} from '../../assets/scripts/svgObj.js';
+//import {htmlObj} from '../../assets/scripts/htmlObj.js';
 //Animation Frame Call Back https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
 const myRequestAnimationFrame =
   window.requestAnimationFrame ||
@@ -82,16 +83,6 @@ function getActiveContainers(){
   return activeContainers
 }
 
-function getNextContainerIndex(index){
-  let newIndex;
-  const containerCount = containers.length
-  if(index + 1 < containers.length){
-    newIndex = index + 1
-  }else{
-    newIndex = 0
-  }
-  return newIndex
-}
 function containersMake(){
   //Push Container to Array
   sectionContainers.map((e, i)=>{
@@ -124,14 +115,40 @@ function initAll(){
 initAll()
 
 function _getScrollData(){
-  //update calculations before scroll
+  //update scroll calculations and active containers before setting scroll data
   containerCalcScroll()
   stage.updateActiveContainers()
-  let scrollData = {}
-  var activeContainer = stage.activeContainers[0]
-  const nextContainerIndex = getNextContainerIndex(stage.activeContainers[0].position)
-  const nextContainer = containers[nextContainerIndex]
-  scrollData = {scale: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
+  //Set vars
+  let scrollData = {};
+  const activeContainer = stage.activeContainers[0];
+  const currentIndex = stage.activeContainers[0].position;
+  let targetIndex;
+  let scaleSpeed = activeContainer.scale;
+  let modifier;
+  //Set next index based on if main container or transition container
+  if($(activeContainer.element).hasClass('main-container')){
+    console.log('main')
+    //Skip two if main container
+    modifier = 2
+  }else{
+    console.log('transition')
+    //Skip one if transition container
+    modifier = 1
+  }
+  //Set next container index
+  if(currentIndex + modifier < containers.length){
+    targetIndex = currentIndex + modifier
+  }else{
+    targetIndex = 0
+  }
+  const nextContainer = containers[targetIndex];
+  //Set if skipping two, add both scales
+  if(modifier == 2){
+    scaleSpeed = scaleSpeed + nextContainer.scale
+  }
+  console.log(scaleSpeed , nextContainer.scale)
+  console.log('activeContainer.scale', activeContainer.scale)
+  scrollData = {speedModifier: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
   return scrollData;
 }
 
@@ -141,7 +158,7 @@ function scrollTo(e){
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 1500 * scrollData.scale,()=>{
+  }, 1500 * scrollData.speedModifier,()=>{
     stage.freezeMouse = false;
     //callback
   });
