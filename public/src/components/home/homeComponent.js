@@ -56,7 +56,7 @@ function floatObjCalcTop() {
   //Only animate if user action in window
   for(let key in floatingObjArray){
     floatingObjArray[key].map((e,i)=>{
-      e.setTop();
+      e.setPos();
     })
   }
 }
@@ -127,11 +127,9 @@ function _getScrollData(){
   let modifier;
   //Set next index based on if main container or transition container
   if($(activeContainer.element).hasClass('main-container')){
-    console.log('main')
     //Skip two if main container
     modifier = 2
   }else{
-    console.log('transition')
     //Skip one if transition container
     modifier = 1
   }
@@ -146,8 +144,6 @@ function _getScrollData(){
   if(modifier == 2){
     scaleSpeed = scaleSpeed + nextContainer.scale
   }
-  console.log(scaleSpeed , nextContainer.scale)
-  console.log('activeContainer.scale', activeContainer.scale)
   scrollData = {speedModifier: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
   return scrollData;
 }
@@ -158,7 +154,7 @@ function scrollTo(e){
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 1500 * scrollData.speedModifier,()=>{
+  }, 2000 * scrollData.speedModifier,()=>{
     stage.freezeMouse = false;
     //callback
   });
