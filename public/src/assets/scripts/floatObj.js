@@ -23,7 +23,7 @@ export class floatObj {
     this.pEndY          = parseInt(options['data-pendy']) || null;
     this.pEndX          = parseInt(options['data-pendx']) || null;
     this.pEndR          = parseInt(options['data-pendr']) || null;
-    this.r              = parseInt(options['data-r']) || null;
+    this.r              = parseInt(options['data-r']) || 0;
     this.yArcAmplitude  = parseInt(options['data-yarcamplitude']) || 0;
     //If initScaleH not defined, keep same proportion by setting to initScaleW
     this.floatFrequency = options['data-float-frequency'] || 0;
@@ -42,7 +42,8 @@ export class floatObj {
     this.stage;
     this.plaxY = 0;
     this.plaxX = 0;
-    this.plaxR = 0;
+    //Set to r by default
+    this.plaxR = this.r;
     this.yArc = 0;
     this.intpl;
     this.parentProportion = 1;
@@ -77,7 +78,6 @@ export class floatObj {
         if(type == 'y'){
           $('#objectY').html(index);
         }
-        console.log(this.plaxX)
       }
       return data[index];
     }else{
@@ -104,13 +104,17 @@ export class floatObj {
   //Update plax modifier if scrolled
   calcScroll(){
     if(this.pActive){
+      //If element has parallax range defined
       if(this.parent.interpolation > this.pStart && this.parent.interpolation < this.pEnd){
+        //If parallax Y Defined
         if(this.pEndY){
           this.plaxY = this._interpolate(0, this.pEndY)/this.parentProportion
         }
+        //If parallax X Defined
         if(this.pEndX){
           this.plaxX = this._interpolate(0, this.pEndX)
         }
+        //If parallax Arc Defined
         if(this.yArcAmplitude){
           const angle = this._interpolate(0, Math.PI)
           const amplitude = 10
@@ -131,6 +135,8 @@ export class floatObj {
           if(this.pEndR){ this.plaxR = this.pEndR }
         }
       }
+    }else{
+      //If element does not have parallax range defined
     }
   }
 
