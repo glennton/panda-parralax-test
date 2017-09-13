@@ -270,11 +270,21 @@ window.addEventListener("resize", onWindowResize, true);
 //DEBUGGING
 function debug(){
   $('#debugPanel').css('display','block')
+  //RESIZE
   window.addEventListener("resize", ()=>{
     $('#debugBreakpoint').html(stage.breakpoint)
     $('#proportion').html(stage.windowProportion)
-
+    if($('body').hasClass('lg')){
+      $('#cssbreakpoint').html('lg')
+    }else{
+      if($('body').hasClass('md')){
+        $('#cssbreakpoint').html('md')
+      }else{
+        $('#cssbreakpoint').html('sm')
+      }
+    }
   }, true);
+  //SCROLL
   window.addEventListener('scroll', ()=>{
     $(stage.activeContainers).each((i,e)=>{
       $('#activeContainer' + i).html($(e.element).attr('id'))
