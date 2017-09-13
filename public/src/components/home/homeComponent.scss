@@ -10,6 +10,7 @@ $blueDark: #2a4b70 ;
 $purpleLight: #674565 ;
 $purpleMedium: #504066 ;
 $purpleDark: #343d5b ;
+$orangeLight: #fca411;
 $orange: #f78721;
 
 body,html{
@@ -231,6 +232,11 @@ div#debugPanel{
   &.orange{
     path,circle{
       fill: $orange;
+    }
+  }
+  &.orangeLight{
+    path,circle{
+      fill: $orangeLight;
     }
   }
 }
