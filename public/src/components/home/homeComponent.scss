@@ -85,9 +85,9 @@ div#debugPanel{
   position: absolute;
   z-index: 20;
   //Enables webgl for animations - improves browser performance
-  -webkit-transform: translate3d(0,0,1px);
-  -ms-transform: translate3d(0,0,1px);
-  transform: translate3d(0,0,1px);
+  //-webkit-transform: translate3d(0,0,1px);
+  //-ms-transform: translate3d(0,0,1px);
+  //transform: translate3d(0,0,1px);
   //min width to be overwritten later, need to set initially to calc proportion
 }
 .svg-element{
