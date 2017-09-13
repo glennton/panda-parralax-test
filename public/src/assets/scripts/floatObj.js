@@ -23,7 +23,7 @@ export class floatObj {
     this.pEndY          = parseInt(options['data-pendy']) || null;
     this.pEndX          = parseInt(options['data-pendx']) || null;
     this.pEndR          = parseInt(options['data-pendr']) || null;
-    this.r              = parseInt(options['data-r']) || null;
+    this.r              = parseInt(options['data-r']) || 0;
     this.yArcAmplitude  = parseInt(options['data-yarcamplitude']) || 0;
     //If initScaleH not defined, keep same proportion by setting to initScaleW
     this.floatFrequency = options['data-float-frequency'] || 0;
@@ -42,7 +42,8 @@ export class floatObj {
     this.stage;
     this.plaxY = 0;
     this.plaxX = 0;
-    this.plaxR = 0;
+    //Set to r by default
+    this.plaxR = this.r;
     this.yArc = 0;
     this.intpl;
     this.parentProportion = 1;
@@ -77,7 +78,6 @@ export class floatObj {
         if(type == 'y'){
           $('#objectY').html(index);
         }
-        console.log(this.plaxX)
       }
       return data[index];
     }else{
@@ -103,60 +103,68 @@ export class floatObj {
   }
   //Update plax modifier if scrolled
   calcScroll(){
-    if(this.pActive){
-      if(this.parent.interpolation > this.pStart && this.parent.interpolation < this.pEnd){
-        if(this.pEndY){
-          this.plaxY = this._interpolate(0, this.pEndY)/this.parentProportion
-        }
-        if(this.pEndX){
-          this.plaxX = this._interpolate(0, this.pEndX)
-        }
-        if(this.yArcAmplitude){
-          const angle = this._interpolate(0, Math.PI)
-          const amplitude = 10
-          this.yArc = (Math.sin(angle) * this.yArcAmplitude)/this.parentProportion
-        }
-        if(this.pEndR){
-          this.plaxR = this._interpolate(this.r, this.pEndR)
+    if(this.parent.inView){
+      if(this.pActive){
+        //If element has parallax range defined
+        if(this.parent.interpolation > this.pStart && this.parent.interpolation < this.pEnd){
+          //If parallax Y Defined
+          if(this.pEndY){
+            this.plaxY = this._interpolate(0, this.pEndY)/this.parentProportion
+          }
+          //If parallax X Defined
+          if(this.pEndX){
+            this.plaxX = this._interpolate(0, this.pEndX)
+          }
+          //If parallax Arc Defined
+          if(this.yArcAmplitude){
+            const angle = this._interpolate(0, Math.PI)
+            const amplitude = 10
+            this.yArc = (Math.sin(angle) * this.yArcAmplitude)/this.parentProportion
+          }
+          if(this.pEndR){
+            this.plaxR = this._interpolate(this.r, this.pEndR)
+          }
+        }else{
+          if(this.parent.interpolation < this.pStart){
+            if(this.pEndY){ this.plaxY = 0 }
+            if(this.pEndX){ this.plaxX = 0 }
+            if(this.pEndR){ this.plaxR = this.r }
+          }
+          if(this.parent.interpolation > this.pEnd){
+            if(this.pEndY){ this.plaxY = this.pEndY }
+            if(this.pEndX){ this.plaxX = this.pEndX }
+            if(this.pEndR){ this.plaxR = this.pEndR }
+          }
         }
       }else{
-        if(this.parent.interpolation < this.pStart){
-          if(this.pEndY){ this.plaxY = 0 }
-          if(this.pEndX){ this.plaxX = 0 }
-          if(this.pEndR){ this.plaxR = this.r }
-        }
-        if(this.parent.interpolation > this.pEnd){
-          if(this.pEndY){ this.plaxY = this.pEndY }
-          if(this.pEndX){ this.plaxX = this.pEndX }
-          if(this.pEndR){ this.plaxR = this.pEndR }
-        }
+        //If element does not have parallax range defined
       }
     }
   }
 
   //Recalc Frame if mouse moved
   calcFrame(){
-    //if(this.name == 'test'){console.log(this.parent)}
-    //X Calc
-    let left = this.l
-      + ((this.stage.mouseX - .5) * this.mouseDepth); // creates range -0.5 to +0.5
-    left = left + this.plaxX
-    //Y Calc
-    let top = this.t
-    top = top
-      + this.stage.mouseY // Mouse modifier
-      * this.mouseDepth;
-    //Plax Modifier
-    top = top + this.plaxY - this.yArc
-    //Rotate Calc
-    let rotate = this.plaxR
+    if(this.parent.inView){
+      //if(this.name == 'test'){console.log(this.parent)}
+      //X Calc
+      let left = this.l
+        + ((this.stage.mouseX - .5) * this.mouseDepth); // creates range -0.5 to +0.5
+      left = left + this.plaxX
+      //Y Calc
+      let top = this.t
+      top = top
+        + this.stage.mouseY // Mouse modifier
+        * this.mouseDepth;
+      //Plax Modifier
+      top = top + this.plaxY - this.yArc
+      //Rotate Calc
+      let rotate = this.plaxR
 
-    //Proportion Modifier
-    $(this.element).css({
-      'left': `${left}%`,
-      'top': `${top}%`,
-      'transform': `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,1px)`
-    })
-    //if(this.name == 'test'){console.log(this.plaxX)}
+      //Proportion Modifier
+      this.element.style['left'] = `${left}%`;
+      this.element.style['top'] = `${top}%`;
+      this.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,1px)`;
+      if(this.name == 'test'){console.log('calced')}
+    }
   }
 }

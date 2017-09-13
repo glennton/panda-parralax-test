@@ -22,7 +22,7 @@ const sectionContainers = Array.from(document.getElementsByClassName('section-co
 const floatElements = Array.from(document.getElementsByClassName('floating-element'))
 
 let containers = []
-let floatingObjArray = {}
+let floatingObjArray = []
 
 //Stage Defaults and Inits
 let stage = new stageObj({
@@ -38,26 +38,19 @@ function containerCalcScroll(){
 
 //Refresh Floating Object Scroll Variables
 function floatObjCalcScroll() {
-  //Only animate if user action in window
-  stage.activeContainers.map((e,i)=>{
-    if(floatingObjArray[e.element.id]){
-      //Only update frames for elements inside containers in view
-      floatingObjArray[e.element.id].map((f, j)=>{
-        //Only calc if parent container is in view
-        f.calcScroll();
-      })
-    }
-  })
+  for(let i=0, l = floatingObjArray.length; i<l; i++){
+    var el = floatingObjArray[i];
+    el.calcScroll();
+  }
 }
 
 
 //Refresh Floating Object Top Variables
 function floatObjCalcTop() {
   //Only animate if user action in window
-  for(let key in floatingObjArray){
-    floatingObjArray[key].map((e,i)=>{
-      e.setPos();
-    })
+  for(var i=0, l = floatingObjArray.length; i<l; i++){
+    var el = floatingObjArray[i];
+    el.setPos();
   }
 }
 
@@ -178,7 +171,7 @@ function makeFloatObjects(arr){
     const parentId = $(e).closest('.section-container').attr('id');
     for (let att, i = 0, atts = e.attributes, n = atts.length; i < n; i++){
         att = atts[i];
-        options[att.nodeName] = att.nodeValue
+        options[att.nodeName] = att.nodeValue;
     }
     //Link object to parent
     containers.map((f,j)=>{
@@ -189,31 +182,23 @@ function makeFloatObjects(arr){
     //Define type of object
     if(hasClass(e,'svg-element')){
       const img = e.getAttribute('data-img')
-      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options)
+      newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options);
     }else{
-      newFloatingObj = new floatObj(parentObj, options)
+      newFloatingObj = new floatObj(parentObj, options);
     }
     //Init Object
     newFloatingObj.make(e, stage)
     //Push into parent inside floating object array
-    if(!floatingObjArray[parentId]){
-      floatingObjArray[parentId] = []
-    }
-    floatingObjArray[parentId].push(newFloatingObj);
+    floatingObjArray.push(newFloatingObj)
   })
 }
 makeFloatObjects(floatElements)
 
 function calcAllFrames(){
-  stage.activeContainers.map((e,i)=>{
-    if(floatingObjArray[e.element.id]){
-      //Only update frames for elements inside containers in view
-      floatingObjArray[e.element.id].map((f, j)=>{
-        //Only calc if parent container is in view
-        f.calcFrame();
-      })
-    }
-  })
+  for(var i=0, l = floatingObjArray.length; i<l; i++){
+    var el = floatingObjArray[i];
+    el.calcFrame();
+  }
 }
 
 function floatObjCalcFrame() {
@@ -225,7 +210,7 @@ function floatObjCalcFrame() {
     containerCalcScroll()
     floatObjCalcScroll()
   }
-  stage.scrollY = $(window).scrollTop();
+  stage.scrollY = window.pageYOffset;
   requestAnimationFrame(floatObjCalcFrame)
 }
 
@@ -239,14 +224,12 @@ const calcMouse = throttle(function(e) {
     stage.mouseY = e.clientY/stage.activeContainer.h
   }
 }, stage.calcFps);
-window.addEventListener("mousemove",calcMouse, true);
+
+window.addEventListener("mousemove",(calcMouse), true);
 
 //Window Scroll
-const onScroll = throttle(function(e) {
-//!!!!!!!!!!!!!!!!!!!!!! RECALC CONTAINER SCROLL !!!!!!!!!!!!!!!!!!!!!!//
-  stage.updateActiveContainers()
-}, stage.calcFps);
-window.addEventListener('scroll', onScroll, true);
+
+window.addEventListener('scroll', stage.updateActiveContainers(), true);
 
 //Mouse Enter
 const onMouseEnter = function(e) {
@@ -270,11 +253,21 @@ window.addEventListener("resize", onWindowResize, true);
 //DEBUGGING
 function debug(){
   $('#debugPanel').css('display','block')
+  //RESIZE
   window.addEventListener("resize", ()=>{
     $('#debugBreakpoint').html(stage.breakpoint)
     $('#proportion').html(stage.windowProportion)
-
+    if($('body').hasClass('lg')){
+      $('#cssbreakpoint').html('lg')
+    }else{
+      if($('body').hasClass('md')){
+        $('#cssbreakpoint').html('md')
+      }else{
+        $('#cssbreakpoint').html('sm')
+      }
+    }
   }, true);
+  //SCROLL
   window.addEventListener('scroll', ()=>{
     $(stage.activeContainers).each((i,e)=>{
       $('#activeContainer' + i).html($(e.element).attr('id'))

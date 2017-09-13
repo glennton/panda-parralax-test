@@ -4,6 +4,7 @@ export class svgObj extends floatObj {
   constructor(src, parent, options) {
     super(parent, options)
     this.src = src;
+    this.color = options['data-color'] || null;
   }
 
   make(e, stage){
@@ -12,5 +13,8 @@ export class svgObj extends floatObj {
     $(svgElement).css(`width`,`${this.imgw}%`)
     e.appendChild(svgElement)
     super.make(e, stage)
+    if(this.color){
+      $(e).find('path,circle').css(`fill`,`#${this.color }`)
+    }
   }
 }

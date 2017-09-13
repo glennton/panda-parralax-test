@@ -45,7 +45,6 @@ export class stageObj{
       floor = floor + interval
       this.breakpoints.push(floor)
     }
-    console.log(this.breakpoints)
   }
 
   updateActiveContainers(){
