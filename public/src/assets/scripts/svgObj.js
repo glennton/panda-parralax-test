@@ -9,6 +9,7 @@ export class svgObj extends floatObj {
   make(e, stage){
     //Place svg in parent
     const svgElement = document.createRange().createContextualFragment(this.src);
+    $(svgElement).css(`width`,`${this.imgw}%`)
     e.appendChild(svgElement)
     super.make(e, stage)
   }

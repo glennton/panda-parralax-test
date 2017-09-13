@@ -105,7 +105,7 @@ function initAll(){
   //Init Calcs
   stage.calc()
   //Refresh
-  containerSetHeight(stage.windowProportion)
+  containerSetHeight(stage.windowRatio)
   containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
   // ANIMATE!
@@ -175,12 +175,11 @@ function makeFloatObjects(arr){
     let options = {};
     let newFloatingObj;
     let parentObj;
-    const parentId = $(e).parent().attr('id')
+    const parentId = $(e).closest('.section-container').attr('id');
     for (let att, i = 0, atts = e.attributes, n = atts.length; i < n; i++){
         att = atts[i];
         options[att.nodeName] = att.nodeValue
     }
-    const img = e.getAttribute('data-img')
     //Link object to parent
     containers.map((f,j)=>{
       if(parentId == f.element.id){
@@ -189,6 +188,7 @@ function makeFloatObjects(arr){
     })
     //Define type of object
     if(hasClass(e,'svg-element')){
+      const img = e.getAttribute('data-img')
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options)
     }else{
       newFloatingObj = new floatObj(parentObj, options)
@@ -204,20 +204,24 @@ function makeFloatObjects(arr){
 }
 makeFloatObjects(floatElements)
 
+function calcAllFrames(){
+  stage.activeContainers.map((e,i)=>{
+    if(floatingObjArray[e.element.id]){
+      //Only update frames for elements inside containers in view
+      floatingObjArray[e.element.id].map((f, j)=>{
+        //Only calc if parent container is in view
+        f.calcFrame();
+      })
+    }
+  })
+}
+
 function floatObjCalcFrame() {
   //Only animate if user action in window
   if(stage.mouseCheck != stage.mouseX || stage.scrollY != stage.scrollCheck){
     stage.mouseCheck  = stage.mouseX;
     stage.scrollCheck  = stage.scrollY;
-    stage.activeContainers.map((e,i)=>{
-      if(floatingObjArray[e.element.id]){
-        //Only update frames for elements inside containers in view
-        floatingObjArray[e.element.id].map((f, j)=>{
-          //Only calc if parent container is in view
-          f.calcFrame();
-        })
-      }
-    })
+    calcAllFrames()
     containerCalcScroll()
     floatObjCalcScroll()
   }
@@ -256,6 +260,34 @@ containers.map((e,i)=>{
 const onWindowResize = throttle(()=>{
   stage.calc()
   floatObjCalcTop()
-  containerSetHeight(stage.windowProportion);
+  containerSetHeight(stage.windowRatio);
+  calcAllFrames()
+  //$('#debugBreakpoint').html(stage.windowProportion)
 }, stage.calcFps)
-window.addEventListener("resize", onWindowResize, onWindowResize);
+window.addEventListener("resize", onWindowResize, true);
+
+
+//DEBUGGING
+function debug(){
+  $('#debugPanel').css('display','block')
+  window.addEventListener("resize", ()=>{
+    $('#debugBreakpoint').html(stage.breakpoint)
+    $('#proportion').html(stage.windowProportion)
+
+  }, true);
+  window.addEventListener('scroll', ()=>{
+    $(stage.activeContainers).each((i,e)=>{
+      $('#activeContainer' + i).html($(e.element).attr('id'))
+      $('#interpolation' + i).html(e.interpolation)
+    })
+    $('#debugBreakpoint').html(stage.breakpoint)
+    $('.debugContainer').each((i,e)=>{
+      if($(e).html()){
+        $(e).parent().css('display','inline-block')
+      }else{
+        $(e).parent().css('display','none')
+      }
+    })
+  }, true);
+}
+debug()

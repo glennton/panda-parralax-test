@@ -36,13 +36,29 @@ p{
   display: block;
   letter-spacing: .08rem;
 }
-
+//Debug Panel
+div#debugPanel{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,.8);
+  z-index: 99;
+  padding: .5rem 1rem;
+  span{
+    color: #fff;
+    margin-right: 1rem;
+    font-family: sans-serif;
+  }
+}
 //containers
 .section-container{
   position: relative;
   overflow: hidden;
   font-family: 'Open Sans', sans-serif;
   height: 0;
+  z-index: 0;
   &#intro{
   }
   &#transition1{

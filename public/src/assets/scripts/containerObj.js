@@ -24,6 +24,7 @@ export class containerObj {
     this.proportionY;
     this.stage;
     this.position;
+    this.interpolation;
   }
 
   init(stage){

@@ -3,6 +3,30 @@ html
     title Test
     link( href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet")
   body
+    div#debugPanel
+      span Breakpoint:&nbsp;
+        span#debugBreakpoint.debugContainer
+      br.hide-for-medium-up  
+      span Proportion:&nbsp;
+        span#proportion.debugContainer
+      br.hide-for-medium-up  
+      span Active Container 1:&nbsp;
+        span#activeContainer0.debugContainer
+      br.hide-for-medium-up  
+      span Interpolation:&nbsp;
+        span#interpolation0.debugContainer
+      br.hide-for-medium-up  
+      span Active Container 2:&nbsp;
+        span#activeContainer1.debugContainer
+      br.hide-for-medium-up  
+      span Interpolation 2:&nbsp;
+        span#interpolation1.debugContainer
+      br.hide-for-medium-up  
+      span Test Object X:&nbsp;
+        span#objectX.debugContainer
+      br.hide-for-medium-up  
+      span Test Object Y:&nbsp;
+        span#objectY.debugContainer
     section.section-container.main-container.purpleLight#intro(data-init-proportion="4")
       div.copy-box.sm-w-90.sm-t-4.sm-l-5.md-w-70.md-l-15.md-t-4.lg-w-50.lg-l-25.lg-t-4
         h1 I design and develop...
@@ -13,22 +37,22 @@ html
         div.down-btn-cirle.down-btn-inner-2
         div.down-btn-cirle.down-btn-inner-3
       //Bg Diagonal
-      div.floating-element.simple-box.purpleDark.sm-z-10.sm-w-110.sm-h-20(data-mouse-depth="0" data-y="15|22|22" data-x="49|49|49" data-r="3" data-plax-depth="3", data-float-frequency="", data-float-amplitude="") 
+      div.floating-element.simple-box.purpleDark.sm-z-10.sm-w-110.sm-h-20(data-mouse-depth="0" data-y="15|22|22" data-x="49|49|49" data-r="3" data-float-frequency="", data-float-amplitude="") 
       //Clouds
       div.floating-element.svg-element.blueLight.sm-z-20.sm-w-300.md-w-150.lg-w-104(data-img="cloud_scene_01.svg" data-y="19|19|19" data-x="50|53|50" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="67") 
       div.floating-element.svg-element.blueMedium.sm-z-15.sm-w-300.md-w-150.lg-w-104(data-img="cloud_scene_02.svg" data-y="19|19|19" data-x="50|50|50" data-mouse-depth="2", data-pStart="20", data-pEnd="100", data-pEndY="53") 
       div.floating-element.svg-element.blueDark.sm-z-14.sm-w-300.md-w-150.lg-w-104(data-img="cloud_scene_03.svg" data-y="22|22|22" data-x="50|50|50" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="25") 
-      //Water
-      div.floating-element.svg-element.blueDark.sm-z-30.sm-w-300.sm-t-30.md-w-105.md-t-30(data-name="water" data-img="water_scene_01.svg" data-y="28|27|30" data-x="49|49|49" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="100") 
-      //Bg Diagonal
-      //div.floating-element.simple-box.blueMedium.sm-z-21.sm-r-3.sm-w-110.sm-t-60.sm-l--5.sm-h-20.sm-t-2.md-t-60(data-pStart="24" data-top="2-2-30" data-pEnd="100", data-pEndY="40")
-      //div.floating-element.simple-box.blueLight.sm-z-21.sm-r--3.sm-w-110.sm-t-60.sm-l--5.sm-h-20.sm-t-2.md-t-75(data-pStart="24" data-top="2-2-30" data-pEnd="100", data-pEndY="30")
+      div.floating-element.animation-container.sm-z-30.sm-w-100.sm-h-30(data-y="30|22|30" data-x="50|50|50" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="100") 
+        //Water
+        div.floating-element.svg-element.blueDark.sm-z-30.sm-w-300.md-w-105(data-img="water_scene_01.svg" data-y="50|50|42" data-x="49|49|49") 
+        //Whale
+        div.floating-element.svg-element.sm-z-25.sm-w-30.md-w-30(data-img="whale_01.svg" data-y="40|45|40" data-x="80|80|80" data-r="20" data-pStart="20", data-pEnd="55", data-pEndX="-40" data-pEndR="-20" data-yArcAmplitude="17") 
+        //Boat
+        div.floating-element.svg-element.sm-z-20.sm-w-25.md-w-25(data-name="test" data-img="boat_01.svg" data-y="13|31|13|20|31|34|33|31|30|20|17|13" data-x="27|27|27" data-r="1" data-pStart="47", data-pEnd="80", data-pEndY="30" data-pEndR="50") 
       //Bubbles
-      div.floating-element.svg-element.blueLightAlt1.sm-z-22.sm-w-100.md-w-100.md-w-90(data-img="bubbles_01.svg" data-y="45|50|45" data-x="48|48|48" data-pStart="30", data-pEnd="100", data-pEndY="35") 
-      div.floating-element.svg-element.blueLightAlt0.sm-z-23.sm-w-100.md-w-100.md-w-90(data-img="bubbles_02.svg" data-y="45|50|45" data-x="50|50|50" data-pStart="30", data-pEnd="100", data-pEndY="50") 
-      div.floating-element.svg-element.blueLightAlt2.sm-z-24.sm-w-100.md-w-100.md-w-80(data-img="bubbles_03.svg" data-y="45|50|45" data-x="49|49|49" data-pStart="30", data-pEnd="100", data-pEndY="40") 
-      //Whale
-      div.floating-element.svg-element.sm-z-29.sm-w-30.md-w-30(data-img="whale_01.svg" data-name="test" data-y="28|28|28" data-x="80|80|80" data-r="15" data-pStart="20", data-pEnd="70", data-pEndY="100", data-pEndX="-70" data-pEndR="-5" data-yArcAmplitude="35") 
+      div.floating-element.svg-element.blueLightAlt1.sm-z-22.sm-w-100.md-w-100.md-w-90(data-img="bubbles_01.svg" data-y="45|50|55" data-x="48|48|48" data-pStart="55", data-pEnd="100", data-pEndY="10") 
+      div.floating-element.svg-element.blueLightAlt0.sm-z-23.sm-w-100.md-w-100.md-w-90(data-img="bubbles_02.svg" data-y="45|50|55" data-x="50|50|50" data-pStart="55", data-pEnd="100", data-pEndY="15") 
+      div.floating-element.svg-element.blueLightAlt2.sm-z-24.sm-w-100.md-w-100.md-w-80(data-img="bubbles_03.svg" data-y="45|50|55" data-x="49|49|49" data-pStart="55", data-pEnd="100", data-pEndY="25") 
       //Background
       div.floating-element.simple-box.sm-z-5.sm-w-110.sm-h-60(style="background-color:#09aadb;" data-y="70|70|70" data-x="50|50|50") 
 
