@@ -81,7 +81,8 @@ export class floatObj {
       }
       return data[index];
     }else{
-      throw 'Incorrect Number of Values'
+      //console.log(this.element, data, type, this.stage.breakpointCount % data.length)
+      //throw 'Incorrect Number of Values'
     }
   }
   setPos(){

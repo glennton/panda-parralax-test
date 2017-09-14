@@ -5,7 +5,8 @@ import {containerObj} from '../../assets/scripts/containerObj.js';
 import {stageObj} from '../../assets/scripts/stageObj.js';
 import {floatObj} from '../../assets/scripts/floatObj.js';
 import {svgObj} from '../../assets/scripts/svgObj.js';
-//import {htmlObj} from '../../assets/scripts/htmlObj.js';
+import {imgObj} from '../../assets/scripts/imgObj.js';
+import {htmlObj} from '../../assets/scripts/htmlObj.js';
 //Animation Frame Call Back https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
 const myRequestAnimationFrame =
   window.requestAnimationFrame ||
@@ -183,8 +184,13 @@ function makeFloatObjects(arr){
     if(hasClass(e,'svg-element')){
       const img = e.getAttribute('data-img')
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options);
-    }else{
-      newFloatingObj = new floatObj(parentObj, options);
+    }
+    if(hasClass(e,'img-element')){
+      const img = e.getAttribute('data-img')
+      newFloatingObj = new imgObj(require(`../../assets/images/${img}`), parentObj, options);
+    }
+    if(hasClass(e,'html-element')){
+      newFloatingObj = new htmlObj(parentObj, options);
     }
     //Init Object
     newFloatingObj.make(e, stage)

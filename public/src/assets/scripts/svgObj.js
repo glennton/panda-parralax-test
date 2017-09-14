@@ -14,7 +14,7 @@ export class svgObj extends floatObj {
     e.appendChild(svgElement)
     super.make(e, stage)
     if(this.color){
-      $(e).find('path,circle').css(`fill`,`#${this.color }`)
+      $(e).find('path,circle').css(`fill`,`${this.color }`)
     }
   }
 }

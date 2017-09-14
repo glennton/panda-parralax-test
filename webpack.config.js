@@ -44,7 +44,7 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: './public/dist',
+    contentBase: './public/src',
     inline: true,
     stats: 'errors-only'
   },
