@@ -24,6 +24,7 @@ export class floatObj {
     this.pEndX          = parseInt(options['data-pendx']) || null;
     this.pEndR          = parseInt(options['data-pendr']) || null;
     this.r              = parseInt(options['data-r']) || 0;
+    this.z              = options['data-z'] || 1;
     this.yArcAmplitude  = parseInt(options['data-yarcamplitude']) || 0;
     //If initScaleH not defined, keep same proportion by setting to initScaleW
     this.floatFrequency = options['data-float-frequency'] || 0;
@@ -164,7 +165,7 @@ export class floatObj {
       //Proportion Modifier
       this.element.style['left'] = `${left}%`;
       this.element.style['top'] = `${top}%`;
-      this.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,1px)`;
+      this.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,${this.z}px)`;
       if(this.name == 'test'){console.log('calced')}
     }
   }

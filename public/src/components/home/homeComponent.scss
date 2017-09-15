@@ -83,23 +83,12 @@ div#debugPanel{
   width: 100%;
   min-width: 100px;
   position: absolute;
-  z-index: 20;
-  //Enables webgl for animations - improves browser performance
-  //-webkit-transform: translate3d(0,0,1px);
-  //-ms-transform: translate3d(0,0,1px);
-  //transform: translate3d(0,0,1px);
-  //min width to be overwritten later, need to set initially to calc proportion
 }
 .svg-element{
   svg{
   }
 }
-.img-element{
-  img{
-    width: 100%;
-  }
-}
-.html-element{
+.simple-box{
   width: 100%;
   height: 0;
   padding-bottom: 20%;
@@ -117,6 +106,9 @@ div#debugPanel{
   height: 1px;
   width: 1px;
   background: #000;
+  -webkit-transform: translate3d(0,0,50px);
+  -ms-transform: translate3d(0,0,50px);
+  transform: translate3d(0,0,50px);
   .down-btn-cirle{
     position: absolute;
     top: 0;
@@ -151,6 +143,9 @@ div#debugPanel{
   z-index: 99;
   text-align: center;
   font-size: 1rem;
+  -webkit-transform: translate3d(0,0,50px);
+  -ms-transform: translate3d(0,0,50px);
+  transform: translate3d(0,0,50px);
   h1{
     padding: 0;
     line-height: 2rem;

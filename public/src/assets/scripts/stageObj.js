@@ -45,6 +45,13 @@ export class stageObj{
       floor = floor + interval
       this.breakpoints.push(floor)
     }
+    //Detect Mobile
+    if((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)){
+      this.isMobile = true;
+    }else{
+      this.isMobile = false;
+    }
+    console.log(this.isMobile)
   }
 
   updateActiveContainers(){
