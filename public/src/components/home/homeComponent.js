@@ -24,7 +24,8 @@ const floatElements = Array.from(document.getElementsByClassName('floating-eleme
 
 let containers = []
 let floatingObjArray = []
-
+//Debug Only
+let testFPS = 0;
 //Stage Defaults and Inits
 let stage = new stageObj({
   fps: 30
@@ -98,6 +99,8 @@ function initAll(){
   containersMake()
   //Init Calcs
   stage.calc()
+  //Init ActiveContainer
+  stage.updateActiveContainers()
   //Refresh
   containerSetHeight(stage.windowRatio)
   containerCalcScroll()
@@ -159,7 +162,6 @@ function hasClass(element, cls) {
     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
-window.addEventListener("click", scrollTo, true);
 // $(document).ready(()=>{
 //   $('.down-btn-cirle').on('click',(e)=>{
 //     scrollTo(e)
@@ -213,13 +215,14 @@ function calcAllFrames(){
 }
 
 function floatObjCalcFrame() {
-  //Only animate if user action in window
+  //Only animate if mouse has changed position, or page is scrolling
   if(stage.mouseCheck != stage.mouseX || stage.scrollY != stage.scrollCheck){
     stage.mouseCheck  = stage.mouseX;
     stage.scrollCheck  = stage.scrollY;
     calcAllFrames()
     containerCalcScroll()
     floatObjCalcScroll()
+    testFPS = testFPS + 1
   }
   stage.scrollY = window.pageYOffset;
   requestAnimationFrame(floatObjCalcFrame)
@@ -262,37 +265,74 @@ const onWindowResize = throttle(()=>{
 window.addEventListener("resize", onWindowResize, true);
 
 
-//DEBUGGING
-function debug(){
-  $('#debugPanel').css('display','block')
-  //RESIZE
-  window.addEventListener("resize", ()=>{
-    $('#debugBreakpoint').html(stage.breakpoint)
-    $('#proportion').html(stage.windowProportion)
-    if($('body').hasClass('lg')){
-      $('#cssbreakpoint').html('lg')
-    }else{
-      if($('body').hasClass('md')){
-        $('#cssbreakpoint').html('md')
-      }else{
-        $('#cssbreakpoint').html('sm')
-      }
-    }
-  }, true);
-  //SCROLL
-  window.addEventListener('scroll', ()=>{
-    $(stage.activeContainers).each((i,e)=>{
-      $('#activeContainer' + i).html($(e.element).attr('id'))
-      $('#interpolation' + i).html(e.interpolation)
-    })
-    $('#debugBreakpoint').html(stage.breakpoint)
-    $('.debugContainer').each((i,e)=>{
-      if($(e).html()){
-        $(e).parent().css('display','inline-block')
-      }else{
-        $(e).parent().css('display','none')
-      }
-    })
-  }, true);
-}
-debug()
+// //DEBUGGING
+// function debug(){
+//   $('#debugPanel').css('display','block')
+//   //RESIZE
+//   window.addEventListener("resize", ()=>{
+//     $('#debugBreakpoint').html(stage.breakpoint)
+//     $('#proportion').html(stage.windowProportion)
+//     if($('body').hasClass('lg')){
+//       $('#cssbreakpoint').html('lg')
+//     }else{
+//       if($('body').hasClass('md')){
+//         $('#cssbreakpoint').html('md')
+//       }else{
+//         $('#cssbreakpoint').html('sm')
+//       }
+//     }
+//   }, true);
+//   //SCROLL
+//   window.addEventListener('scroll', ()=>{
+//     $(stage.activeContainers).each((i,e)=>{
+//       $('#activeContainer' + i).html($(e.element).attr('id'))
+//       $('#interpolation' + i).html(e.interpolation)
+//     })
+//     $('#debugBreakpoint').html(stage.breakpoint)
+//     $('.debugContainer').each((i,e)=>{
+//       if($(e).html()){
+//         $(e).parent().css('display','inline-block')
+//       }else{
+//         $(e).parent().css('display','none')
+//       }
+//     })
+//   }, true);
+// }
+// debug()
+//
+// function performanceTest(options){
+//   const check = options.testIncrementer < options.testCount;
+//   if(check){
+//     testFPS = 0
+//     $(window).scrollTop(0);
+//     options.testIncrementer++;
+//     $('html, body').stop().animate({
+//         scrollTop: options.target.offset().top
+//     }, options.testDuration).promise().then(()=>{
+//       options.results.push(testFPS/options.testDuration * 1000);
+//       console.log(testFPS/options.testDuration * 1000)
+//       performanceTest(options)
+//     });
+//   }else{
+//     let resultAverage = 0;
+//     options.results.map((e,i)=>{
+//       resultAverage = resultAverage+e;
+//     })
+//     resultAverage = resultAverage / options.testCount
+//     console.log(`Data Set: ${options.results}`,`Average: ${resultAverage}`)
+//   }
+// }
+// $(document).ready(()=>{
+//   $(document).on('click','#testFPS',(event)=>{
+//     event.preventDefault();
+//     performanceTest({
+//       target: $('#work'),
+//       testDuration:1000,
+//       testCount: 10,
+//       testIncrementer: 0,
+//       results:[]
+//     });
+//   })
+// })
+
+//window.addEventListener("click", scrollTo, true);
