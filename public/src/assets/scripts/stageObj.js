@@ -51,7 +51,6 @@ export class stageObj{
     }else{
       this.isMobile = false;
     }
-    console.log(this.isMobile)
   }
 
   updateActiveContainers(){

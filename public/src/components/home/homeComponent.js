@@ -102,6 +102,7 @@ function initAll(){
   containerSetHeight(stage.windowRatio)
   containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
+
   // ANIMATE!
   requestAnimationFrame(floatObjCalcFrame)
 }
@@ -148,7 +149,7 @@ function scrollTo(e){
   const scrollData = _getScrollData()
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, 2000 * scrollData.speedModifier,()=>{
+  }, 2000 * scrollData.speedModifier * scrollData.interpolation,()=>{
     stage.freezeMouse = false;
     //callback
   });
@@ -262,36 +263,36 @@ window.addEventListener("resize", onWindowResize, true);
 
 
 //DEBUGGING
-// function debug(){
-//   $('#debugPanel').css('display','block')
-//   //RESIZE
-//   window.addEventListener("resize", ()=>{
-//     $('#debugBreakpoint').html(stage.breakpoint)
-//     $('#proportion').html(stage.windowProportion)
-//     if($('body').hasClass('lg')){
-//       $('#cssbreakpoint').html('lg')
-//     }else{
-//       if($('body').hasClass('md')){
-//         $('#cssbreakpoint').html('md')
-//       }else{
-//         $('#cssbreakpoint').html('sm')
-//       }
-//     }
-//   }, true);
-//   //SCROLL
-//   window.addEventListener('scroll', ()=>{
-//     $(stage.activeContainers).each((i,e)=>{
-//       $('#activeContainer' + i).html($(e.element).attr('id'))
-//       $('#interpolation' + i).html(e.interpolation)
-//     })
-//     $('#debugBreakpoint').html(stage.breakpoint)
-//     $('.debugContainer').each((i,e)=>{
-//       if($(e).html()){
-//         $(e).parent().css('display','inline-block')
-//       }else{
-//         $(e).parent().css('display','none')
-//       }
-//     })
-//   }, true);
-// }
-// debug()
+function debug(){
+  $('#debugPanel').css('display','block')
+  //RESIZE
+  window.addEventListener("resize", ()=>{
+    $('#debugBreakpoint').html(stage.breakpoint)
+    $('#proportion').html(stage.windowProportion)
+    if($('body').hasClass('lg')){
+      $('#cssbreakpoint').html('lg')
+    }else{
+      if($('body').hasClass('md')){
+        $('#cssbreakpoint').html('md')
+      }else{
+        $('#cssbreakpoint').html('sm')
+      }
+    }
+  }, true);
+  //SCROLL
+  window.addEventListener('scroll', ()=>{
+    $(stage.activeContainers).each((i,e)=>{
+      $('#activeContainer' + i).html($(e.element).attr('id'))
+      $('#interpolation' + i).html(e.interpolation)
+    })
+    $('#debugBreakpoint').html(stage.breakpoint)
+    $('.debugContainer').each((i,e)=>{
+      if($(e).html()){
+        $(e).parent().css('display','inline-block')
+      }else{
+        $(e).parent().css('display','none')
+      }
+    })
+  }, true);
+}
+debug()

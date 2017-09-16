@@ -63,11 +63,17 @@ export class floatObj {
     if(this.stage.breakpointCount % data.length === 0){
       let index;
       index = this.stage.breakpoint - 1;
+      //if 1 coordinate point provided
+      if(data.length == 1){
+        index = 0
+      }
+      //if 3 coordinate points provided
       if(data.length == 3){
         if(this.stage.breakpoint < 3){index = 0}
         if(this.stage.breakpoint >= 3 && this.stage.breakpoint < 10){index = 1}
         if(this.stage.breakpoint >= 10){index = 2}
       }
+      //if 6 coordinate points provided
       if(data.length == 6){
         index = Math.ceil(this.stage.breakpoint / 2) - 1
       }
@@ -87,6 +93,7 @@ export class floatObj {
     }
   }
   setPos(){
+    //Set top and left based on breakpoint
     this.t = this._filterBreakpoint(this.initY,'y')
     this.l = this._filterBreakpoint(this.initX,'x')
     //Position from center of object
@@ -98,6 +105,8 @@ export class floatObj {
       const h2 = this.parent.h;
       this.parentProportion = h1/h2
     }
+    //Set Z
+    this.element.style['z-index'] = this.z
   }
   _interpolate(start, end){
     let change = (end - start) / (this.pEnd - this.pStart )
@@ -105,41 +114,37 @@ export class floatObj {
   }
   //Update plax modifier if scrolled
   calcScroll(){
-    if(this.parent.inView){
-      if(this.pActive){
-        //If element has parallax range defined
-        if(this.parent.interpolation > this.pStart && this.parent.interpolation < this.pEnd){
-          //If parallax Y Defined
-          if(this.pEndY){
-            this.plaxY = this._interpolate(0, this.pEndY)/this.parentProportion
-          }
-          //If parallax X Defined
-          if(this.pEndX){
-            this.plaxX = this._interpolate(0, this.pEndX)
-          }
-          //If parallax Arc Defined
-          if(this.yArcAmplitude){
-            const angle = this._interpolate(0, Math.PI)
-            const amplitude = 10
-            this.yArc = (Math.sin(angle) * this.yArcAmplitude)/this.parentProportion
-          }
-          if(this.pEndR){
-            this.plaxR = this._interpolate(this.r, this.pEndR)
-          }
-        }else{
-          if(this.parent.interpolation < this.pStart){
-            if(this.pEndY){ this.plaxY = 0 }
-            if(this.pEndX){ this.plaxX = 0 }
-            if(this.pEndR){ this.plaxR = this.r }
-          }
-          if(this.parent.interpolation > this.pEnd){
-            if(this.pEndY){ this.plaxY = this.pEndY }
-            if(this.pEndX){ this.plaxX = this.pEndX }
-            if(this.pEndR){ this.plaxR = this.pEndR }
-          }
+    if(this.parent.inView && this.pActive){
+      //If element has parallax range defined
+      if(this.parent.interpolation > this.pStart && this.parent.interpolation < this.pEnd){
+        //If parallax Y Defined
+        if(this.pEndY){
+          this.plaxY = this._interpolate(0, this.pEndY)/this.parentProportion
+        }
+        //If parallax X Defined
+        if(this.pEndX){
+          this.plaxX = this._interpolate(0, this.pEndX)
+        }
+        //If parallax Arc Defined
+        if(this.yArcAmplitude){
+          const angle = this._interpolate(0, Math.PI)
+          const amplitude = 10
+          this.yArc = (Math.sin(angle) * this.yArcAmplitude)/this.parentProportion
+        }
+        if(this.pEndR){
+          this.plaxR = this._interpolate(this.r, this.pEndR)
         }
       }else{
-        //If element does not have parallax range defined
+        if(this.parent.interpolation < this.pStart){
+          if(this.pEndY){ this.plaxY = 0 }
+          if(this.pEndX){ this.plaxX = 0 }
+          if(this.pEndR){ this.plaxR = this.r }
+        }
+        if(this.parent.interpolation > this.pEnd){
+          if(this.pEndY){ this.plaxY = this.pEndY }
+          if(this.pEndX){ this.plaxX = this.pEndX }
+          if(this.pEndR){ this.plaxR = this.pEndR }
+        }
       }
     }
   }
@@ -165,7 +170,7 @@ export class floatObj {
       //Proportion Modifier
       this.element.style['left'] = `${left}%`;
       this.element.style['top'] = `${top}%`;
-      this.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,${this.z}px)`;
+      this.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${this.tx}px,-${this.ty}px,1px)`;
       if(this.name == 'test'){console.log('calced')}
     }
   }
