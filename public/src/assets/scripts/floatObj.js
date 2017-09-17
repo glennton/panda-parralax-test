@@ -52,11 +52,5 @@ export class floatObj {
   // Make sprite and add to stage
   make(e, stage){
     this.element = e;
-    this.stage = stage;
-    //set top
-    //this.setPos()
-    //Calc first frame
-    //this.calcFrame()
-    //Set this.element for future use
   }
 }

@@ -22,23 +22,23 @@ const myRequestAnimationFrame =
   function(callback) {
       window.setTimeout(callback, 50);
    };
-window.requestAnimationFrame=myRequestAnimationFrame;
+window.requestAnimationFrame = myRequestAnimationFrame;
 
 ///////////////////////////////////////////////////////////////////////
 //                         GLOBAL VARIABLES
 ///////////////////////////////////////////////////////////////////////
 
-const sectionContainers = Array.from(document.getElementsByClassName('section-container'))
-const floatElements = Array.from(document.getElementsByClassName('floating-element'))
+const sectionContainers = Array.from(document.getElementsByClassName('section-container'));
+const floatElements = Array.from(document.getElementsByClassName('floating-element'));
 
-let containers = []
-let floatingObjArray = []
+let containers = [];
+let floatingObjArray = [];
 //Debug Only
 let testFPS = 0;
 //Stage Defaults and Inits
-let stage = new stageObj({
+const stage = new stageObj({
   fps: 30
-})
+});
 
 ///////////////////////////////////////////////////////////////////////
 //                         STAGE FUNCTIONS
@@ -67,10 +67,10 @@ function containerCalcPosition(){
   for(let i=0; i < stage.containers.length; i++){
     const el = stage.containers[i];
     el.element['style']['padding-bottom'] = stage.windowRatio * el.scale + '%';
-    el.h = $(el.element).outerHeight()
+    el.h = $(el.element).outerHeight();
     el.y1Pos = el.element['offsetTop'];
     el.y2Pos = el.h + el.y1Pos;
-    el.proportionY = el.h / $(document).height()
+    el.proportionY = el.h / $(document).height();
   }
 }
 //REFRESH CONTAINER INTERPOLATION AND SCROLL
@@ -84,12 +84,12 @@ function containerCalcScroll(){
     _containerInView()
     if(el.inView){
       //Calculate current position of container
-      let containerMidY = el.h + el.y1Pos - stage.scrollY
+      const containerMidY = el.h + el.y1Pos - stage.scrollY;
       //Calculate middle of window and shift by half of container
-      let windowMidY = stage.h / 2 + (el.h / 2)
-      let interpolation = containerMidY / windowMidY / 2
+      const windowMidY = stage.h / 2 + (el.h / 2);
+      const interpolation = containerMidY / windowMidY / 2;
       //Reverse Order
-      el.interpolation = (interpolation * 100 - 100 ) * -1
+      el.interpolation = (interpolation * 100 - 100 ) * -1;
     }
     function _containerInView(){
       if(
@@ -97,12 +97,12 @@ function containerCalcScroll(){
           (el.y1Pos <= stage.scrollY && el.y1Pos + el.h >= stage.scrollY + stage.h) || //Check if middle of container is in viewport
           (el.y1Pos + el.h >= stage.scrollY && el.y1Pos + el.h <= stage.scrollY + stage.h) //Check if bottom of container is in viewport
       ){
-        el.inView = true
+        el.inView = true;
       }else{
         if(el.y1Pos == 0 && stage.scrollY == undefined){
-          el.inView = true
+          el.inView = true;
         }else{
-          el.inView = false
+          el.inView = false;
         }
       }
     }
@@ -143,11 +143,11 @@ function makeFloatObjects(arr){
     })
     //Define type of object
     if(_hasClass(e,'svg-element')){
-      const img = e.getAttribute('data-img')
+      const img = e.getAttribute('data-img');
       newFloatingObj = new svgObj( require(`../../assets/images/${img}`), parentObj, options);
     }
     if(_hasClass(e,'img-element')){
-      const img = e.getAttribute('data-img')
+      const img = e.getAttribute('data-img');
       newFloatingObj = new imgObj(require(`../../assets/images/${img}`), parentObj, options);
     }
     if(_hasClass(e,'html-element')){
@@ -170,18 +170,19 @@ function floatObjCalcTop() {
   for(let i=0, l = floatingObjArray.length; i<l; i++){
     const el = floatingObjArray[i];
     //Set top and left based on breakpoint
-    el.t = _filterBreakpoint(el.initY,'y',el.name)
-    el.l = _filterBreakpoint(el.initX,'x',el.name)
+    el.t = _filterBreakpoint(el.initY,'y',el.name);
+    el.l = _filterBreakpoint(el.initX,'x',el.name);
     //Position from center of object
-    el.tx = $(el.element).outerWidth()/2
-    el.ty = $(el.element).outerHeight()/2
+    el.tx = $(el.element).outerWidth()/2;
+    el.ty = $(el.element).outerHeight()/2;
     //Set parent Y Modifier if child tween
+
     if($(el.element).parent().hasClass('animation-container')){
       const h1 = $(el.element).parent().outerHeight();
       const h2 = el.parent.h;
-      el.parentProportion = h1/h2
+      el.parentProportion = h1/h2;
     }
-    el.element.style['z-index'] = el.z
+    el.element.style['z-index'] = el.z;
   }
 
   //PRIVATE FUNCTIONS
@@ -191,17 +192,17 @@ function floatObjCalcTop() {
       index = stage.breakpoint - 1;
       //if 1 coordinate point provided
       if(data.length == 1){
-        index = 0
+        index = 0;
       }
       //if 3 coordinate points provided
       if(data.length == 3){
-        if(stage.breakpoint < 3){index = 0}
-        if(stage.breakpoint >= 3 && stage.breakpoint < 10){index = 1}
-        if(stage.breakpoint >= 10){index = 2}
+        if(stage.breakpoint < 3){index = 0;}
+        if(stage.breakpoint >= 3 && stage.breakpoint < 10){index = 1;}
+        if(stage.breakpoint >= 10){index = 2;}
       }
       //if 6 coordinate points provided
       if(data.length == 6){
-        index = Math.ceil(stage.breakpoint / 2) - 1
+        index = Math.ceil(stage.breakpoint / 2) - 1;
       }
       //Debug
       if(name == 'test'){
@@ -215,7 +216,7 @@ function floatObjCalcTop() {
       return data[index];
     }else{
       //console.log(this.element, data, type, this.stage.breakpointCount % data.length)
-      throw 'Incorrect Number of Values'
+      throw 'Incorrect Number of Values';
     }
   }
 }
@@ -232,31 +233,31 @@ function floatObjCalcScroll() {
       if(el.parent.interpolation > el.pStart && el.parent.interpolation < el.pEnd){
         //If parallax Y Defined
         if(el.pEndY){
-          el.plaxY = _interpolate(0, el.pEndY, el.pStart, el.pEnd, el.parent.interpolation)/el.parentProportion
+          el.plaxY = _interpolate(0, el.pEndY, el.pStart, el.pEnd, el.parent.interpolation)/el.parentProportion;
         }
         //If parallax X Defined
         if(el.pEndX){
-          el.plaxX = _interpolate(0, el.pEndX, el.pStart, el.pEnd, el.parent.interpolation)
+          el.plaxX = _interpolate(0, el.pEndX, el.pStart, el.pEnd, el.parent.interpolation);
         }
         //If parallax Arc Defined
         if(el.yArcAmplitude){
-          const angle = _interpolate(0, Math.PI, el.pStart, el.pEnd, el.parent.interpolation)
-          const amplitude = 10
-          el.yArc = (Math.sin(angle) * el.yArcAmplitude)/el.parentProportion
+          const angle = _interpolate(0, Math.PI, el.pStart, el.pEnd, el.parent.interpolation);
+          const amplitude = 10;
+          el.yArc = (Math.sin(angle) * el.yArcAmplitude)/el.parentProportion;
         }
         if(el.pEndR){
-          el.plaxR = _interpolate(el.r, el.pEndR, el.pStart, el.pEnd, el.parent.interpolation)
+          el.plaxR = _interpolate(el.r, el.pEndR, el.pStart, el.pEnd, el.parent.interpolation);
         }
       }else{
         if(el.parent.interpolation < el.pStart){
-          if(el.pEndY){ el.plaxY = 0 }
-          if(el.pEndX){ el.plaxX = 0 }
-          if(el.pEndR){ el.plaxR = el.r }
+          if(el.pEndY){ el.plaxY = 0; }
+          if(el.pEndX){ el.plaxX = 0; }
+          if(el.pEndR){ el.plaxR = el.r; }
         }
         if(el.parent.interpolation > el.pEnd){
-          if(el.pEndY){ el.plaxY = el.pEndY }
-          if(el.pEndX){ el.plaxX = el.pEndX }
-          if(el.pEndR){ el.plaxR = el.pEndR }
+          if(el.pEndY){ el.plaxY = el.pEndY; }
+          if(el.pEndX){ el.plaxX = el.pEndX; }
+          if(el.pEndR){ el.plaxR = el.pEndR; }
         }
       }
     }
@@ -264,7 +265,7 @@ function floatObjCalcScroll() {
 
   //PRIVATE FUNCTIONS
   function _interpolate(start, end, pstart, pend, parentIntp){
-    let change = (end - start) / (pend - pstart )
+    const change = (end - start) / (pend - pstart );
     return start + change * (parentIntp - pstart )
   }
 }
@@ -282,7 +283,7 @@ function floatObjCalcFrame() {
     calcAllFrames()
     containerCalcScroll()
     floatObjCalcScroll()
-    testFPS = testFPS + 1
+    //testFPS = testFPS + 1
   }
   stage.scrollY = window.pageYOffset;
   requestAnimationFrame(floatObjCalcFrame)
@@ -296,22 +297,21 @@ function calcAllFrames(){
       //if(this.name == 'test'){console.log(this.parent)}
       //X Calc
       let left = el.l
-        + ((el.stage.mouseX - .5) * el.mouseDepth); // creates range -0.5 to +0.5
-      left = left + el.plaxX
+        + ((stage.mouseX - .5) * el.mouseDepth); // creates range -0.5 to +0.5
+      left = left + el.plaxX;
       //Y Calc
-      let top = el.t
+      let top = el.t;
       top = top
-        + el.stage.mouseY // Mouse modifier
+        + stage.mouseY // Mouse modifier
         * el.mouseDepth;
       //Plax Modifier
-      top = top + el.plaxY - el.yArc
+      top = top + el.plaxY - el.yArc;
       //Rotate Calc
-      let rotate = el.plaxR
+      let rotate = el.plaxR;
       //Proportion Modifier
       el.element.style['left'] = `${left}%`;
       el.element.style['top'] = `${top}%`;
       el.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${el.tx}px,-${el.ty}px,1px)`;
-      if(el.name == 'test'){console.log('calced')}
     }
   }
 }
@@ -344,34 +344,31 @@ function scrollTo(e){
     //Set next index based on if main container or transition container
     if($(activeContainer.element).hasClass('main-container')){
       //Skip two if main container
-      modifier = 2
+      modifier = 2;
     }else{
       //Skip one if transition container
-      modifier = 1
+      modifier = 1;
     }
     //Set next container index
     if(currentIndex + modifier < stage.containers.length){
-      targetIndex = currentIndex + modifier
+      targetIndex = currentIndex + modifier;
     }else{
-      targetIndex = 0
+      targetIndex = 0;
     }
     const nextContainer = stage.containers[targetIndex];
     //Set if skipping two, add both scales
     if(modifier == 2){
-      scaleSpeed = scaleSpeed + nextContainer.scale
+      scaleSpeed = scaleSpeed + nextContainer.scale;
     }
     scrollData = {speedModifier: activeContainer.scale,yPos : nextContainer.y1Pos, interpolation: 1-(activeContainer.interpolation/100) }
     return scrollData;
   }
 }
-
-
 // $(document).ready(()=>{
 //   $('.down-btn-cirle').on('click',(e)=>{
 //     scrollTo(e)
 //   })
 // })
-
 
 ///////////////////////////////////////////////////////////////////////
 //                              RUN APP
@@ -439,37 +436,6 @@ $(()=>{
   }, stage.calcFps)
   window.addEventListener("resize", onWindowResize, true);
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // //DEBUGGING
 // function debug(){
