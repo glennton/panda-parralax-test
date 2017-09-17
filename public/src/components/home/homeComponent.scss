@@ -9,10 +9,13 @@ body,html{
   margin: 0;
 }
 html{
-  font-size: 100%;
   body{
-     font-size:62.5%
   }
+}
+h1,h2,h3{
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .2rem
 }
 h1{
   font-weight: 300;
@@ -57,6 +60,66 @@ div#debugPanel{
   }
   &#work{
     background: #a88ac5;
+    .main-content{
+      padding-top: 5rem;
+      //Text Styles
+      h2{
+        margin-bottom: 2rem;
+      }
+      .header-pot{
+        width: 40px;
+        margin-bottom: 1rem;
+      }
+      p{
+        color: #000;
+        margin-bottom: 1rem;
+        .work-title{
+          font-weight: 600;
+        }
+      }
+      //Logos
+      .logo-container{
+        height: 0;
+        padding-bottom: 20%;
+        position: relative;
+        object{
+          position: absolute;
+        }
+      }
+      .logo_tokidoki,.logo_bebe,.logo_tb{
+        display: block;
+        margin: 0 auto 2rem
+      }
+      .logo_tokidoki{
+        width: 40%;
+        left: 30%;
+      }
+      .logo_bebe{
+        width: 40%;
+        top: 15%;
+        left: 30%;
+      }
+      .logo_tb{
+        width: 90%;
+        left: 5%;
+        top: 20%;
+      }
+      .more-button{
+        display: block;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        background-color: #000;
+        margin: 0 auto;
+        text-align: center;
+        span{
+          color: #fff;
+          font-size: 2rem;
+          font-weight: 600;
+          line-height: 40px;
+        }
+      }
+    }
   }
   &#transition2{
     background: #f28288;
@@ -66,6 +129,21 @@ div#debugPanel{
   }
   &#transition3{
     background: #ffa170;
+  }
+}
+//Content
+.main-content{
+  position: absolute;
+  width: 80%;
+  top: 0;
+  left: 10%;
+  z-index: 100;
+  p{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0;
+    font-weight: 500;
+    margin: 0 auto .8rem;
   }
 }
 //sprites
@@ -105,6 +183,7 @@ div#debugPanel{
     top: 0;
     left: 0;
     border-radius: 50%;
+    box-sizing: content-box;
   }
   .down-btn-inner-1{
     width: 7rem;
@@ -143,9 +222,10 @@ div#debugPanel{
     margin: 0 0 .8rem;
   }
   p{
-    font-size: .8rem;
+    font-size: 1rem;
     line-height: 1.5rem;
     padding: 0;
+    font-weight: 500;
     margin: 0 auto .8rem;
   }
 }

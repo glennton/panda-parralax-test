@@ -1,3 +1,4 @@
+const debug = process.env.NODE_ENV !== "production"
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -23,7 +24,13 @@ module.exports = {
       },
       //SASS
       {
-        test: /\.scss$/,
+        test: [/\.scss$/],
+        exclude: /(node_modules)/,
+        loader: 'style-loader!css-loader!sass-loader'
+      },
+      //CSS
+      {
+        test: [/\.css$/],
         exclude: /(node_modules)/,
         loader: 'style-loader!css-loader!sass-loader'
       },

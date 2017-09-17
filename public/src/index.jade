@@ -67,18 +67,46 @@ html
 
     section.section-container#transition1(data-init-proportion="3" style="background-color:#61c1ce;")
       //Bg Diagonal
-      div.floating-element.html-element.sm-w-110.sm-h-25(data-color="#73b9b3" data-x="48" data-y="5|5|20" data-z="8" data-r="3"  data-pStart="1", data-pEnd="80", data-pEndY="40") 
+      div.floating-element.html-element.sm-w-110.sm-h-25(data-color="#73b9b3" data-x="48" data-y="5|5|10" data-z="8" data-r="3"  data-pStart="1", data-pEnd="80", data-pEndY="40") 
       div.floating-element.html-element.sm-w-110.sm-h-25(data-color="#89ae93" data-x="48" data-y="4|8|25" data-z="9" data-r="-1"  data-pStart="1", data-pEnd="100", data-pEndY="40") 
-      div.floating-element.html-element.sm-w-110.sm-h-5(data-color="#9da374" data-x="48" data-y="10|12|20" data-z="12" data-r="1"  data-pStart="1", data-pEnd="100", data-pEndY="50") 
+      div.floating-element.html-element.sm-w-110.sm-h-15(data-color="#9da374" data-x="48" data-y="10|12|30" data-z="12" data-r="1"  data-pStart="1", data-pEnd="100", data-pEndY="50") 
       div.floating-element.svg-element.sm-w-30.md-w-30.lg-w-30(data-img="whale_02.svg" data-x="50|50|50" data-y="20|20|20" data-z="15" data-pStart="1", data-pEnd="80" data-pEndY="45") 
       div.floating-element.svg-element.sm-w-1.md-w-1.lg-w-1(data-img="pot_01.svg" data-x="75|75|75" data-y="20|20|20" data-z="15" data-pStart="1", data-pEnd="80" data-pEndY="45") 
-      div.floating-element.html-element.sm-w-110.sm-h-10(data-color="#b19a58" data-x="48" data-y="55|55|55" data-z="8" data-r="-3"  data-pStart="1", data-pEnd="100", data-pEndY="20") 
-      div.floating-element.html-element.sm-w-110.sm-h-10(data-color="#c09242" data-x="48" data-y="78|78|78" data-z="9" data-r="-3"  data-pStart="1", data-pEnd="100", data-pEndY="20") 
-      div.floating-element.html-element.sm-w-110.sm-h-10(data-color="#e1aa28" data-x="48" data-y="80|80|80" data-z="9" data-r="-1"  data-pStart="1", data-pEnd="100", data-pEndY="30") 
+      div.floating-element.html-element.sm-w-110.sm-h-20(data-color="#b19a58" data-x="48" data-y="55|55|55" data-z="8" data-r="-3"  data-pStart="1", data-pEnd="100", data-pEndY="20") 
+      div.floating-element.html-element.sm-w-110.sm-h-20(data-color="#c09242" data-x="48" data-y="78|78|75" data-z="9" data-r="-3"  data-pStart="1", data-pEnd="100", data-pEndY="20") 
+      div.floating-element.html-element.sm-w-110.sm-h-20(data-color="#e1aa28" data-x="48" data-y="80|80|80" data-z="9" data-r="-1"  data-pStart="1", data-pEnd="100", data-pEndY="30") 
     section.section-container.main-container#work(data-init-proportion="3" style="background-color:#fcbe11;")
-      div.floating-element.svg-element.sm-w-300.md-w-150.lg-w-104(data-img="cloud_scene_04.svg" data-color="#f78721" data-x="50" data-y="15|15|15" data-z="14" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="25") 
-      div.floating-element.svg-element.sm-w-300.md-w-150.lg-w-104(data-color="#fca411" data-img="cloud_scene_05.svg" data-x="50" data-y="15|15|15" data-z="13" data-mouse-depth="2", data-pStart="20", data-pEnd="100", data-pEndY="25") 
-      div.floating-element.html-element.sm-w-110.sm-h-20(data-color="#fcb411" data-x="48" data-y="40|20|10" data-z="10" data-r="-3" data-pStart="1", data-pEnd="100", data-pEndY="20") 
+      .main-content
+        .grid-container
+          .grid-x.grid-margin-x
+            .cell.small-12.text-center
+              object.header-pot(data='./assets/images/pot_01.svg')
+              h2 Work History
+            .cell.medium-4.text-center
+              .logo-container
+                object.logo_tokidoki(data='./assets/images/logo_tokidoki.svg')
+              p #[span.work-title Role] #[br] Front-End Web Developer
+              p #[span.work-title Active] #[br] February 2016 - August 2017
+              p #[span.work-title About] #[br] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+              a.more-button.modal-trigger(data-modal-trigger="tokidoki")  #[span +]
+            .cell.medium-4.text-center
+              .logo-container
+                object.logo_bebe(data='./assets/images/logo_bebe.svg')
+              p #[span.work-title Role] #[br] Front-End Web Developer
+              p #[span.work-title Active] #[br] February 2016 - August 2017
+              p #[span.work-title About] #[br] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+              a.more-button.modal-trigger(data-modal-trigger="bebe")  #[span +]
+            .cell.medium-4.text-center
+              .logo-container
+                object.logo_tb(data='./assets/images/logo_tb.svg')
+              p #[span.work-title Role] #[br] Front-End Web Developer
+              p #[span.work-title Active] #[br] February 2016 - August 2017
+              p #[span.work-title About] #[br] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+              a.more-button.modal-trigger(data-modal-trigger="tb")  #[span +]
+      div.floating-element.svg-element.sm-w-300.md-w-150.lg-w-104(data-img="cloud_scene_04.svg" data-color="#f78721" data-x="50" data-y="15|15|15" data-z="15" data-mouse-depth="1", data-pStart="20", data-pEnd="100", data-pEndY="25") 
+      div.floating-element.svg-element.sm-w-300.md-w-150.lg-w-104(data-color="#fca411" data-img="cloud_scene_05.svg" data-x="50" data-y="15|15|15" data-z="10" data-mouse-depth="2", data-pStart="20", data-pEnd="100", data-pEndY="25") 
+      div.floating-element.html-element.sm-w-110.sm-h-20(data-color="#fcb411" data-x="48" data-y="40|20|10" data-z="5" data-r="-3" data-pStart="1", data-pEnd="100", data-pEndY="20") 
+      div.floating-element.html-element.sm-w-110.sm-h-30(data-color="#f99619" data-x="48" data-y="40|20|40" data-z="14" data-r="3" data-pStart="1", data-pEnd="100", data-pEndY="20") 
     section.section-container#transition2(data-init-proportion="2")
     section.section-container.main-container#skills()
     section.section-container#transition3()
