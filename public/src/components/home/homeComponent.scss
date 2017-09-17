@@ -4,15 +4,6 @@ $md: "only screen and (min-width: 40.063em)"; /* 640px */
 $lg: "only screen and (min-width: 52.563em)"; /* 840px */
 $xlg: "only screen and (min-width: 64.063em)"; /* 1020px */
 
-$blueLight: #09aadb ;
-$blueMedium: #1185bf ;
-$blueDark: #2a4b70 ;
-$purpleLight: #674565 ;
-$purpleMedium: #504066 ;
-$purpleDark: #343d5b ;
-$orangeLight: #fca411;
-$orange: #f78721;
-
 body,html{
   padding: 0;
   margin: 0;
@@ -159,97 +150,7 @@ div#debugPanel{
   }
 }
 
-.simple-box, .section-container{
-    &.blueLight{background-color: $blueLight ;}
-    &.blueMedium{background-color: $blueMedium ;}
-    &.blueDark{background-color: $blueDark ;}
-    &.purpleLight{background-color: $purpleLight ;}
-    &.purpleMedium{background-color: $purpleMedium ;}
-    &.purpleDark{background-color: $purpleDark ;}
-}
 
-.svg-element{
-  &.white{
-    path,circle{
-      fill: #fff;
-    }
-  }
-  &.black{
-    path,circle{
-      fill: #000;
-    }
-  }
-  &.blueLight{
-    path,circle{
-      fill: $blueLight;
-    }
-  }
-  &.blueLightAlt0{
-    path,circle{
-      fill: #a1e4f8;
-    }
-  }
-  &.blueLightAlt1{
-    path,circle{
-      fill: #2bc5f4;
-    }
-  }
-  &.blueLightAlt2{
-    path,circle{
-      fill: #4fcff6;
-    }
-  }
-  &.blueLightAlt3{
-    path,circle{
-      fill: #83dcf7;
-    }
-  }
-  &.blueMedium{
-    path,circle{
-      fill: $blueMedium;
-    }
-  }
-  &.blueDark{
-    path,circle{
-      fill: $blueDark;
-    }
-  }
-  &.purpleLight{
-    path,circle{
-      fill: $purpleLight;
-    }
-  }
-  &.purpleMedium{
-    path,circle{
-      fill: $purpleMedium;
-    }
-  }
-  &.purpleDark{
-    path,circle{
-      fill: $purpleDark;
-    }
-  }
-  &.orange{
-    path,circle{
-      fill: $orange;
-    }
-  }
-  &.orangeLight{
-    path,circle{
-      fill: $orangeLight;
-    }
-  }
-}
-.svg-element{
-  path{
-    .blueLight{fill: $blueLight ;}
-    .blueMedium{fill: $blueMedium ;}
-    .blueDark{fill: $blueDark ;}
-    .purpleLight{fill: $purpleLight ;}
-    .purpleMedium{fill: $purpleMedium ;}
-    .purpleDark{fill: $purpleDark ;}
-  }
-}
 .sm {
   //SMALL ZINDEX
   @for $i from 0 through 50{

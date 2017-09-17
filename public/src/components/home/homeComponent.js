@@ -40,19 +40,103 @@ function containerCalcScroll(){
 
 //Refresh Floating Object Scroll Variables
 function floatObjCalcScroll() {
+  function _interpolate(start, end, pstart, pend, parentIntp){
+    let change = (end - start) / (pend - pstart )
+    return start + change * (parentIntp - pstart )
+  }
   for(let i=0, l = floatingObjArray.length; i<l; i++){
     var el = floatingObjArray[i];
-    el.calcScroll();
+    // if(el.name == 'test'){
+    //   console.log(el.element)
+    // }
+    if(el.parent.inView && el.pActive){
+      //If element has parallax range defined
+      if(el.parent.interpolation > el.pStart && el.parent.interpolation < el.pEnd){
+        //If parallax Y Defined
+        if(el.pEndY){
+          el.plaxY = _interpolate(0, el.pEndY, el.pStart, el.pEnd, el.parent.interpolation)/el.parentProportion
+        }
+        //If parallax X Defined
+        if(el.pEndX){
+          el.plaxX = _interpolate(0, el.pEndX, el.pStart, el.pEnd, el.parent.interpolation)
+        }
+        //If parallax Arc Defined
+        if(el.yArcAmplitude){
+          const angle = _interpolate(0, Math.PI, el.pStart, el.pEnd, el.parent.interpolation)
+          const amplitude = 10
+          el.yArc = (Math.sin(angle) * el.yArcAmplitude)/el.parentProportion
+        }
+        if(el.pEndR){
+          el.plaxR = _interpolate(el.r, el.pEndR, el.pStart, el.pEnd, el.parent.interpolation)
+        }
+      }else{
+        if(el.parent.interpolation < el.pStart){
+          if(el.pEndY){ el.plaxY = 0 }
+          if(el.pEndX){ el.plaxX = 0 }
+          if(el.pEndR){ el.plaxR = el.r }
+        }
+        if(el.parent.interpolation > el.pEnd){
+          if(el.pEndY){ el.plaxY = el.pEndY }
+          if(el.pEndX){ el.plaxX = el.pEndX }
+          if(el.pEndR){ el.plaxR = el.pEndR }
+        }
+      }
+    }
   }
 }
 
 
 //Refresh Floating Object Top Variables
 function floatObjCalcTop() {
+  function _filterBreakpoint(data,type,name){
+    if(stage.breakpointCount % data.length === 0){
+      let index;
+      index = stage.breakpoint - 1;
+      //if 1 coordinate point provided
+      if(data.length == 1){
+        index = 0
+      }
+      //if 3 coordinate points provided
+      if(data.length == 3){
+        if(stage.breakpoint < 3){index = 0}
+        if(stage.breakpoint >= 3 && stage.breakpoint < 10){index = 1}
+        if(stage.breakpoint >= 10){index = 2}
+      }
+      //if 6 coordinate points provided
+      if(data.length == 6){
+        index = Math.ceil(stage.breakpoint / 2) - 1
+      }
+      //Debug
+      if(name == 'test'){
+        if(type == 'x'){
+          $('#objectX').html(index);
+        }
+        if(type == 'y'){
+          $('#objectY').html(index);
+        }
+      }
+      return data[index];
+    }else{
+      //console.log(this.element, data, type, this.stage.breakpointCount % data.length)
+      throw 'Incorrect Number of Values'
+    }
+  }
   //Only animate if user action in window
   for(var i=0, l = floatingObjArray.length; i<l; i++){
     var el = floatingObjArray[i];
-    el.setPos();
+    //Set top and left based on breakpoint
+    el.t = _filterBreakpoint(el.initY,'y',el.name)
+    el.l = _filterBreakpoint(el.initX,'x',el.name)
+    //Position from center of object
+    el.tx = $(el.element).outerWidth()/2
+    el.ty = $(el.element).outerHeight()/2
+    //Set parent Y Modifier if child tween
+    if($(el.element).parent().hasClass('animation-container')){
+      const h1 = $(el.element).parent().outerHeight();
+      const h2 = el.parent.h;
+      el.parentProportion = h1/h2
+    }
+    el.element.style['z-index'] = el.z
   }
 }
 
@@ -97,15 +181,18 @@ function containersMake(){
 function initAll(){
   //Make Containers
   containersMake()
-  //Init Calcs
+  //Init Stage Calcs
   stage.calc()
   //Init ActiveContainer
   stage.updateActiveContainers()
-  //Refresh
+  //Refresh Containers
   containerSetHeight(stage.windowRatio)
   containerCalcScroll()
   stage.scrollY = $(window).scrollTop()
-
+  //Make Objects
+  makeFloatObjects(floatElements)
+  //Recal Objects Position
+  floatObjCalcTop()
   // ANIMATE!
   requestAnimationFrame(floatObjCalcFrame)
 }
@@ -205,12 +292,31 @@ function makeFloatObjects(arr){
     floatingObjArray.push(newFloatingObj)
   })
 }
-makeFloatObjects(floatElements)
 
 function calcAllFrames(){
   for(var i=0, l = floatingObjArray.length; i<l; i++){
     var el = floatingObjArray[i];
-    el.calcFrame();
+    if(el.parent.inView){
+      //if(this.name == 'test'){console.log(this.parent)}
+      //X Calc
+      let left = el.l
+        + ((el.stage.mouseX - .5) * el.mouseDepth); // creates range -0.5 to +0.5
+      left = left + el.plaxX
+      //Y Calc
+      let top = el.t
+      top = top
+        + el.stage.mouseY // Mouse modifier
+        * el.mouseDepth;
+      //Plax Modifier
+      top = top + el.plaxY - el.yArc
+      //Rotate Calc
+      let rotate = el.plaxR
+      //Proportion Modifier
+      el.element.style['left'] = `${left}%`;
+      el.element.style['top'] = `${top}%`;
+      el.element.style['transform'] = `rotate(${rotate}deg) translate3d(-${el.tx}px,-${el.ty}px,1px)`;
+      if(el.name == 'test'){console.log('calced')}
+    }
   }
 }
 
@@ -335,4 +441,4 @@ window.addEventListener("resize", onWindowResize, true);
 //   })
 // })
 
-//window.addEventListener("click", scrollTo, true);
+window.addEventListener("click", scrollTo, true);
