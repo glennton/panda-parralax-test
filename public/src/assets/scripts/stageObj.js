@@ -22,7 +22,7 @@ export class stageObj{
     this.docHeight;
     this.windowRatio;
     this.windowProportion;
-    this.containers;
+    this.containers = [];
     this.activeContainers = [];
     this.activeContainer;
     this.freezeMouse;
@@ -111,10 +111,5 @@ export class stageObj{
     if(this.windowProportion < this.breakpoints[2]){
       $('body').addClass('sm').removeClass('md lg')
     }
-
-  }
-  //
-  recalc(){
-
   }
 }
