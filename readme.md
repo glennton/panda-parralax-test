@@ -14,8 +14,9 @@
 ## Development Notes
 - Using bracket notation for object document properties, and dot notation for object private properties.
 
-## Contributors
-
+## Thanks
+- Parralax Mouse: https://codepen.io/Yakudoo/
+- Request Animation Frame Fallback: https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
 ## License
 The MIT License (MIT)
 
