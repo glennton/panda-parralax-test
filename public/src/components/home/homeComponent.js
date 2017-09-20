@@ -396,10 +396,27 @@ $(()=>{
     // ANIMATE!
     requestAnimationFrame(floatObjCalcFrame)
     //Scroll Trigger
-    window.addEventListener("click", scrollTo, true);
+    //window.addEventListener("click", scrollTo, true);
   })()
-
-
+  ///////////////////////////////////////////////////////////////////////
+  //                            TRIGGERS
+  ///////////////////////////////////////////////////////////////////////
+  function openModal(event){
+    console.log(event)
+    $('.modal-container').addClass('active')
+  }
+  $('.modal-trigger').on('click', (event)=>{
+    $('.modal-container').addClass('modal-container-show')
+    $('.modal-container').addClass('active')
+    $('body').addClass('modal-active')
+    //openModal({target:event})
+  })
+  $('.modal-close-button').on('click', (event)=>{
+    $('.modal-container').removeClass('active')
+    $('body').removeClass('modal-active')
+    $('.modal-container').removeClass('modal-container-show')
+    //openModal({target:event})
+  })
   ///////////////////////////////////////////////////////////////////////
   //                              EVENTS
   ///////////////////////////////////////////////////////////////////////
@@ -435,7 +452,7 @@ $(()=>{
     //$('#debugBreakpoint').html(stage.windowProportion)
   }, stage.calcFps)
   window.addEventListener("resize", onWindowResize, true);
-})
+})//END DOC READY
 
 // //DEBUGGING
 // function debug(){
