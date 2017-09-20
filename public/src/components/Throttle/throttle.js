@@ -1,5 +1,5 @@
 //Underscore Modified Throttle - Change _.now() to Date.now();
-const throttle = function(func, wait, options) {
+export const Throttle = function(func, wait, options) {
   var timeout, context, args, result;
   var previous = 0;
   if (!options) options = {};
@@ -35,4 +35,3 @@ const throttle = function(func, wait, options) {
   };
   return throttled;
 }
-export default throttle;

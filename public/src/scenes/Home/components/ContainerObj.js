@@ -1,4 +1,4 @@
-export class containerObj {
+export class ContainerObj {
   constructor(e, options) {
     options = options || {}
 
@@ -26,10 +26,5 @@ export class containerObj {
     this.interpolation;
   }
 }
-
-
-
-
-
 
 //    if(this.element.id=='intro'){console.log('testintro')}

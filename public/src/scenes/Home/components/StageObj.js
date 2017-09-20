@@ -1,4 +1,4 @@
-export class stageObj{
+export class StageObj{
   constructor(options){
     options = options || {}
 

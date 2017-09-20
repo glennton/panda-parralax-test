@@ -1,6 +1,6 @@
-import {floatObj} from '../../assets/scripts/floatObj.js';
+import {FloatObj} from './FloatObj.js';
 
-export class htmlObj extends floatObj {
+export class HtmlObj extends FloatObj {
   constructor(parent, options) {
     super(parent, options)
     this.color = options['data-color'] || null;
