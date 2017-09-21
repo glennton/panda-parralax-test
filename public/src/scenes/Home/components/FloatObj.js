@@ -1,4 +1,4 @@
-export class floatObj {
+export class FloatObj {
   constructor(parent, options) {
     options = options || {}
 

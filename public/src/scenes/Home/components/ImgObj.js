@@ -1,6 +1,6 @@
-import {floatObj} from '../../assets/scripts/floatObj.js';
+import {FloatObj} from './FloatObj.js';
 
-export class imgObj extends floatObj {
+export class ImgObj extends FloatObj {
   constructor(img, parent, options) {
     super(parent, options)
     this.img = img;
