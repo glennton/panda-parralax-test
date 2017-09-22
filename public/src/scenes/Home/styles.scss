@@ -15,7 +15,7 @@ html{
 h1,h2,h3{
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
-  letter-spacing: .2rem
+  letter-spacing: .2rem;
 }
 h1{
   font-weight: 300;
@@ -229,6 +229,7 @@ div#debugPanel{
     padding: 0;
     line-height: 2rem;
     margin: 0 0 .8rem;
+    color: #fff;
   }
   p{
     font-size: 1rem;
