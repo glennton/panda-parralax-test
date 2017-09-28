@@ -9,15 +9,19 @@ require('./assets/css/foundation.min.css');
 
 import React from "react";
 import ReactDOM from "react-dom";
-import{BrowserRouter, Route} from "react-router-dom";
+import{BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import Home from "./scenes/Home/";
+import Bebe from "./scenes/Work/Bebe";
 
 const app = document.getElementById('app');
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Route path="/" component={Home}>
-    </Route>
-  </BrowserRouter>,
+  <Router>
+    <Switch>
+    <Route path="/" exact component={Home}></Route>
+    <Route path="bebe" component={Bebe}></Route>
+    </Switch>
+
+  </Router>,
 app)

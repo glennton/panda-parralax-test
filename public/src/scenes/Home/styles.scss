@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600");
+
 $xs: "only screen and (min-width: 20.063em)"; /* 320px */
 $sm: "only screen and (min-width: 30.063em)"; /* 480px */
 $md: "only screen and (min-width: 40.063em)"; /* 640px */
@@ -11,25 +13,6 @@ body,html{
 html{
   body{
   }
-}
-h1,h2,h3{
-  font-family: 'Open Sans', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: .2rem;
-}
-h1{
-  font-weight: 300;
-  color: #fff;
-  letter-spacing: .08rem;
-  line-height: 1rem;
-  text-transform: uppercase;
-  font-size: 2rem;
-}
-p{
-  font-weight: 300;
-  color: #fff;
-  display: block;
-  letter-spacing: .08rem;
 }
 nav{
   ul{
@@ -56,6 +39,15 @@ div#debugPanel{
     font-family: sans-serif;
   }
 }
+//fixed header
+#fixed-header{
+  position:fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 100;
+  background: #000;
+}
 //containers
 .section-container{
   position: relative;
@@ -63,6 +55,52 @@ div#debugPanel{
   font-family: 'Open Sans', sans-serif;
   height: 0;
   z-index: 0;
+  h1,h2,h3{
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: .2rem;
+  }
+  h1{
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: .08rem;
+    line-height: 1rem;
+    font-size: 2rem;
+  }
+  p{
+    font-weight: 300;
+    color: #fff;
+    display: block;
+    letter-spacing: .08rem;
+  }
+  .main-content{
+    padding-top: 5rem;
+    h2{
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+    p{
+      color: #000;
+      margin-bottom: 1rem;
+    }
+    .title{
+      text-transform: uppercase;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 3rem;
+    }
+    .obj-container{
+      height: 0;
+      position: relative;
+      img, object, svg{
+        position: absolute;
+        display: block;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+      }
+    }
+  }
+  //Containers
   &#intro{
   }
   &#transition1{
@@ -70,48 +108,23 @@ div#debugPanel{
   &#work{
     background: #a88ac5;
     .main-content{
-      padding-top: 5rem;
-      //Text Styles
-      h2{
-        margin-bottom: 2rem;
-      }
-      .header-pot{
-        width: 40px;
-        margin-bottom: 1rem;
-      }
-      p{
-        color: #000;
-        margin-bottom: 1rem;
-        .work-title{
-          font-weight: 600;
-        }
-      }
       //Logos
-      .logo-container{
-        height: 0;
-        padding-bottom: 20%;
-        position: relative;
-        object{
-          position: absolute;
+      .obj-container-brand-logos{
+        padding-bottom: 13%;
+        .logo_tokidoki{
+          width: 40%;
+          margin-left: 0;
         }
-      }
-      .logo_tokidoki,.logo_bebe,.logo_tb{
-        display: block;
-        margin: 0 auto 2rem
-      }
-      .logo_tokidoki{
-        width: 40%;
-        left: 30%;
-      }
-      .logo_bebe{
-        width: 40%;
-        top: 15%;
-        left: 30%;
-      }
-      .logo_tb{
-        width: 90%;
-        left: 5%;
-        top: 20%;
+        .logo_bebe{
+          width: 40%;
+          top: 15%;
+          margin-left: 0;
+        }
+        .logo_tb{
+          width: 80%;
+          top: 30%;
+          margin-left: 0;
+        }
       }
       .more-button{
         display: block;
@@ -135,6 +148,33 @@ div#debugPanel{
   }
   &#skills{
     background: #bae4a4;
+    .main-content{
+      .obj-container-dev-icons{
+        padding-bottom: 16%;
+        margin-bottom: 1rem;
+        .header-coffee{
+          width: 40px;
+          margin-top: 12px;
+        }
+        .header-beer{
+          width: 30px;
+        }
+      }
+      .obj-container-skill-icons{
+        .header-cc{
+          width: 15%;
+        }
+        .header-mongo{
+          width: 80%;
+        }
+        .header-node{
+          width: 80%;
+        }
+        .header-angular{
+          width: 40%;
+        }
+      }
+    }
   }
   &#transition3{
     background: #ffa170;

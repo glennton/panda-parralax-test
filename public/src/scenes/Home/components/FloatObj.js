@@ -32,7 +32,9 @@ export class FloatObj {
     this.floatAngle     = options['data-float-angle'] || 0;
 
     if(this.pStart + this.pEnd != 0){
-      this.pActive = true
+      this.pActive = true;
+    }else{
+      this.pActive = false;
     }
 
     //Defaults / Not Set

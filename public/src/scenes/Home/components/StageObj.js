@@ -13,6 +13,7 @@ export class StageObj{
     this.isScrolling = false;
     this.scrollY = $(window).scrollTop();
     this.scrollCheck = 0;
+    this.scrollSpeed = options.scrollSpeed || 2000;
 
     //Not Set
     this.h;
