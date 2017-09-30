@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Parallax from './components/Parallax.js';
+import Navigation from '../Navigation/Navigation.js';
 import {Link} from "react-router-dom";
 require('./styles.scss');
 
@@ -7,15 +8,7 @@ export default class Home extends Component{
   render(){
     return(
       <div>
-        <section id="fixed-header">
-          <div id="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <nav>
-          </nav>
-        </section>
+        <Navigation />
         <section class="section-container main-container purpleLight" id="intro" data-init-proportion="4" style={{backgroundColor:'#674565'}}>
           <div class="copy-box sm-w-90 sm-t-4 sm-l-5 md-w-70 md-l-15 md-t-4 lg-w-50 lg-l-25 lg-t-4">
             <h1>I design and develop...</h1>
@@ -274,7 +267,7 @@ export default class Home extends Component{
 
     window.addEventListener("resize", Parallax.refreshCalcs, true);
 
-    window.addEventListener("click", Parallax.scrollTo, true);
+    //window.addEventListener("click", Parallax.scrollTo, true);
 
     // //DEBUGGING
     // function performanceTest(options){
