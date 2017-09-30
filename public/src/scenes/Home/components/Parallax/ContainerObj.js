@@ -14,12 +14,13 @@ export class ContainerObj {
     this.dBot    = options.dBot || 0;
 
     //Not Set
-    this.h
+    this.name;
+    this.h;
     this.lastScrollPt = 0;// To determine Direction
     this.scrollPt = 0;// To determine Direction
-    this.direction // 1 = Up or 2 = Down
-    this.midY
-    this.inView // True / False
+    this.direction; // 1 = Up or 2 = Down
+    this.midY;
+    this.inView; // True / False
     this.scale;
     this.proportionY;
     this.position;

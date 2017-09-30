@@ -46,6 +46,7 @@ function _containersMake(){
     const newContainer = new ContainerObj(e);
     //Inits
     newContainer.position = i;
+    newContainer.name = e.getAttribute('id');
     newContainer.scale = parseFloat(e['dataset']['initProportion']) || 1;
     stage.containers.push(newContainer)
   })
@@ -303,12 +304,20 @@ const calcDynamicObjects = function(){
   }
 }
 
+//NAVIGATE TO
+const navigateTo = function(target){
+  stage.containers.map((e,i)=>{
+    if(e.name == target){
+      console.log(e,i)
+    }
+  })
+}
+
 //SCROLL TRIGGER ANIMATION
 const scrollTo = function(e){
   e.preventDefault()
   stage.freezeMouse = true;
   const scrollData = _getScrollData()
-  console.log(stage.scrollSpeed)
   $('html, body').stop().animate({
       scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
   }, stage.scrollSpeed * scrollData.speedModifier,()=>{
@@ -448,6 +457,7 @@ let Parallax = {
   onMouseEnter: onMouseEnter,
   refreshCalcs: refreshCalcs,
   scrollTo: scrollTo,
+  navigateTo: navigateTo,
   debug: debug
 }
 

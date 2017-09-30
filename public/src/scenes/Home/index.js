@@ -3,6 +3,7 @@ import Parallax from './components/Parallax/Parallax.js';
 import Navigation from './components/Navigation/Navigation.js';
 import Overlay from './components/Overlay/Overlay.js';
 import {Link} from "react-router-dom";
+
 import styles from './home.scss';
 
 
@@ -16,6 +17,7 @@ export default class Home extends Component{
       }
     }
     this.closeModal = this.closeModal.bind(this)
+    this.openModal = this.openModal.bind(this)
   }
   openModal(target){
     console.log(target , this.state)
@@ -39,7 +41,7 @@ export default class Home extends Component{
       <div>
         <Overlay modal={this.state.modal} closeModal={this.closeModal}/>
         <Navigation />
-        <section class="section-container main-container purpleLight" id="intro" data-init-proportion="4" style={{backgroundColor:'#674565'}}>
+        <section class="section-container main-container purpleLight" id="home" data-init-proportion="4" style={{backgroundColor:'#674565'}}>
           <div class="copy-box sm-w-90 sm-t-4 sm-l-5 md-w-70 md-l-15 md-t-4 lg-w-50 lg-l-25 lg-t-4">
             <h1>I design and develop...</h1>
             <p>Hi there! My name is Glenn, and as you can see above I design and Hi there! My name is Glenn, and as you can see abodesign and dend  test, and deploy, but mostly, I like to create things.</p>
@@ -121,7 +123,7 @@ export default class Home extends Component{
                     <span class="title">About</span> <br/>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   </p>
-                  <a class="more-button modal-trigger" data-modal-trigger="bebe"> <span>+</span></a>
+                  <a class="more-button" onClick={()=>this.openModal('bebe')}> <span>+</span></a>
                 </div>
                 <div class="cell medium-4">
                   <div class="obj-container obj-container-brand-logos">
@@ -137,7 +139,7 @@ export default class Home extends Component{
                     <span class="title">About</span> <br/>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   </p>
-                  <a class="more-button modal-trigger" data-modal-trigger="tb"> <span>+</span></a>
+                  <a class="more-button" onClick={()=>this.openModal('tb')}> <span>+</span></a>
                 </div>
               </div>
             </div>
@@ -228,6 +230,8 @@ export default class Home extends Component{
           <div class="floating-element html-element sm-w-110 sm-h-20" data-color="#97d7de" data-x="48" data-y="40|20|50" data-z="10" data-r="-3"> </div>
         </section>
         <section class="section-container" id="transition3">
+        </section>
+        <section class="section-container main-container" id="contact" data-init-proportion="1.5" style={{backgroundColor:'#aae3e8'}}>
         </section>
       </div>
     )

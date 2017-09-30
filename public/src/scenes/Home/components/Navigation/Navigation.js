@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Parallax from '__scenesDir/Home/components/Parallax/Parallax.js';
 import styles from './navigation.scss';
 
 export default class Navigation extends Component{
@@ -7,32 +8,35 @@ export default class Navigation extends Component{
     this.state = {
       menuActive: false
     }
-    this.activateNavigation = () => {
-      const toggle = !this.state.menuActive
-      this.setState({menuActive : toggle})
-
-    };
   }
+  activateNavigation = () => {
+    const toggle = !this.state.menuActive
+    this.setState({menuActive : toggle})
+  };
+  deactivateNavigation = () => {
+    console.log('click')
+    this.setState({menuActive : false})
+  };
   render(){
     return(
       <section id="fixed-header" className={`grid-x align-center ${this.state.menuActive ? 'active' : ''}`}>
-        <div className={`cell medium-4 medium-order-1 text-right`}>
+        <div className={`cell medium-4 small-order-1 text-right`}>
           <ul className={`left-nav`}>
-            <li><a onClick=''>Home</a></li>
-            <li><a onClick=''>Work</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('home')}}>Home</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('work')}}>Work</a></li>
           </ul>
         </div>
-        <div className={`cell medium-1 medium-order-2`}>
+        <div className={`cell medium-1 small-order-2`}>
           <div id="nav-toggle" className={this.state.menuActive ? 'open' : ''} onClick={()=>this.activateNavigation()}>
             <span></span>
             <span></span>
             <span></span>
           </div>
         </div>
-        <div className={`cell medium-4 medium-order-3`}>
+        <div className={`cell medium-4 small-order-3`}>
           <ul className={`right-nav`}>
-            <li><a onClick=''>Skills</a></li>
-            <li><a onClick=''>Contact</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('skills')}}>Skills</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('contact')}}>Contact</a></li>
           </ul>
         </div>
       </section>
