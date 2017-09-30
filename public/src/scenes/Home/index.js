@@ -1,13 +1,43 @@
 import React, {Component} from "react";
 import Parallax from './components/Parallax/Parallax.js';
-import Navigation from '../Navigation/Navigation.js';
+import Navigation from './components/Navigation/Navigation.js';
+import Overlay from './components/Overlay/Overlay.js';
 import {Link} from "react-router-dom";
-require('./styles.scss');
+import styles from './home.scss';
+
 
 export default class Home extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      modal: {
+        target: '',
+        isActive: false
+      }
+    }
+    this.closeModal = this.closeModal.bind(this)
+  }
+  openModal(target){
+    console.log(target , this.state)
+    this.setState({
+      modal:{
+        target : target,
+        isActive: true
+      }
+    })
+  }
+  closeModal(){
+    this.setState({
+      modal:{
+        target : '',
+        isActive: false
+      }
+    })
+  }
   render(){
     return(
       <div>
+        <Overlay modal={this.state.modal} closeModal={this.closeModal}/>
         <Navigation />
         <section class="section-container main-container purpleLight" id="intro" data-init-proportion="4" style={{backgroundColor:'#674565'}}>
           <div class="copy-box sm-w-90 sm-t-4 sm-l-5 md-w-70 md-l-15 md-t-4 lg-w-50 lg-l-25 lg-t-4">
@@ -75,7 +105,7 @@ export default class Home extends Component{
                     <span class="title">About</span> <br/>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   </p>
-                  <a class="more-button modal-trigger" data-modal-trigger="tokidoki"> <span>+</span></a>
+                  <a class="more-button" onClick={()=>this.openModal('tokidoki')}> <span>+</span></a>
                 </div>
                 <div class="cell medium-4">
                   <div class="obj-container obj-container-brand-logos">
@@ -202,6 +232,7 @@ export default class Home extends Component{
       </div>
     )
   }
+
   componentDidMount(){
     ///////////////////////////////////////////////////////////////////////
     //                             FALLBACKS
@@ -232,21 +263,6 @@ export default class Home extends Component{
     ///////////////////////////////////////////////////////////////////////
     //                            TRIGGERS
     ///////////////////////////////////////////////////////////////////////
-    function openModal(event){
-      $('.modal-container').addClass('active')
-    }
-    $('.modal-trigger').on('click', (event)=>{
-      $('.modal-container').addClass('modal-container-show')
-      $('.modal-container').addClass('active')
-      $('body').addClass('modal-active')
-      //openModal({target:event})
-    })
-    $('.modal-close-button').on('click', (event)=>{
-      $('.modal-container').removeClass('active')
-      $('body').removeClass('modal-active')
-      $('.modal-container').removeClass('modal-container-show')
-      //openModal({target:event})
-    })
     ///////////////////////////////////////////////////////////////////////
     //                              EVENTS
     ///////////////////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-require('./navigation.scss');
+import styles from './navigation.scss';
+
 export default class Navigation extends Component{
   constructor(props){
     super(props);
