@@ -12,11 +12,12 @@
 - exported to ./public/dist
 
 ## Development Notes
-- Using bracket notation for object document properties, and dot notation for object private properties.
+- Working on converting parallax code to be react friendly.
 
 ## Thanks
 - Parralax Mouse: https://codepen.io/Yakudoo/
 - Request Animation Frame Fallback: https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
+- Menu Button Animation: https://codepen.io/designcouch/pen/Atyop
 ## License
 The MIT License (MIT)
 
