@@ -11,8 +11,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import{BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-import Home from "./scenes/Home/";
-import Bebe from "./scenes/Work/Bebe";
+import Home from "__scenesDir/Home/";
+import Bebe from "__scenesDir/Work/Bebe";
 
 const app = document.getElementById('app');
 

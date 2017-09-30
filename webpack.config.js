@@ -4,12 +4,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   //source
-  entry: './public/src/main.js',
+  entry: `${path.join(__dirname,'public','src')}/main.js`,
   devtool: 'source-map',
   //output
   output: {
-    path: path.join(__dirname,'public','dist','scripts'),
+    path: path.join(__dirname,'public','dist'),
     filename: 'bundle.js'
+  },
+  resolve: {
+    alias : {
+      __assetDir: path.resolve(__dirname,  path.join(__dirname,'public','src','assets') ),
+      __componentDir: path.resolve(__dirname, path.join(__dirname,'public','src','components') ),
+      __scenesDir: path.resolve(__dirname, path.join(__dirname,'public','src','scenes') )
+    }
   },
   module: {
     loaders: [
@@ -56,13 +63,13 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: './public/src',
+    contentBase: path.join(__dirname,'public','src'),
     inline: true,
     stats: 'errors-only'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/src/index.jade',
+      template: `${path.join(__dirname,'public','src')}/index.jade`,
       hash: true
     }),
     new webpack.ProvidePlugin({

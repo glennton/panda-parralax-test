@@ -1,4 +1,4 @@
-import {Throttle} from '../../../components/Throttle/Throttle.js';
+import {Throttle} from '../../../../components/Throttle/Throttle.js';
 import {ContainerObj} from './ContainerObj.js';
 import {StageObj} from './StageObj.js';
 import {FloatObj} from './FloatObj.js';
@@ -16,7 +16,6 @@ const init = function(settings){
   sectionContainers = settings.sectionContainers;
   floatElements = settings.floatElements;
   //**INVESTIGATE BETTER SOLUTION
-  console.log(settings)
   Parallax.stage = new StageObj(settings.stage);
   stage = Parallax.stage;
 
@@ -122,11 +121,11 @@ function _makeFloatObjects(){
     //Define type of object
     if(_hasClass(e,'svg-element')){
       const img = e.getAttribute('data-img');
-      newFloatingObj = new SvgObj( require(`../../../assets/images/${img}`), parentObj, options);
+      newFloatingObj = new SvgObj( require(`__assetDir/images/${img}`), parentObj, options);
     }
     if(_hasClass(e,'img-element')){
       const img = e.getAttribute('data-img');
-      newFloatingObj = new ImgObj(require(`../../../assets/images/${img}`), parentObj, options);
+      newFloatingObj = new ImgObj(require(`__assetDir/images/${img}`), parentObj, options);
     }
     if(_hasClass(e,'html-element')){
       newFloatingObj = new HtmlObj(parentObj, options);

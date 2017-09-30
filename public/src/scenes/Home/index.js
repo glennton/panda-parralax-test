@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Parallax from './components/Parallax.js';
+import Parallax from './components/Parallax/Parallax.js';
 import Navigation from '../Navigation/Navigation.js';
 import {Link} from "react-router-dom";
 require('./styles.scss');
