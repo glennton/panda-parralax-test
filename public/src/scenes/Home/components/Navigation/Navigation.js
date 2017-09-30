@@ -14,7 +14,6 @@ export default class Navigation extends Component{
     this.setState({menuActive : toggle})
   };
   deactivateNavigation = () => {
-    console.log('click')
     this.setState({menuActive : false})
   };
   render(){
@@ -22,8 +21,8 @@ export default class Navigation extends Component{
       <section id="fixed-header" className={`grid-x align-center ${this.state.menuActive ? 'active' : ''}`}>
         <div className={`cell medium-4 small-order-1 text-right`}>
           <ul className={`left-nav`}>
-            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('home')}}>Home</a></li>
-            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('work')}}>Work</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.scrollTo('scrollByNav','home')}}>Home</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.scrollTo('scrollByNav','work')}}>Work</a></li>
           </ul>
         </div>
         <div className={`cell medium-1 small-order-2`}>
@@ -35,8 +34,8 @@ export default class Navigation extends Component{
         </div>
         <div className={`cell medium-4 small-order-3`}>
           <ul className={`right-nav`}>
-            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('skills')}}>Skills</a></li>
-            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.navigateTo('contact')}}>Contact</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.scrollTo('scrollByNav','skills')}}>Skills</a></li>
+            <li><a onClick={()=>{this.deactivateNavigation(); Parallax.scrollTo('scrollByNav','contact')}}>Contact</a></li>
           </ul>
         </div>
       </section>

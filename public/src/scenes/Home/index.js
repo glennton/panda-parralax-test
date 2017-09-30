@@ -46,7 +46,6 @@ export default class Home extends Component{
             <h1>I design and develop...</h1>
             <p>Hi there! My name is Glenn, and as you can see above I design and Hi there! My name is Glenn, and as you can see abodesign and dend  test, and deploy, but mostly, I like to create things.</p>
             <p>I’m open for adventure, and Fishing for Friendships!</p>
-            <Link to="Bebe">Test</Link>
           </div>
           <div class="down-btn sm-z-50 sm-l-50 sm-t-9 md-t-16 lg-t-12">
             <div class="down-btn-cirle down-btn-inner-1"></div>
@@ -258,7 +257,7 @@ export default class Home extends Component{
     Parallax.init({
       stage: {
         fps: 30,
-        scrollSpeed: 1000
+        scrollSpeed: 500
       },
       sectionContainers: Array.from(document.getElementsByClassName('section-container')),
       floatElements: Array.from(document.getElementsByClassName('floating-element'))

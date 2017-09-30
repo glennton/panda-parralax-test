@@ -314,30 +314,68 @@ const navigateTo = function(target){
 }
 
 //SCROLL TRIGGER ANIMATION
-const scrollTo = function(e){
-  e.preventDefault()
+const scrollTo = function(type, data){
+  let scrollData;
   stage.freezeMouse = true;
-  const scrollData = _getScrollData()
+  _updateData();
+
+  if(type == "scrollByNav"){
+    scrollData = _scrollByNavData(data);
+  }
   $('html, body').stop().animate({
-      scrollTop: scrollData.yPos + 10 //offet by 10 to make sure previous element is not in view
-  }, stage.scrollSpeed * scrollData.speedModifier,()=>{
+      scrollTop: scrollData.scrollTargetPos + 10 //offet by 10 to make sure previous element is not in view
+  }, stage.scrollSpeed * scrollData.scrollTime,()=>{
     stage.freezeMouse = false;
     //callback
   });
 
   //PRIVATE FUNCTIONS
-  function _getScrollData(e){
+  function _updateData(){
     //update scroll calculations and active containers before setting scroll data
-    containerCalcPosition()
-    containerCalcScroll()
-    stage.updateActiveContainers()
+    containerCalcPosition();
+    containerCalcScroll();
+    stage.updateActiveContainers();
+  }
+  function _scrollByNavData(target){
+    let scrollData = {scrollTime: 0, scrollTargetPos: 0.};
+    let targetIndex;
+    const activeContainer = stage.activeContainers[0];
+    const currentIndex = activeContainer.position;
+    //set Target Index
+    stage.containers.map((e,i)=>{
+      if(e.name == target){
+        targetIndex = e.position;
+        scrollData.scrollTargetPos = e.y1Pos;
+      }
+    })
+    let diff = targetIndex - currentIndex;
+    //If Scrolling Down
+    if(diff > 0){
+      //get scale of current container
+      scrollData.scrollTime = scrollData.scrollTime + (activeContainer.scale * (1-(activeContainer.interpolation/100)));
+      //get scale of containers inbetween
+      for(let i = 1; i < diff; i++){
+        scrollData.scrollTime = scrollData.scrollTime + stage.containers[currentIndex+i]['scale']
+      }
+    }
+    if(diff < 0){
+      diff = Math.abs(diff)
+      scrollData.scrollTime = scrollData.scrollTime + (activeContainer.scale * (activeContainer.interpolation/100));
+      for(let i = 0; i < diff; i++){
+        scrollData.scrollTime = scrollData.scrollTime + stage.containers[currentIndex-i-1]['scale']
+      }
+    }
+    return scrollData;
+
+  }
+  function _scrollByMouseData(direction){
     //Set vars
     let scrollData = {};
     const activeContainer = stage.activeContainers[0];
     const currentIndex = activeContainer.position;
     let targetIndex;
     let modifier;
-    let activeScale =  activeContainer.scale * (1-(activeContainer.interpolation/100))
+    let activeScale = activeContainer.scale * (1-(activeContainer.interpolation/100));
     let transitionScale = 0;
     //Set next index based on if main container or transition container
     if($(activeContainer.element).hasClass('main-container')){

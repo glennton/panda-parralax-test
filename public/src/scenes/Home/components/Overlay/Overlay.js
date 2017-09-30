@@ -8,7 +8,6 @@ export default class Overlay extends Component{
 
   render(){
     const {modal , closeModal} = this.props
-    console.log(closeModal)
     return(
       <div className={`modal-container ${modal.isActive ? 'modal-active modal-container-show' : ''}`}>
         <div class="modal-animation-box modal-animation-box-1"></div>
@@ -36,6 +35,5 @@ export default class Overlay extends Component{
     )
   }
   componentDidUpdate(prevProps, prevState){
-    console.log('changed', this.props.modal)
   }
 }
