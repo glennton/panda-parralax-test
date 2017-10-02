@@ -97,16 +97,16 @@ div#debugPanel{
       //Logos
       .obj-container-brand-logos{
         padding-bottom: 13%;
-        .logo_tokidoki{
+        .logo_tokidoki svg{
           width: 40%;
           margin-left: 0;
         }
-        .logo_bebe{
+        .logo_bebe svg{
           width: 40%;
           top: 15%;
           margin-left: 0;
         }
-        .logo_tb{
+        .logo_tb svg{
           width: 80%;
           top: 30%;
           margin-left: 0;
@@ -138,25 +138,25 @@ div#debugPanel{
       .obj-container-dev-icons{
         padding-bottom: 16%;
         margin-bottom: 1rem;
-        .header-coffee{
+        .header-coffee svg{
           width: 40px;
           margin-top: 12px;
         }
-        .header-beer{
+        .header-beer svg{
           width: 30px;
         }
       }
       .obj-container-skill-icons{
-        .header-cc{
+        .header-cc svg{
           width: 15%;
         }
-        .header-mongo{
+        .header-mongo svg{
           width: 80%;
         }
-        .header-node{
+        .header-node svg{
           width: 80%;
         }
-        .header-angular{
+        .header-angular svg{
           width: 40%;
         }
       }

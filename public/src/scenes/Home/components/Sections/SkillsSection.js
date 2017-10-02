@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import ReactSVG from 'react-svg';
 import {Link} from "react-router-dom";
 
 export default class SkillsSection extends Component{
@@ -9,7 +8,20 @@ export default class SkillsSection extends Component{
   }
 
   render(){
-    const {imgDir} = this.props;
+    //Images
+    const Svg_Sprite_Coffee = require(`__assetDir/images/icon_coffee.svg`);
+    const Svg_Sprite_Beer = require(`__assetDir/images/icon_beer.svg`);
+
+    const Svg_Logo_CC = require(`__assetDir/images/logo_cc.svg`);
+    const Svg_Logo_Mongo = require(`__assetDir/images/logo_mongo.svg`);
+    const Svg_Logo_Node = require(`__assetDir/images/logo_node.svg`);
+    const Svg_Logo_Angular = require(`__assetDir/images/logo_angular.svg`);
+
+    const Svg_Scene_Water02 = require(`__assetDir/images/water_scene_02.svg`);
+    const Svg_Scene_Water03 = require(`__assetDir/images/water_scene_03.svg`);
+    const Svg_Scene_Water04 = require(`__assetDir/images/water_scene_04.svg`);
+    const Svg_Scene_Water05 = require(`__assetDir/images/water_scene_05.svg`);
+
     return(
       <section class="section-container main-container" id="skills" data-init-proportion="1.5" style={{backgroundColor:'#aae3e8'}}>
         <div class="main-content">
@@ -17,7 +29,7 @@ export default class SkillsSection extends Component{
             <div class="grid-x grid-margin-x align-center">
                 <div class="cell medium-5">
                 <div class="obj-container obj-container-dev-icons">
-                  <object class="header-coffee" data="./assets/images/icon_coffee.svg"></object>
+                  <Svg_Sprite_Coffee className={`header-coffee`} />
                 </div>
                 <p>
                   <span class="title">Design</span>
@@ -30,13 +42,13 @@ export default class SkillsSection extends Component{
                     Photoshop CC, Illustrator CC.
                 </p>
                 <div class="obj-container obj-container-skill-icons">
-                  <object class="header-cc" data="./assets/images/logo_cc.svg"></object>
+                  <Svg_Logo_CC className={`header-cc`} />
                 </div>
               </div>
               {/*Develop*/}
               <div class="cell medium-5">
                 <div class="obj-container obj-container-dev-icons">
-                  <object class="header-beer" data="./assets/images/icon_beer.svg"></object>
+                  <Svg_Sprite_Beer className={`header-beer`} />
                 </div>
                 <p>
                   <span class="title">Develop</span>
@@ -52,17 +64,17 @@ export default class SkillsSection extends Component{
 
                   <div class="cell medium-4 text-center">
                     <div class="obj-container obj-container-skill-icons">
-                      <object class="header-mongo" data="./assets/images/logo_mongo.svg"></object>
+                      <Svg_Logo_Mongo className={`header-mongo`} />
                     </div>
                   </div>
                   <div class="cell medium-4 text-center">
                     <div class="obj-container obj-container-skill-icons">
-                      <object class="header-node" data="./assets/images/logo_node.svg"></object>
+                      <Svg_Logo_Node className={`header-node`} />
                     </div>
                   </div>
                   <div class="cell medium-4 text-center">
                     <div class="obj-container obj-container-skill-icons">
-                      <object class="header-angular" data="./assets/images/logo_angular.svg"></object>
+                      <Svg_Logo_Angular className={`header-angular`} />
                     </div>
                   </div>
                 </div>
@@ -71,16 +83,16 @@ export default class SkillsSection extends Component{
           </div>
         </div>
         <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50" data-y="15|15|62" data-z="15" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="70">
-          <ReactSVG path={`${imgDir}water_scene_02.svg`} style={{fill:'#2fa7c5'}}/>
+          <Svg_Scene_Water02 style={{fill:'#2fa7c5'}}/>
         </div>
         <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50" data-y="15|15|50" data-z="14" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="60">
-          <ReactSVG path={`${imgDir}water_scene_03.svg`} style={{fill:'#ffffff'}}/>
+          <Svg_Scene_Water03 style={{fill:'#ffffff'}}/>
         </div>
         <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50" data-y="15|15|62" data-z="13" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="30">
-          <ReactSVG path={`${imgDir}water_scene_04.svg`} style={{fill:'#40b5ce'}}/>
+          <Svg_Scene_Water04 style={{fill:'#40b5ce'}}/>
         </div>
         <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50" data-y="15|15|67" data-z="12" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="20">
-          <ReactSVG path={`${imgDir}water_scene_05.svg`} style={{fill:'#7bc9d5'}}/>
+          <Svg_Scene_Water05 style={{fill:'#7bc9d5'}}/>
         </div>
         <div class="floating-element html-element sm-w-110 sm-h-20" data-color="#97d7de" data-x="48" data-y="40|20|50" data-z="10" data-r="-3"> </div>
       </section>

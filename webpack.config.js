@@ -2,6 +2,7 @@ const debug = process.env.NODE_ENV !== "production"
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   //source
   entry: `${path.join(__dirname,'public','src')}/main.js`,
@@ -49,8 +50,12 @@ module.exports = {
       },
       //images
       {
-        test: [/\.png$/, /\.svg$/],
+        test: /\.png$/,
         loader: 'file-loader'
+      },
+      {
+        test:  /\.svg$/,
+        loader: 'react-svg-inline-loader'
       }
     ]
   },

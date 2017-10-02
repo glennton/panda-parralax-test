@@ -16,18 +16,18 @@ import styles from './home.scss';
 export default class Home extends Component{
   constructor(props){
     super(props);
-    this.state = {
-      modal: {
-        target: '',
-        isActive: false
-      },
-      imgDir: '../../../../assets/images/'
-    }
+    this.state = {}
+    this.state.modal = {
+      target: '',
+      isActive: false
+    };
+    this.state.imgDir = '../../../../assets/images/';
+    this.state.imgList = [];
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
   }
   openModal(target){
-    console.log(target , this.state)
+    document.body.classList.add("modal-active");
     this.setState({
       modal:{
         target : target,
@@ -36,6 +36,7 @@ export default class Home extends Component{
     })
   }
   closeModal(){
+    document.body.classList.remove("modal-active");
     this.setState({
       modal:{
         target : '',
@@ -49,13 +50,13 @@ export default class Home extends Component{
         <Overlay modal={this.state.modal} closeModal={this.closeModal} imgDir={this.state.imgDir}/>
         <Navigation />
 
-        <HomeSection imgDir={this.state.imgDir} />
-        <Transition1Section imgDir={this.state.imgDir} />
-        <WorkSection imgDir={this.state.imgDir} closeModal={this.closeModal} openModal={this.openModal}/>
-        <Transition2Section imgDir={this.state.imgDir} />
-        <SkillsSection imgDir={this.state.imgDir} />
-        <Transition3Section imgDir={this.state.imgDir} />
-        <ContactSection imgDir={this.state.imgDir} />
+        <HomeSection />
+        <Transition1Section/>
+        <WorkSection closeModal={this.closeModal} openModal={this.openModal} />
+        <Transition2Section />
+        <SkillsSection />
+        <Transition3Section />
+        <ContactSection />
       </div>
     )
   }

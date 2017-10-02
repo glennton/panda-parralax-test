@@ -8,8 +8,7 @@ export default class Overlay extends Component{
     super(props);
   }
   render(){
-    const {imgDir} = this.props;
-    const {modal , closeModal} = this.props;
+    const {imgDir, modal , closeModal} = this.props;
     return(
       <div className={`modal-container ${modal.isActive ? 'modal-active modal-container-show' : ''}`}>
         <div class="modal-animation-box modal-animation-box-1"></div>
@@ -21,8 +20,26 @@ export default class Overlay extends Component{
             <a class="modal-close-button" onClick={()=>{closeModal()}}>
               <span>+</span>
             </a>
-            <div class="sidebar-content">
-              <ReactSVG path={`${imgDir}logo_tokidoki.svg`} style={{fill:'#fff'}}/>
+            <div class="sidebar-content text-center grid-container">
+              <div class="sidebar-separator"></div>
+              <div class="grid-x logo-nav-container">
+                <div class="cell small-3">
+                  <a>
+                    <div class="sidebar-arrow arrow-left"></div>
+                  </a>
+                </div>
+                <div class="cell small-6">
+                  <ReactSVG className={`sidebar-logo`} path={`${imgDir}logo_tokidoki.svg`} />
+                </div>
+                <div class="cell small-3">
+                  <a>
+                    <div class="sidebar-arrow arrow-right"></div>
+                  </a>
+                </div>
+              </div>
+              <div className={`sidebar-description`}>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+              </div>
             </div>
           </div>
           <div class="work-modal-container modal-inner">
