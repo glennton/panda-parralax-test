@@ -49,16 +49,8 @@ module.exports = {
       },
       //images
       {
-        test: /\.png$/,
+        test: [/\.png$/, /\.svg$/],
         loader: 'file-loader'
-      },
-      //SVG
-      {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader',
-        options:{
-          classPrefix: 'true'
-        }
       }
     ]
   },

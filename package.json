@@ -28,6 +28,8 @@
     "npm-run-all": "^4.0.2",
     "pug": "^2.0.0-rc.2",
     "pug-html-loader": "^1.1.5",
+    "react-svg": "^2.1.21",
+    "react-svg-inline-loader": "^0.2.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "svg-inline-loader": "^0.8.0",

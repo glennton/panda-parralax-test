@@ -122,7 +122,7 @@ function _makeFloatObjects(){
     //Define type of object
     if(_hasClass(e,'svg-element')){
       const img = e.getAttribute('data-img');
-      newFloatingObj = new SvgObj( require(`__assetDir/images/${img}`), parentObj, options);
+      newFloatingObj = new SvgObj(parentObj, options);
     }
     if(_hasClass(e,'img-element')){
       const img = e.getAttribute('data-img');
