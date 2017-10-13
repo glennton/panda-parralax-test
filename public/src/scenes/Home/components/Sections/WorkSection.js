@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import styles from './workSection.scss';
 
 export default class WorkSection extends Component{
 
@@ -35,7 +36,7 @@ export default class WorkSection extends Component{
                   <span class="title">About</span> <br/>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                 </p>
-                <a class="more-button" onClick={()=>openModal('tokidoki')}> <span>+</span></a>
+                <a className={'button button-black'} onClick={()=>openModal({target: 'tokidoki', section: 'work'})}> + see work</a>
               </div>
               <div class="cell medium-4">
                 <div class="obj-container obj-container-brand-logos">
@@ -51,7 +52,7 @@ export default class WorkSection extends Component{
                   <span class="title">About</span> <br/>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                 </p>
-                <a class="more-button" onClick={()=>openModal('bebe')}> <span>+</span></a>
+                <a className={'button button-black'} onClick={()=>openModal({target: 'bebe', section: 'work'})}> + see work</a>
               </div>
               <div class="cell medium-4">
                 <div class="obj-container obj-container-brand-logos">
@@ -67,7 +68,7 @@ export default class WorkSection extends Component{
                   <span class="title">About</span> <br/>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                 </p>
-                <a class="more-button" onClick={()=>openModal('tb')}> <span>+</span></a>
+                <a className={'button button-black'} onClick={()=>openModal({target: 'tb', section: 'work'})}> + see work</a>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import ReactSVG from 'react-svg';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import styles from './contactSection.scss';
 
 export default class ContactSection extends Component{
 

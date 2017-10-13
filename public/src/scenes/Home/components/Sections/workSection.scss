@@ -1,0 +1,38 @@
+.section-container#work{
+  background: #a88ac5;
+  .main-content{
+    //Logos
+    .obj-container-brand-logos{
+      padding-bottom: 13%;
+      .logo_tokidoki svg{
+        width: 40%;
+        margin-left: 0;
+      }
+      .logo_bebe svg{
+        width: 40%;
+        top: 15%;
+        margin-left: 0;
+      }
+      .logo_tb svg{
+        width: 80%;
+        top: 30%;
+        margin-left: 0;
+      }
+    }
+    .more-button{
+      display: block;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      background-color: #000;
+      margin: 0 auto;
+      text-align: center;
+      span{
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 40px;
+      }
+    }
+  }
+}

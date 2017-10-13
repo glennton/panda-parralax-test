@@ -1,3 +1,5 @@
+@import "../../../../assets/css/mixins.scss";
+
 body.modal-active{
   overflow: hidden;
 }
@@ -61,11 +63,6 @@ body.modal-active{
     width: 100%;
     opacity: 0;
     .modal-content-sidebar{
-      width: 30%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
       background: #000;
       color: #fff;
       .modal-close-button{
@@ -83,7 +80,7 @@ body.modal-active{
           line-height: 40px;
         }
       }
-      .sidebar-content{
+      .sidebar-inner{
         padding: 1rem 2rem 0;
         .sidebar-separator{
           border-top: 1px solid #fff;
@@ -135,28 +132,22 @@ body.modal-active{
         }
       }
     }
-    .modal-inner{
-      width: 70%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      &.work-modal-container{
-        nav#work-modal-nav{
-          a{
-            width: 100%;
-            display: inline-block;
-          }
-          .logo_tokidoki{
-            width: 60%;
-          }
-          .logo_bebe{
-            width: 60%;
-            padding-top: 5%;
-          }
-          .logo_tb{
-            padding-top: 8%;
-          }
+    .modal-content-main{
+      nav#work-modal-nav{
+        display: none;
+        a{
+          width: 100%;
+          display: inline-block;
+        }
+        .logo_tokidoki{
+          width: 60%;
+        }
+        .logo_bebe{
+          width: 60%;
+          padding-top: 5%;
+        }
+        .logo_tb{
+          padding-top: 8%;
         }
       }
     }
@@ -188,6 +179,37 @@ body.modal-active{
       transition: opacity .5s;
       -webkit-transition-delay: 3s;
       transition-delay: 2.5s;
+    }
+  }
+}
+
+.work-modal-container{
+  .modal-content-sidebar{
+    .stupid-carousel-list{
+      li{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+  .modal-content-main{
+
+  }
+}
+
+@media #{$md}{
+  .modal-container{
+    .modal-content{
+      .modal-content-sidebar{
+        height: 100%;
+      }
+      .modal-content-main{
+        height: 100%;
+        nav#work-modal-nav{
+          display: block;
+        }
+      }
     }
   }
 }

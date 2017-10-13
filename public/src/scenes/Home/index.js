@@ -26,11 +26,12 @@ export default class Home extends Component{
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
   }
-  openModal(target){
+  openModal(data){
     document.body.classList.add("modal-active");
     this.setState({
       modal:{
-        target : target,
+        target : data.target,
+        section : data.section,
         isActive: true
       }
     })
@@ -40,6 +41,7 @@ export default class Home extends Component{
     this.setState({
       modal:{
         target : '',
+        section : '',
         isActive: false
       }
     })

@@ -70,9 +70,10 @@ div#debugPanel{
     }
     .title{
       text-transform: uppercase;
-      font-size: 1rem;
+      font-size: 0.6rem;
+      border-bottom: 1px solid #000;
       font-weight: 600;
-      line-height: 3rem;
+      line-height: 2rem;
     }
     .obj-container{
       height: 0;
@@ -87,80 +88,10 @@ div#debugPanel{
     }
   }
   //Containers
-  &#home{
-  }
   &#transition1{
-  }
-  &#work{
-    background: #a88ac5;
-    .main-content{
-      //Logos
-      .obj-container-brand-logos{
-        padding-bottom: 13%;
-        .logo_tokidoki svg{
-          width: 40%;
-          margin-left: 0;
-        }
-        .logo_bebe svg{
-          width: 40%;
-          top: 15%;
-          margin-left: 0;
-        }
-        .logo_tb svg{
-          width: 80%;
-          top: 30%;
-          margin-left: 0;
-        }
-      }
-      .more-button{
-        display: block;
-        border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        background-color: #000;
-        margin: 0 auto;
-        text-align: center;
-        span{
-          color: #fff;
-          font-size: 2rem;
-          font-weight: 600;
-          line-height: 40px;
-        }
-      }
-    }
   }
   &#transition2{
     background: #f28288;
-  }
-  &#skills{
-    background: #bae4a4;
-    .main-content{
-      .obj-container-dev-icons{
-        padding-bottom: 16%;
-        margin-bottom: 1rem;
-        .header-coffee svg{
-          width: 40px;
-          margin-top: 12px;
-        }
-        .header-beer svg{
-          width: 30px;
-        }
-      }
-      .obj-container-skill-icons{
-        .header-cc svg{
-          width: 15%;
-        }
-        .header-mongo svg{
-          width: 80%;
-        }
-        .header-node svg{
-          width: 80%;
-        }
-        .header-angular svg{
-          width: 40%;
-        }
-      }
-    }
   }
   &#transition3{
     background: #ffa170;
@@ -174,11 +105,35 @@ div#debugPanel{
   left: 10%;
   z-index: 100;
   p{
-    font-size: 1rem;
+    font-size: .8rem;
     line-height: 1.5rem;
     padding: 0;
     font-weight: 500;
     margin: 0 auto .8rem;
+  }
+  .button{
+    background: 0;
+    font-size: .7rem;
+    letter-spacing: 0.05rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid #000;
+    &.button-white{
+      color: #fff;
+      border-color: #fff;
+      &:hover{
+        background-color: #000;
+        border-color: #000;
+      }
+    }
+    &.button-black{
+      color: #000;
+      border-color: #000;
+      &:hover{
+        background-color: #fff;
+        border-color: #fff;
+      }
+    }
   }
 }
 //sprites

@@ -5,6 +5,8 @@
 /misc/
 /config/
 /uploads/*
+.DS_Store
+/dist/
 
 # Compiled source #
 *.com

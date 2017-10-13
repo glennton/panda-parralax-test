@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import styles from './skillsSection.scss';
 
 export default class SkillsSection extends Component{
 

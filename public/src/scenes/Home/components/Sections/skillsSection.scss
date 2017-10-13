@@ -1,0 +1,30 @@
+.section-container#skills{
+  background: #bae4a4;
+  .main-content{
+    .obj-container-dev-icons{
+      padding-bottom: 16%;
+      margin-bottom: 1rem;
+      .header-coffee svg{
+        width: 40px;
+        margin-top: 12px;
+      }
+      .header-beer svg{
+        width: 30px;
+      }
+    }
+    .obj-container-skill-icons{
+      .header-cc svg{
+        width: 15%;
+      }
+      .header-mongo svg{
+        width: 80%;
+      }
+      .header-node svg{
+        width: 80%;
+      }
+      .header-angular svg{
+        width: 40%;
+      }
+    }
+  }
+}
