@@ -1,0 +1,35 @@
+#progress-tracker{
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  width: 20px;
+  z-index: 100;
+  .progress-dot-container{
+    height: 20px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .progress-dot{
+      background-color: #fff;
+      border-radius: 50%;
+      height: 3px;
+      width: 3px;
+    }
+  }
+  .progress-circle-container{
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .progress-circle{
+      height: 15px;
+      width: 15px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+    }
+  }
+}

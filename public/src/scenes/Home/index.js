@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import Parallax from './components/Parallax/Parallax.js';
+
 import Navigation from './components/Navigation/Navigation.js';
 import Overlay from './components/Overlay/Overlay.js';
+import ProgressTracker from './components/Navigation/ProgressTracker.js'
 
 import HomeSection from './components/Sections/HomeSection.js';
 import Transition1Section from './components/Sections/Transition1Section.js';
@@ -51,7 +53,7 @@ export default class Home extends Component{
       <div>
         <Overlay modal={this.state.modal} closeModal={this.closeModal} imgDir={this.state.imgDir}/>
         <Navigation />
-
+        {/*<ProgressTracker />*/}
         <HomeSection />
         <Transition1Section/>
         <WorkSection closeModal={this.closeModal} openModal={this.openModal} />

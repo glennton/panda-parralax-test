@@ -15,10 +15,11 @@
 - Working on converting parallax code to be react friendly.
 
 ## Thanks
-- Parralax Mouse: https://codepen.io/Yakudoo/
+- Parralax Mouse Concept: https://codepen.io/Yakudoo/
 - Request Animation Frame Fallback: https://gamedev.stackexchange.com/questions/37298/slow-firefox-javascript-canvas-performance
 - Menu Button Animation: https://codepen.io/designcouch/pen/Atyop
-- Carousel: https://raw.githubusercontent.com/gajus/react-carousel/master/src/Carousel.js
+- Component Sizing Tool: https://github.com/souporserious/react-measure
+
 ## License
 The MIT License (MIT)
 

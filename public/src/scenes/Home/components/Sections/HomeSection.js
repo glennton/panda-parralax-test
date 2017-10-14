@@ -33,20 +33,22 @@ export default class HomeSection extends Component{
           <div class="down-btn-cirle down-btn-inner-3"></div>
         </div>
         {/* Bg Diagonal */}
-        <div class="floating-element html-element sm-w-110 sm-h-20" data-mouse-depth="0" data-color="#343d5b" data-x="46|49|49" data-y="15|22|22" data-z="10" data-r="3" data-float-frequency="" data-float-amplitude=""> </div>
+        <div class="floating-element html-element sm-w-110 sm-h-20" data-mouse-depth="0" data-color="#5b4463" data-x="46|49|49" data-y="15|22|15" data-z="8" data-r="5"> </div>
+        <div class="floating-element html-element sm-w-110 sm-h-20" data-mouse-depth="0" data-color="#42405e" data-x="46|49|49" data-y="15|22|20" data-z="9" data-r="-4"> </div>
+        <div class="floating-element html-element sm-w-110 sm-h-20" data-mouse-depth="0" data-color="#343d5b" data-x="46|49|49" data-y="15|22|22" data-z="10" data-r="3"> </div>
         {/* Clouds */}
-        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-color="#09aadb" data-x="50|53|50" data-y="19|19|19" data-z="20" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="67">
+        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50|53|50" data-y="19|19|19" data-z="20" data-mouse-depth="1" data-pStart="20" data-pEnd="100" data-pEndY="67">
           <Svg_Scene_Cloud01 style={{fill:'#09aadb'}}/>
         </div>
-        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-color="#1185bf" data-x="50|50|50" data-y="19|19|19" data-z="15" data-mouse-depth="2" data-pStart="20" data-pEnd="100" data-pEndY="53" data-m-suppress="1">
+        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50|50|50" data-y="19|19|19" data-z="15" data-mouse-depth="2" data-pStart="20" data-pEnd="100" data-pEndY="53" data-m-suppress="1">
           <Svg_Scene_Cloud02 style={{fill:'#1185bf'}}/>
         </div>
-        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-color="#2a4b70" data-x="50|50|50" data-y="22|22|22" data-z="14" data-mouse-depth="4" data-pStart="20" data-pEnd="100" data-pEndY="25">
+        <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-104" data-x="50|50|50" data-y="22|22|22" data-z="14" data-mouse-depth="4" data-pStart="20" data-pEnd="100" data-pEndY="25">
           <Svg_Scene_Cloud03 style={{fill:'#2a4b70'}}/>
         </div>
         <div class="floating-element html-element animation-container sm-w-100 sm-h-30" data-y="30|22|30" data-x="50|50|50" data-z="30" data-pStart="20" data-pEnd="100" data-pEndY="100">
           {/* Water */}
-          <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-105" data-z="3" data-color="#2a4b70" data-x="49|49|49" data-y="42|65|42">
+          <div class="floating-element svg-element sm-w-300 md-w-150 lg-w-105" data-z="3" data-x="49|49|49" data-y="42|65|42">
             <Svg_Scene_Water01 style={{fill:'#2a4b70'}}/>
           </div>
           {/* Whale */}

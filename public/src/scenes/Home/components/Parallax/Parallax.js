@@ -365,6 +365,7 @@ const scrollTo = function(type, data){
         scrollData.scrollTime = scrollData.scrollTime + stage.containers[currentIndex-i-1]['scale']
       }
     }
+    console.log(scrollData)
     return scrollData;
 
   }
